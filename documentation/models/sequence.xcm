@@ -1,0 +1,61 @@
+metadata
+    Title : Sequence Diagram
+    Author : Leon Starr
+    Document ID : mint.seq.td.1
+    Version : 0.1.0
+    Creation date : May 9, 2026
+    Modification date : May 9, 2026
+    Organization : Model Integration, LLC / www.modelint.com
+    Copyright notice > MIT
+    Organization logo > mint
+domain Sequence Diagram, SEQ
+subsystem Diagram, D 1-99
+class Bead
+attributes
+    Name : Bead Name {I}
+    Symbol : Symbol ID
+    Height : Distance
+    Width : Distance
+--
+class Bead Layout Specification
+attributes
+    Layout : {I, R1}
+    Min width : Distance
+    Max width : Distance
+    Min height : Distance
+    Max width : Distance
+--
+class Column Layout Specification
+attributes
+    Layout : {I, R2}
+    Min width : Distance
+    Max width : Distance
+--
+class Layout Specification
+attributes
+    Name : Layout Spec Name {I}
+    Min bead separation : Distance
+--
+class String Specification
+attributes
+    Name : String Name {I}
+    Type : Beaded_Bare
+    Width : Distance
+--
+class String
+attributes
+    Position : Ordinal {I, OR2}
+    String spec : String Name {R1}
+--
+relationships
+    R1
+    specifies, Mc String
+    is specified by, 1 String Specification
+    String.String spec -> String Specification.Name
+--
+    OR2
+    left/right, String
+    Position : I
+--
+    R3
+--
