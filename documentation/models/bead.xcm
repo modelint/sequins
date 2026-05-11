@@ -1,14 +1,14 @@
 metadata
-    Title : Sequence Diagram
+    Title : Bead Curtain Diagram
     Author : Leon Starr
-    Document ID : mint.seq.td.1
-    Version : 0.1.1
+    Document ID : mint.bead.td.1
+    Version : 0.2.0
     Creation date : May 9, 2026
     Modification date : May 11, 2026
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
     Organization logo > mint
-domain Sequence Diagram, SEQ
+domain Bead Curtain Diagram, BEAD
 subsystem Diagram, D 1-99
 class Bare String
 attributes
