@@ -2,60 +2,134 @@ metadata
     Title : Sequence Diagram
     Author : Leon Starr
     Document ID : mint.seq.td.1
-    Version : 0.1.0
+    Version : 0.1.1
     Creation date : May 9, 2026
-    Modification date : May 9, 2026
+    Modification date : May 11, 2026
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
     Organization logo > mint
 domain Sequence Diagram, SEQ
 subsystem Diagram, D 1-99
+class Bare String
+attributes
+    Number : String Number {I, R3}
+--
 class Bead
+attributes
+    Sequence : Sequence Number {I, OR10}
+    String : Position Number {I, OR2}
+    Name : Bead Spec Name {R4}
+--
+class Bead Knot
+attributes
+    ID : Knot ID {I, R8}
+    Bead : Sequence Number {R9}
+    String : Position Number {R9}
+--
+class Bead Specification
 attributes
     Name : Bead Name {I}
     Symbol : Symbol ID
-    Height : Distance
-    Width : Distance
+    Size : Rectangle
 --
-class Bead Layout Specification
+class Beaded String
 attributes
-    Layout : {I, R1}
-    Min width : Distance
-    Max width : Distance
-    Min height : Distance
-    Max width : Distance
+    Number : String Number {I, R3}
 --
-class Column Layout Specification
+class Gap Knot
 attributes
-    Layout : {I, R2}
-    Min width : Distance
-    Max width : Distance
+    ID : Knot ID {I, R8}
+    Bead : Sequence Number {R10}
+    String : Position Number {R10}
 --
-class Layout Specification
+class Knot
 attributes
-    Name : Layout Spec Name {I}
+    ID : Knot ID {I}
+    String : Position {R7}
+    Offset : Offset Number
+--
+class Layout
+attributes
+    Name : Layout Name {I}
     Min bead separation : Distance
---
-class String Specification
-attributes
-    Name : String Name {I}
-    Type : Beaded_Bare
-    Width : Distance
+    Max string span : Distance
+    Min string span : Distance
+    Max bead size : Rectangle
+    Min bead size : Rectangle
 --
 class String
 attributes
-    Position : Ordinal {I, OR2}
-    String spec : String Name {R1}
+    Number : String Number {I, OR2}
+    Name : String Spec Name {R1}
+--
+class String Specification
+attributes
+    Name : String Spec Name {I}
+    Type : Beaded_Bounded_Bare
+--
+class Thread
+attributes
+    Knot : Knot ID {I, R7}
+    Grasp : Position Number {R7}
+    Label : Thread Label
+    Material : Material Name
+    Orientation : Knot_String
 --
 relationships
     R1
     specifies, Mc String
     is specified by, 1 String Specification
-    String.String spec -> String Specification.Name
+    String.Name -> String Specification.Name
 --
     OR2
-    left/right, String
-    Position : I
+    left / right, String
+    Number : I
 --
     R3
+    String +
+        Beaded String
+        Bare String
+    <subclass>.Position -> String.Position
+--
+    R4
+    occurs in chronology of, 1 String Specification
+    defines chronology for occurence of, Mc Bead Specification
+    Bead Specification.String spec -> String Specification.Name
+--
+    R5
+    is placed on, 1 Beaded String
+    places, Mc Bead
+    Bead.String -> Beaded String.Position
+--
+    R6
+    specifies, Mc Bead
+    is specified by, 1 Bead Specification
+    Bead.Name -> Bead Specification.Name
+--
+    R7
+    threads loosely to, 1 String
+    threads securely from, Mc Knot
+    1 Thrad
+    Thread.Grasp -> String.Position
+    Thrand.Knot -> Knot.ID
+--
+    R8
+    Knot +
+        Bead Knot
+        Gap Knot
+    <subclass>.ID -> Knot.ID
+--
+    R9
+    is tied to, 1 Bead
+    ties, Mc Bead Knot
+    Bead Knot.(Sequence, String) -> Bead.(Number, String)
+--
+    R10
+    is tied after, 1 Bead
+    ties, Mc Gap Knot
+    Gap Knot.(Sequence, String) -> Bead.(Number, String)
+--
+    OR11
+    above / below, Bead
+    Sequence : I
 --

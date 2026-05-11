@@ -3,47 +3,34 @@ notation Starr
 presentation default
 orientation landscape
 color butterscotch
-sheet A1
-padding l150 b200
+sheet A2
+padding l200 b100
 frame Model Integration Diagram
 frame_presentation default
 nodes
-    Role 7,2
-    Input Source 4,3 >left
-    Input Target 4,4 >right
-    Output Source 4,6 >left
-    Output Target 4,7 >right
-    System 12,5
-    Actor 12,1
-    Scenario 10,5
-    Supplied Parameter 7-8,8
-    Interaction/2 [C2]50% 8,5
-    System Input/2 5-6,3-4
-    System Output/2 5-6,6-7
-    Modeling Language/2 13-14,6-7
-    Action Type 12,8
-    Execution Level/2 12,6-7
-    Qualifier 12,10
-    Qualification 9,11
+    String Specification/2 9,4
+    String 7,4
+    Bead Specification/2 9,2
+    Bare String 5-6,3
+    Beaded String 5-6,4-5
+    Bead 2,4-5
+    Layout 9,8
+    Thread 8,6
+    Knot 5,7
+    Bead Knot 3-4,6
+    Gap Knot 3-4,7-8
 connectors
-    +R1 : -/1 t*|Scenario : -/1 b|System
-    -R2 : -/1 b-2|Scenario : -/2 t*|Interaction
-    +R3 : b|Interaction { t|System Input, t-1|System Output }
-    -R4 : +/2 r|Actor : +/2 l*|System
-    -R5.2 : +/1 b|Actor : -/1 l-2|Interaction, t|Role
-    -R6 : b|Role { b|Input Source, b|Input Target, b|Output Source, b|Output Target : L3 }
-    -R7 : +/2 t|System : +/2 l|Modeling Language
-    +R8.2 : +/1 t|Action Type : +/1 r|Modeling Language
-    -R9 : +/2 b|Action Type : +/1 r+2|Interaction
-    -OR10.2 : +/1 l+2|Interaction : -/1 l|Interaction : L4R+1
-    -R11 : +/1 b|Modeling Language : +/1 t*|Execution Level
-    +R12 : -/1 b|Execution Level : +/2 r+2|Scenario
-    +R13 : +/1 b+2|Scenario : +/1 t*|Interaction
-    -R14 : +/1 r|Action Type : +/1 l*|Qualifier
-    -R15 : +/1 b|Qualifier : +/1 r|Interaction, l|Qualification
-    -R16 : -/1 t|Input Source : +/1 l|System Input
-    +R17 : +/1 t|Input Target : +/1 r|System Input
-    -R18 : -/1 t|Output Source : +/1 l|System Output
-    +R19 : +/1 t|Output Target : +/1 r|System Output
-    -R20 : +/1 r-2|Interaction : +/1 l*|Supplied Parameter
+    -R1 : +/1 b|String Specification : +/1 t*|String
+    -OR2.2 : -/1 l+2|String : +/1 t-2|String : L3R+2 L8R-2
+    -R3 : b|String { t|Beaded String, t|Bare String }
+    -R4 : +/2 l*|String Specification : +/2 r|Bead Specification
+    -R5 : +/1 b|Beaded String : +/1 t*|Bead
+    -R6.2 : -/2 l-1|Bead : +/1 b|Bead Specification
+    -R7 : +/1 r|String : +/1 t|Knot, b|Thread
+    -R8 : b|Knot { t|Bead Knot, t|Gap Knot }
+    +R9.2 : -/1 b|Bead Knot : +/1 r+1|Bead
+    +R10.2 : -/1 b|Gap Knot : -/1 r-1|Bead
+    -OR11.2 : -/1 l+2|Bead : +/1 t-2|Bead : L4R-2 L3R-2
+
+
 
