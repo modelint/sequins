@@ -2,7 +2,7 @@ metadata
     Title : Bead Curtain Diagram
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.2.0
+    Version : 0.2.1
     Creation date : May 9, 2026
     Modification date : May 11, 2026
     Organization : Model Integration, LLC / www.modelint.com
@@ -17,14 +17,14 @@ attributes
 class Bead
 attributes
     Sequence : Sequence Number {I, OR10}
-    String : Position Number {I, OR2}
+    String : String Number {I}
     Name : Bead Spec Name {R4}
 --
 class Bead Knot
 attributes
     ID : Knot ID {I, R8}
     Bead : Sequence Number {R9}
-    String : Position Number {R9}
+    String : String Number {R9}
 --
 class Bead Specification
 attributes
@@ -40,22 +40,21 @@ class Gap Knot
 attributes
     ID : Knot ID {I, R8}
     Bead : Sequence Number {R10}
-    String : Position Number {R10}
+    String : String Number {R10}
 --
 class Knot
 attributes
     ID : Knot ID {I}
-    String : Position {R7}
-    Offset : Offset Number
+    String : String Number {R7}
+    Offset = 0 : Offset Number
 --
-class Layout
+class Layout, L
 attributes
     Name : Layout Name {I}
     Min bead separation : Distance
-    Max string span : Distance
     Min string span : Distance
-    Max bead size : Rectangle
     Min bead size : Rectangle
+    Min thread separation : Distance
 --
 class String
 attributes
@@ -70,7 +69,7 @@ attributes
 class Thread
 attributes
     Knot : Knot ID {I, R7}
-    Grasp : Position Number {R7}
+    Grasp : String Number {R7}
     Label : Thread Label
     Material : Material Name
     Orientation : Knot_String
@@ -92,8 +91,8 @@ relationships
     <subclass>.Position -> String.Position
 --
     R4
-    occurs in chronology of, 1 String Specification
-    defines chronology for occurence of, Mc Bead Specification
+    defines beads for, 1 String Specification
+    has beads defined by, Mc Bead Specification
     Bead Specification.String spec -> String Specification.Name
 --
     R5

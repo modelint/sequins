@@ -1,0 +1,36 @@
+string specs:
+  bare:
+    - UI
+    - TRANS
+    - SIO
+  beaded:
+    unbounded:
+      - ASLEV
+      - R53
+      - Cabin
+      - Door
+    bounded:
+      - Transfer
+
+strings:
+  - UI
+  - S1-3:
+    spec: ASLEV
+    beads:
+      - NOT REQUESTED
+      - Gap knot:
+          Stop request:
+            from: UI
+            material: signal
+      - Registering stop
+      - Requesting service
+      - Bead knot:
+          Service requested:
+            to: R53, S1
+            material: signal
+      - REQUESTED
+
+
+
+
+
