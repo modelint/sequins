@@ -2,7 +2,7 @@ metadata
     Title : Bead Curtain Diagram
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.3.2
+    Version : 0.3.3
     Creation date : May 9, 2026
     Modification date : May 12, 2026
     Organization : Model Integration, LLC / www.modelint.com
@@ -81,6 +81,7 @@ attributes
     To string : String Number {I, R7}
     Label : Thread Label
     Material : Material Name
+    Height : Distance
 --
 relationships
     R1
@@ -114,8 +115,8 @@ relationships
     Bead.Name -> Bead Specification.Name
 --
     R7
-    connects to, Mc String
-    connects from, Mc String
+    threads to, Mc String
+    is threaded from, Mc String
     1 Thread
     Thread.From string -> String.Name
     Thread.To string -> String.Name
