@@ -1,36 +1,195 @@
-string specs:
-  bare:
+default thread material:  # If not specified, assume the thread uses this
+  signal
+
+string specifications:
+  bare:  # No beads on these strings
     - UI
     - TRANS
     - SIO
-  beaded:
-    unbounded:
+  beaded:  # These strings can be beaded
+    unbounded:  # These strings run from the top to the bottom of the diagram
       - ASLEV
       - R53
       - Cabin
       - Door
-    bounded:
+    bounded:  # These strings start and stop somewhere between the top and bottom of the diagram
       - Transfer
 
-strings:
-  - UI
-  - S1-3:
-    spec: ASLEV
-    beads:
-      - NOT REQUESTED
-      - Gap knot:
-          Stop request:
-            from: UI
-            material: signal
+strings:  # Strings proceeding from left to right
+  - UI:  # A bare string (cannot specify any beads)
+    string spec: UI
+    threads:
+      - Stop request:
+          to: ASLEV, S1-3
+          above: Registering stop
+          # If material not default, put material field here with material name
+  - S1-3:  # A beaded string
+    string spec: ASLEV
+    beads:  # Can specify beads
+      - NOT REQUESTED # Bead without any threads/fixed knots
       - Registering stop
-      - Requesting service
-      - Bead knot:
-          Service requested:
-            to: R53, S1
-            material: signal
+      - Requesting service: # Bead with one or more threads/fixed knots
+          threads:  # Default fixed knot position is zero (from center left or right center of the bead)
+            - Service requested:
+                to: R53, S1  # Destination string
+                above: Search for new destination  # Slip knot above this bead
       - REQUESTED
-
-
-
-
-
+      - Clear stop request:
+          threads:
+            - Clear stop request:
+                to: UI-  # Bare string destination has no 'above bead'
+                material: implicit ext event
+      - NOT REQUESTED:
+          threads:
+            - Requests cleared:
+                  to: Transfer, S1
+                  above: Delete
+  - S1:
+      string spec: R53
+      beads:
+        - NO TRANSFER
+        - Search for destination:
+            threads:
+            - Execute:
+                to: Transfer, S1
+                above: WAITING FOR CABIN
+        - TRANSFER IN PROGRESS
+        - Search for new destination
+        - NO TRANSFER
+  - S1-3:
+      string spec: Transfer
+      beads:
+        - WAITING FOR CABIN:
+            threads:
+              - New transfer:
+                  to: Cabin, S1
+                  above: Are we already there?
+        - Dispatching cabin:
+            threads:
+              - Go:
+                  to: Cabin, S1
+                  above: Reqesting transport
+        - CABIN IN MOTION
+        - Check for cabin reversal
+        - Check for active floor service:
+            threads:
+              - Stop serviced:
+                  to: ASLEV, S1-3
+                  above: Clear stop request
+              - Cabin arrived:
+                  to: UI-  # - refers to the same named string, but the one closest to the left side (+ is to the right)
+                  parameters:  # This thread conveys parameter values
+                    shaft: S1
+                    direction: up
+                  material: ext event
+        - WAITING FOR REQUESTS TO CLEAR
+        - Delete
+  - S1:
+      string spec: Cabin
+      beads:
+        - PICKUP DROPOFF
+        - Are we already there?
+        - SECURING DOORS:
+            threads:
+              - Lock:
+                  to: Door, S1
+                  above: LOCKED
+        - READY TO GO:
+            threads:
+              - Ready to go:
+                  to: Transfer, S1
+                  above: Dispatching cabin
+        - Requesting transport:
+            threads:
+              - Go to floor:
+                  to: TRANS
+                  material: ext event
+                  parameters:
+                    dest floor: 3
+        - MOVING
+        - Update location:
+            threads:
+              - Passing floor:
+                  to: UI-
+                  material: ext event
+                  parameters:
+                    floor: 1
+        - MOVING
+        - Update location:
+            threads:
+              - Passing floor:
+                  to: UI-
+                  material: ext event
+                  parameters:
+                    floor: 2
+        - MOVING
+        - Update location:
+            threads:
+              - Passing floor:
+                  to: UI-
+                  material: ext event
+                  parameters:
+                    floor: 3
+        - PICKUP DROPOFF:
+            threads:
+              - Unlock:
+                  to: Door, S1
+                  above: OPENING
+              - Cabin at destination:
+                  to: Transfer, S1
+                  above: Check for cabin reversal
+  - S1:
+      string spec: Door
+      beads:
+        - CLOSED:
+            threads:
+              - Door closed:
+                  to: UI+
+                  material: implicit ext event
+        - LOCKED:
+            threads:
+              - Doors secure:
+                  to: Cabin, S1
+                  above: READY TO GO
+        - OPENING:
+            threads:
+              - Door opening:
+                  to: SIO
+                  material: implicit ext event
+              - Door opening:
+                  to: UI+
+                  material: implicit ext event
+        - OPEN:
+            threads:
+              - Door open:
+                  to: UI+
+                  material: implicit ext event
+  - TRANS:
+      string spec: SIO
+      threads:
+        - Passing floor:
+            to: Cabin, S1
+            above: Update location
+            parameters:
+              floor: 1
+        - Passing floor:
+            to: Cabin, S1
+            above: Update location+ # Next bead down from previous with the same name
+            parameters:
+              floor: 2
+        - Passing floor:
+            to: Cabin, S1
+            above: Update location+
+            parameters:
+              floor: 3
+        - Arrived at floor:
+            to: Cabin, S1
+            above: PICKUP DROPOFF
+  - SIO:
+      string spec: SIO
+      threads:
+        Door opened:
+          to: Door, S1
+          above: OPEN
+  - UI:  # Second appearance of this same spec (secondary placement to minimize thread string crossing)
+      string spec: UI
