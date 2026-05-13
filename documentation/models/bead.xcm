@@ -2,7 +2,7 @@ metadata
     Title : Bead Curtain Diagram
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.3.1
+    Version : 0.3.2
     Creation date : May 9, 2026
     Modification date : May 12, 2026
     Organization : Model Integration, LLC / www.modelint.com
@@ -30,7 +30,7 @@ class From Bead Thread
 attributes
     From string : String Number {I, R8}
     To string : String Number {I, R8}
-    Knot = 0 : Knot Offset
+    Fixed knot = 0 : Knot Position
 --
 class From Bare Thread
 attributes
@@ -51,7 +51,7 @@ class To Bead Thread
 attributes
     From string : String Number {I}
     To string : String Number {I, R11}
-    Grasp bead : Sequence Number {R11}
+    Slip knot blocking bead : Sequence Number {R11}
 --
 class Beaded String
 attributes
