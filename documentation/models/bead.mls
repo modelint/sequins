@@ -27,7 +27,7 @@ connectors
     -R3 : b|String { t|Beaded String, t|Bare String }
     -R4 : +/2 l*|String Specification : +/2 r|Bead Specification
     -R5 : +/1 b|Beaded String : +/1 t*|Bead
-    -R6.2 : -/2 l-1|Bead : +/1 b|Bead Specification
+    -R6.2 : -/2 l-1|Bead : -/1 b|Bead Specification
     -R7.2 : +/1 r+2|String : -/1 r-2|String, l|Thread : L5R-2
     -R8 : b|Thread { t|From Bead Thread, t|From Bare Thread }
     -R9 : b|From Bead Thread { t|Bead to Bead Thread, t|Bead to Bare Thread }
