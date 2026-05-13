@@ -2,9 +2,9 @@ metadata
     Title : Bead Curtain Diagram
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.2.1
+    Version : 0.3.0
     Creation date : May 9, 2026
-    Modification date : May 11, 2026
+    Modification date : May 12, 2026
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
     Organization logo > mint
@@ -20,33 +20,42 @@ attributes
     String : String Number {I}
     Name : Bead Spec Name {R4}
 --
-class Bead Knot
-attributes
-    ID : Knot ID {I, R8}
-    Bead : Sequence Number {R9}
-    String : String Number {R9}
---
 class Bead Specification
 attributes
     Name : Bead Name {I}
     Symbol : Symbol ID
     Size : Rectangle
 --
+class From Bead Thread
+attributes
+    From string : String Number {I, R8}
+    To string : String Number {I, R8}
+    Offset = 0 : Offset Number
+--
+class From Bare Thread
+attributes
+    From string : String Number {I, R8, R10}
+    To string : String Number {I, R8, R10}
+--
+class Bead to Bead Thread
+attributes
+    From string : String Number {I, R9, R10}
+    To string : String Number {I, R9, R10}
+--
+class Bead to Bare Thread
+attributes
+    From string : String Number {I, R9}
+    To string : String Number {I, R9}
+--
+class To Bead Thread
+attributes
+    From string : String Number {I}
+    To string : String Number {I, R11}
+    Grasp bead : Sequence Number {R11}
+--
 class Beaded String
 attributes
     Number : String Number {I, R3}
---
-class Gap Knot
-attributes
-    ID : Knot ID {I, R8}
-    Bead : Sequence Number {R10}
-    String : String Number {R10}
---
-class Knot
-attributes
-    ID : Knot ID {I}
-    String : String Number {R7}
-    Offset = 0 : Offset Number
 --
 class Layout, L
 attributes
@@ -68,11 +77,10 @@ attributes
 --
 class Thread
 attributes
-    Knot : Knot ID {I, R7}
-    Grasp : String Number {R7}
+    From string : String Number {I, R7}
+    To string : String Number {I, R7}
     Label : Thread Label
     Material : Material Name
-    Orientation : Knot_String
 --
 relationships
     R1
@@ -106,27 +114,34 @@ relationships
     Bead.Name -> Bead Specification.Name
 --
     R7
-    threads loosely to, 1 String
-    threads securely from, Mc Knot
-    1 Thrad
-    Thread.Grasp -> String.Position
-    Thrand.Knot -> Knot.ID
+    connects to, Mc String
+    connects from, Mc String
+    1 Thread
+    Thread.From string -> String.Name
+    Thread.To string -> String.Name
 --
     R8
-    Knot +
-        Bead Knot
-        Gap Knot
-    <subclass>.ID -> Knot.ID
+    Thread +
+        From Bead Thread
+        From Bare Thread
+    <subclass>.(From string, To string) -> Thread.(From string, To string)
 --
     R9
-    is tied to, 1 Bead
-    ties, Mc Bead Knot
-    Bead Knot.(Sequence, String) -> Bead.(Number, String)
+    From Bead Thread +
+        Bead to Bead Thread
+        Bead to Bare Thread
+    <subclass>.(From string, To string) -> Thread.(From string, To string)
 --
     R10
-    is tied after, 1 Bead
-    ties, Mc Gap Knot
-    Gap Knot.(Sequence, String) -> Bead.(Number, String)
+    To Bead Thread +
+        Bead to Bead Thread
+        From Bare Thread
+    <subclass>.(From string, To string) -> To Bead Thread.(From string, To string)
+--
+    R11
+    grasps above, 1 Bead
+    is above grasp of, Mc To Bead Thread
+    To Bead Thread.(Sequence, String) -> Bead.(Sequence, String)
 --
     OR11
     above / below, Bead

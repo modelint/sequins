@@ -15,10 +15,12 @@ nodes
     Beaded String 5-6,4-5
     Bead 2,4-5
     Layout 9,8
-    Thread 8,6
-    Knot 5,7
-    Bead Knot 3-4,6
-    Gap Knot 3-4,7-8
+    Thread 7,7
+    From Bead Thread/2 5-6,6
+    From Bare Thread/2 5-6,8
+    Bead to Bead Thread/2 4,5-6
+    Bead to Bare Thread/2 4,7
+    To Bead Thread/2 2,7
 connectors
     -R1 : +/1 b|String Specification : +/1 t*|String
     -OR2.2 : -/1 l+2|String : +/1 t-2|String : L3R+2 L8R-2
@@ -26,10 +28,11 @@ connectors
     -R4 : +/2 l*|String Specification : +/2 r|Bead Specification
     -R5 : +/1 b|Beaded String : +/1 t*|Bead
     -R6.2 : -/2 l-1|Bead : +/1 b|Bead Specification
-    -R7 : +/1 r|String : +/1 t|Knot, b|Thread
-    -R8 : b|Knot { t|Bead Knot, t|Gap Knot }
-    +R9.2 : -/1 b|Bead Knot : +/1 r+1|Bead
-    +R10.2 : -/1 b|Gap Knot : -/1 r-1|Bead
+    -R7.2 : +/1 r+2|String : -/1 r-2|String, l|Thread : L5R-2
+    -R8 : b|Thread { t|From Bead Thread, t|From Bare Thread }
+    -R9 : b|From Bead Thread { t|Bead to Bead Thread, t|Bead to Bare Thread }
+    -R10 : t|To Bead Thread { b|Bead to Bead Thread, b|From Bare Thread }
+    -R11 : -/2 r|Bead : +/1 l*|To Bead Thread
     -OR11.2 : -/1 l+2|Bead : +/1 t-2|Bead : L4R-2 L3R-2
 
 
