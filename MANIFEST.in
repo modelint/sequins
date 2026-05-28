@@ -1,0 +1,3 @@
+include src/tabletsvg/log.conf
+include src/tabletsvg/configuration/*.yaml
+include src/tabletsvg/configuration/image_files/*.png

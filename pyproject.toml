@@ -1,0 +1,36 @@
+[build-system]
+requires      = ["setuptools>=75.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mi-sequins"
+version = "0.1.0"
+description = "Blueprint sequence diagram generator"
+readme = "README.md"
+authors = [{ name = "Leon Starr", email = "leon_starr@modelint.com" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = ["sequence diagram", "blueprint", "mbse", "xuml", "xtuml", "sysml"]
+dependencies = ['mi-configurator', 'PyYAML', 'cairosvg']
+requires-python = ">=3.12"
+
+[project.optional-dependencies]
+build = ["build", "twine"]
+dev = ["bump2version", "pytest"]
+
+[project.urls]
+repository    = "https://github.com/modelint/sequins"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+seq = [
+    "*.conf",
+    "configuration/*.yaml",
+    "configuration/image_files/*.png",
+]

@@ -1,1 +1,1 @@
-## Sequence Diagram Generator
+## Sequins Diagram Generator

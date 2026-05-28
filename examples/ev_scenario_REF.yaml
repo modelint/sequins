@@ -1,0 +1,213 @@
+# Scenario definition
+# Define a specific scenario and what is expected to happen
+# When we use the term 'user' we are referring to whoever is running the scenario
+
+# Scenario section
+# General information about the scenario
+# --
+# name - name of the scenario
+# description - explain what is going on, what is being tested, etc
+# domains - what domains are executing in this scenario (any others will be stubbed out)
+# --
+# Actors section
+# Names each participant in the scenario and provides an address of that participant
+# internal - actor that is in one of the executing domains
+# domain - the executing domain
+# instance address
+# class_name, instance id
+# external - name of actor whose behavior is delegated to (simulated by) the scenario manager
+# --
+# Interactions section
+# What is expected to happen in terms of stimuli, responses, and scenario timing
+# Each component plays out in sequence beginning with an initial stimulus
+# --
+# description - any helpful context of the interaction
+# delay - optional value and units optional wait time before stimulus injection, specifies as a number and units <min, s, ms>
+# direction - stimulus (injection into executing domain) or response (output from executing domain)
+# action - a predefined type of behavior (signal instance, external event, etc)
+# source - from actor (name of actor defined in actor section above)
+# target - to actor
+# parameters - any relevant parameters
+# --
+
+
+Scenario:
+  name: S1 up L to 3
+  description: >
+    Cabin with door closed at L going up services stop request at 3
+  domains: [EVMAN] # Only testing the application domain for now
+
+Actors:
+  internal:
+    EVMAN:
+      'ASLEV<S1-3>':
+        class: 'Accessible Shaft Level'
+        instance:
+          Shaft: S1
+          Floor: 3
+      'XFER<S1>':
+        class: 'Transfer'
+        instance:
+          Shaft: S1
+      'Cabin<S1>':
+        class: 'Cabin'
+        instance:
+          Shaft: S1
+      'Door<S1>':
+        class: 'Door'
+        instance:
+          Shaft: S1
+  external:
+    - UI
+    - TRANS
+    - SIO
+
+
+Interactions:
+  - description: 'Send the initial stop request to ASLEV S1-3'
+    direction: stimulus
+    action: signal instance
+    name: Stop request
+    source: UI
+    target: 'EVMAN:ASLEV<S1-3>'
+
+  - description: 'UI updated with request'
+    direction: response
+    action: external event
+    name: Set destination
+    source: 'EVMAN:XFER<S1>'
+    target: UI
+
+  - description: 'Cabin S1 requests transport from TRANS'
+    direction: response
+    action: external event
+    name: Go to floor
+    source: 'EVMAN:Cabin<S1>'
+    target: TRANS
+    parameters:
+      dest floor: '3'
+
+  - description: 'TRANS reports passing floor 1 to Cabin'
+    delay: 7.0
+    time: s
+    direction: stimulus
+    action: signal instance
+    name: Passing floor
+    source: TRANS
+    target: 'EVMAN:Cabin<S1>'
+    parameters:
+      floor: '1'
+
+  - description: 'Cabin reports passing floor 1 to UI'
+    direction: response
+    action: external event
+    name: Passing floor
+    source: 'EVMAN:Cabin<S1>'
+    target: UI
+    parameters:
+      floor: '1'
+
+  - description: 'TRANS reports passing floor 2 to Cabin'
+    delay: 2.5
+    time: s
+    direction: stimulus
+    action: signal instance
+    name: Passing floor
+    source: TRANS
+    target: 'EVMAN:Cabin<S1>'
+    parameters:
+      floor: '2'
+
+  - description: 'Cabin reports passing floor 2 to UI'
+    direction: response
+    action: external event
+    name: Passing floor
+    source: 'EVMAN:Cabin<S1>'
+    target: UI
+    parameters:
+      floor: '2'
+
+  - description: 'TRANS reports passing floor 3 to Cabin'
+    delay: 4.0
+    time: s
+    direction: stimulus
+    action: signal instance
+    name: Passing floor
+    source: TRANS
+    target: 'EVMAN:Cabin<S1>'
+    parameters:
+      floor: '3'
+
+  - description: 'Cabin reports passing floor 3 to UI'
+    direction: response
+    action: external event
+    name: Passing floor
+    source: 'EVMAN:Cabin<S1>'
+    target: UI
+    parameters:
+      floor: '3'
+
+  - description: 'TRANS notifies Cabin that it has arrived'
+    direction: stimulus
+    action: signal instance
+    name: Arrived at floor
+    source: TRANS
+    target: 'EVMAN:Cabin<S1>'
+
+  - description: 'Cabin reports arrival to UI'
+    direction: response
+    action: external event
+    name: Cabin arrived
+    source: 'EVMAN:Cabin<S1>'
+    target: UI
+
+  - description: 'ASLEV state entry implicitly requests clear stop request to UI'
+    direction: response
+    action: external event
+    name: Clear stop request
+    source: 'EVMAN:ASLEV<S1-3>'
+    target: UI
+
+  - description: 'OPENING state implicitly notifies UI of door open request'
+    direction: response
+    action: external event
+    name: Door opening
+    source: 'EVMAN:Door<S1>'
+    target: UI
+
+  - description: 'OPENING state implicitly requests door open from SIO'
+    direction: response
+    action: external event
+    name: Door opening
+    source: 'EVMAN:Door<S1>'
+    target: SIO
+
+  - description: 'SIO notifies Door that it has opened'
+    delay: 3.0
+    time: s
+    direction: stimulus
+    action: signal instance
+    name: Door opened
+    source: SIO
+    target: 'EVMAN:Door<S1>'
+
+  - description: 'OPEN state implicitly notifies UI that door is open'
+    direction: response
+    action: external event
+    name: Door opened
+    source: 'EVMAN:Door<S1>'
+    target: UI
+
+  - description: 'CLOSING state implicitly notifies UI that door is closing'
+    direction: response
+    action: external event
+    name: Door closing
+    source: 'EVMAN:Door<S1>'
+    target: UI
+
+  - description: 'CLOSING state implicitly requests door close from SIO'
+    direction: response
+    action: external event
+    name: Door closing
+    source: 'EVMAN:Door<S1>'
+    target: SIO
