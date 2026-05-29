@@ -1,14 +1,14 @@
 metadata
-    Title : Bead Curtain Diagram
+    Title : Sequins Diagram Layout
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.3.3
+    Version : 0.3.4
     Creation date : May 9, 2026
-    Modification date : May 12, 2026
+    Modification date : May 29, 2026
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
     Organization logo > mint
-domain Bead Curtain Diagram, BEAD
+domain Sequins, SEQ
 subsystem Diagram, D 1-99
 class Bare String
 attributes

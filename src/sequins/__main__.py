@@ -11,11 +11,11 @@ from pathlib import Path
 import atexit
 
 # MDB
-from seq.SeqDiagram import SeqDiagram
-from seq import version
+from sequins.SeqDiagram import SeqDiagram
+from sequins import version
 
 _logpath = Path("seq.log")
-_progname = 'Blueprint Model Sequins Diagram Generator'
+_progname = 'Blueprint Sequins Diagram Generator'
 
 def clean_up():
     """Normal and exception exit activities"""
@@ -32,7 +32,7 @@ def get_logger():
 def parse(cl_input):
     parser = argparse.ArgumentParser(description=_progname)
     parser.add_argument('-s', '--scenario', action='store',
-                        help='Name of the scenario *.yaml file')
+                        help='Name of the sequins *.yaml file')
     parser.add_argument('-L', '--log', action='store_true',
                         help='Generate a diagnostic log file')
     parser.add_argument('-v', '--verbose', action='store_true',
