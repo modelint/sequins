@@ -2,9 +2,9 @@ metadata
     Title : Sequins Diagram Layout
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.4.2
+    Version : 0.5.0
     Creation date : May 9, 2026
-    Modification date : May 29, 2026
+    Modification date : May 30, 2026
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
     Organization logo > mint
@@ -18,21 +18,13 @@ class Bead
 attributes
     Sequence : Sequence Number {I, OR10}
     String : String Number {I}
-    Bead color : Bead Color Name {R15}
-    Material : Material Name {R15}
-    Curtain style : Curtain Style Name {R15}
---
-class Bead Color
-attributes
-    Name : Bead Color Name {I}
-    Bead material : Material Name {I, R6}
-    Curtain style : Curtain Style Name {I, R6, R4}
-    Sting color : String Color Name {R4}
+    Material : Material Name {R6}
+    Curtain style : Curtain Style Name {R6}
 --
 class Bead Material
 attributes
-    Name : Material Name {I, R13}
-    Curtain style : Curtain Style Name {I, R13}
+    Name : Material Name {I, R4}
+    Curtain style : Curtain Style Name {I, R4}
     Min size : Rect Size
 --
 class Bead to Bare String
@@ -52,8 +44,8 @@ attributes
 class Curtain Diagram
 attributes
     ID : Diagram ID {I}
-    Layout : Layout Name {R17}
-    Style : Curtain Style Name {R14}
+    Layout : Layout Name {R15}
+    Style : Curtain Style Name {R13}
     Size : Rect Size
     Padding : Padding
     Theme : Theme Name
@@ -78,19 +70,13 @@ attributes
 class String
 attributes
     Number : String Number {I, OR2}
-    String material : Material Name {R1}
+    Material : Material Name {R1}
     Curtain style : Curtain Style Name {R1}
---
-class String Color
-attributes
-    Name : String Color Name {I}
-    String material : Material Name {I, R18}
-    Curtain style : Curtain Style Name {I, R18}
 --
 class String Material
 attributes
-    Name : Material Name {I, R13}
-    Curtain style : Curtain Style Name {I, R13}
+    Name : Material Name {I, R4}
+    Curtain style : Curtain Style Name {I, R4}
     Beaded : Boolean
     Bounded : Boolean
 --
@@ -98,7 +84,7 @@ class Thread
 attributes
     From string : String Number {I, R7}
     To string : String Number {I, R7}
-    Thread material : Material Name {R16}
+    Material : Material Name {R14}
     Label : Thread Label
     Height : Distance
 --
@@ -115,8 +101,8 @@ attributes
 --
 class Thread Material
 attributes
-    Name : Material Name {I, R13}
-    Curtain style : Curtain Style Name {I, R13}
+    Name : Material Name {I, R4}
+    Curtain style : Curtain Style Name {I, R4}
 --
 class Thread to Bead Gap
 attributes
@@ -127,9 +113,9 @@ attributes
 relationships
     R1
     horizontal position and extent varies by, Mc String
-    horizontally positions vertically extends, 1 String Color
-    String.Color -> String Color.Name
-    String.Curtain style -> String Color.Curtain style
+    horizontally positions vertically extends, 1 String Material
+    String.Material -> String Material.Name
+    String.Curtain style -> String Material.Curtain style
 --
     OR2
     left / right, String
@@ -142,9 +128,11 @@ relationships
     <subclass>.Position -> String.Position
 --
     R4
-    defines beads for, 1 String Color
-    has beads defined by, Mc Bead Color
-    Bead Color.String color -> String Color.Name
+    Material +
+        Bead Material
+        String Material
+        Thread Material
+    <subclass>.(Material, Curtain style) -> Material.(Name, Curtain style)
 --
     R5
     is placed on, 1 Beaded String
@@ -152,9 +140,9 @@ relationships
     Bead.String -> Beaded String.Position
 --
     R6
-    decorates, 1 Bead Material
-    comes in, Mc Bead Color
-    Bead.Name -> Bead Color.Name
+    purpose is defined by, 1 Bead Material
+    specifies purpose of, Mc Bead
+    Bead.(Material, Curtain style) -> Bead Material.(Name, Curtain style)
 --
     R7
     threads to, Mc String
@@ -196,34 +184,17 @@ relationships
     Material.Curtain style -> Curtain Style.Name
 --
     R13
-    Material +
-        Bead Material
-        String Material
-        Thread Material
-    <subclass>.(Material, Curtain style) -> Material.(Name, Curtain style)
---
-    R14
     defines notation in, 1c Diagram
     notation is defined by, 1 Curtain Style
     Diagram.Type -> Curtain Style.Name
 --
-    R15
-    content is specified by, 1 Bead Color
-    specifies content of, Mc Bead
-    Bead.(Color, Material, Curtain style) -> Bead Color.(Name, Material, Curtain style)
---
-    R16
+    R14
     connects horizontally using, 1 Thread Material
     is used for horizontal connections by, Mc Thread
     Thread.(Material, Curtain style) -> Thread Material.(Name, Curtain style)
 --
-    R17
+    R15
     sets spacing for, Mc Curtain Diagram
     uses spacing set by, 1 Layout
     Curtain Diagram.Layout -> Layout.Name
---
-    R18
-    decorates, 1 String Material
-    comes in, Mc String Color
-    String.String material -> String Material.Name
 --
