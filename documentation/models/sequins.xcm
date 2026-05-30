@@ -2,7 +2,7 @@ metadata
     Title : Sequins Diagram Layout
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.4.1
+    Version : 0.4.2
     Creation date : May 9, 2026
     Modification date : May 29, 2026
     Organization : Model Integration, LLC / www.modelint.com
@@ -26,14 +26,14 @@ class Bead Color
 attributes
     Name : Bead Color Name {I}
     Bead material : Material Name {I, R6}
-    Curtain style : Curtain Style Name {I, R6}
+    Curtain style : Curtain Style Name {I, R6, R4}
+    Sting color : String Color Name {R4}
 --
 class Bead Material
 attributes
     Name : Material Name {I, R13}
     Curtain style : Curtain Style Name {I, R13}
-    Symbol : Symbol ID
-    Size : Rectangle
+    Min size : Rect Size
 --
 class Bead to Bare String
 attributes
@@ -81,6 +81,12 @@ attributes
     String material : Material Name {R1}
     Curtain style : Curtain Style Name {R1}
 --
+class String Color
+attributes
+    Name : String Color Name {I}
+    String material : Material Name {I, R18}
+    Curtain style : Curtain Style Name {I, R18}
+--
 class String Material
 attributes
     Name : Material Name {I, R13}
@@ -121,9 +127,9 @@ attributes
 relationships
     R1
     horizontal position and extent varies by, Mc String
-    horizontally positions vertically extends, 1 String Material
-    String.Color -> String Material.Name
-    String.Curtain style -> String Material.Curtain style
+    horizontally positions vertically extends, 1 String Color
+    String.Color -> String Color.Name
+    String.Curtain style -> String Color.Curtain style
 --
     OR2
     left / right, String
@@ -136,9 +142,9 @@ relationships
     <subclass>.Position -> String.Position
 --
     R4
-    defines beads for, 1 String Material
-    has beads defined by, Mc Bead Material
-    Bead Material.String material -> String Material.Name
+    defines beads for, 1 String Color
+    has beads defined by, Mc Bead Color
+    Bead Color.String color -> String Color.Name
 --
     R5
     is placed on, 1 Beaded String
@@ -198,7 +204,7 @@ relationships
 --
     R14
     defines notation in, 1c Diagram
-    notiation is defined by, 1 Curtain Style
+    notation is defined by, 1 Curtain Style
     Diagram.Type -> Curtain Style.Name
 --
     R15
@@ -215,4 +221,9 @@ relationships
     sets spacing for, Mc Curtain Diagram
     uses spacing set by, 1 Layout
     Curtain Diagram.Layout -> Layout.Name
+--
+    R18
+    decorates, 1 String Material
+    comes in, Mc String Color
+    String.String material -> String Material.Name
 --

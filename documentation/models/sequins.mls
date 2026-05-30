@@ -12,9 +12,10 @@ nodes
     Curtain Style/2 12,5
     Material 10-11,5
     String Material/2 9,4
+    String Color/2 8,2-3
     String 7,4
-    Bead Material/2 9,2
-    Bead Color/2 6-7,2
+    Bead Material/2 9,1
+    Bead Color/2 6-7,1
     Bare String 5-6,3
     Beaded String 5-6,4-5
     Bead 2,4-5
@@ -27,10 +28,10 @@ nodes
     Bead to Bare String/2 4,7
     Thread to Bead Gap/2 2,7
 connectors
-    -R1 : +/2 b|String Material : +/2 t*|String
+    -R1 : +/2 b|String Color : +/2 l-1|String
     -OR2.2 : -/1 l+2|String : +/1 t-2|String : L3R+2 L8R-2
     -R3 : b|String { t|Beaded String, t|Bare String }
-    -R4 : +/2 l*|String Material : +/2 r|Bead Material
+    -R4 : +/2 l|String Color : +/2 t+2|Bead Color
     -R5 : +/1 b|Beaded String : +/1 t*|Bead
     +R6 : -/1 b|Bead Material : -/1 t*|Bead Color
     -R7.2 : +/1 r+2|String : -/1 r-2|String, l|Thread : L5R-2
@@ -45,3 +46,4 @@ connectors
     +R15 : -/2 l-1|Bead : -/2 b|Bead Color
     -R16 : +/2 b|Thread Material : +/2 t*|Thread
     -R17 : +/1 t|Curtain Diagram : +/1 b*|Layout
+    -R18 : +/1 l-2|String Material : +/1 t|String Color
