@@ -2,7 +2,7 @@ metadata
     Title : Sequins Diagram Layout
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.4.0
+    Version : 0.4.1
     Creation date : May 9, 2026
     Modification date : May 29, 2026
     Organization : Model Integration, LLC / www.modelint.com
@@ -25,19 +25,34 @@ attributes
 class Bead Color
 attributes
     Name : Bead Color Name {I}
-    Material : Material Name {I, R6}
+    Bead material : Material Name {I, R6}
     Curtain style : Curtain Style Name {I, R6}
 --
 class Bead Material
 attributes
-    Name : Material Name {I}
-    Curtain style : Curtain Style Name {I, R12}
+    Name : Material Name {I, R13}
+    Curtain style : Curtain Style Name {I, R13}
     Symbol : Symbol ID
     Size : Rectangle
+--
+class Bead to Bare String
+attributes
+    From string : String Number {I, R9}
+    To string : String Number {I, R9}
+--
+class Bead to Beaded String
+attributes
+    From string : String Number {I, R9, R10}
+    To string : String Number {I, R9, R10}
+--
+class Beaded String
+attributes
+    Number : String Number {I, R3}
 --
 class Curtain Diagram
 attributes
     ID : Diagram ID {I}
+    Layout : Layout Name {R17}
     Style : Curtain Style Name {R14}
     Size : Rect Size
     Padding : Padding
@@ -46,37 +61,6 @@ attributes
 class Curtain Style
 attributes
     Name : Curtain Style Name {I}
---
-class Thread from Bead
-attributes
-    From string : String Number {I, R8}
-    To string : String Number {I, R8}
-    Fixed knot = 0 : Knot Position
---
-class Thread from Bare String
-attributes
-    From string : String Number {I, R8, R10}
-    To string : String Number {I, R8, R10}
---
-class Bead to Beaded String
-attributes
-    From string : String Number {I, R9, R10}
-    To string : String Number {I, R9, R10}
---
-class Bead to Bare String
-attributes
-    From string : String Number {I, R9}
-    To string : String Number {I, R9}
---
-class Thread to Bead Gap
-attributes
-    From string : String Number {I}
-    To string : String Number {I, R11}
-    Slip knot blocking bead : Sequence Number {R11}
---
-class Beaded String
-attributes
-    Number : String Number {I, R3}
 --
 class Layout
 attributes
@@ -89,17 +73,17 @@ attributes
 class Material
 attributes
     Name : Material Name {I}
-    Curtain style : Curtain Style Name {I, R13}
+    Curtain style : Curtain Style Name {I, R12}
 --
 class String
 attributes
     Number : String Number {I, OR2}
-    Material : Material Name {R1}
+    String material : Material Name {R1}
     Curtain style : Curtain Style Name {R1}
 --
 class String Material
 attributes
-    Name : Material Name {I}
+    Name : Material Name {I, R13}
     Curtain style : Curtain Style Name {I, R13}
     Beaded : Boolean
     Bounded : Boolean
@@ -108,13 +92,31 @@ class Thread
 attributes
     From string : String Number {I, R7}
     To string : String Number {I, R7}
+    Thread material : Material Name {R16}
     Label : Thread Label
     Height : Distance
 --
+class Thread from Bead
+attributes
+    From string : String Number {I, R8}
+    To string : String Number {I, R8}
+    Fixed knot = 0 : Knot Position
+--
+class Thread from Bare String
+attributes
+    From string : String Number {I, R8, R10}
+    To string : String Number {I, R8, R10}
+--
 class Thread Material
 attributes
-    Name : Material Name {I}
-    Curtain style : Curtain Style Name {I, R16}
+    Name : Material Name {I, R13}
+    Curtain style : Curtain Style Name {I, R13}
+--
+class Thread to Bead Gap
+attributes
+    From string : String Number {I}
+    To string : String Number {I, R11}
+    Slip knot blocking bead : Sequence Number {R11}
 --
 relationships
     R1
@@ -208,4 +210,9 @@ relationships
     connects horizontally using, 1 Thread Material
     is used for horizontal connections by, Mc Thread
     Thread.(Material, Curtain style) -> Thread Material.(Name, Curtain style)
+--
+    R17
+    sets spacing for, Mc Curtain Diagram
+    uses spacing set by, 1 Layout
+    Curtain Diagram.Layout -> Layout.Name
 --

@@ -18,7 +18,7 @@ nodes
     Bare String 5-6,3
     Beaded String 5-6,4-5
     Bead 2,4-5
-    Layout 12,3
+    Layout 14,7
     Thread 7,7
     Thread Material/2 9,7
     Thread from Bead/2 5-6,6
@@ -42,5 +42,6 @@ connectors
     +R12 : -/1 b|Curtain Style : -/1 t*|Material
     -R13 : b|Material { t|Bead Material, t|String Material, t|Thread Material }
     -R14 : +/2 r|Curtain Style : +/2 l*|Curtain Diagram
-    +R15.2 : -/2 l-1|Bead : -/2 b|Bead Color
+    +R15 : -/2 l-1|Bead : -/2 b|Bead Color
     -R16 : +/2 b|Thread Material : +/2 t*|Thread
+    -R17 : +/1 t|Curtain Diagram : +/1 b*|Layout
