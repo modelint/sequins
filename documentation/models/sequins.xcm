@@ -2,7 +2,7 @@ metadata
     Title : Sequins Diagram Layout
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.3.4
+    Version : 0.4.0
     Creation date : May 9, 2026
     Modification date : May 29, 2026
     Organization : Model Integration, LLC / www.modelint.com
@@ -18,36 +18,57 @@ class Bead
 attributes
     Sequence : Sequence Number {I, OR10}
     String : String Number {I}
-    Name : Bead Spec Name {R4}
+    Bead color : Bead Color Name {R15}
+    Material : Material Name {R15}
+    Curtain style : Curtain Style Name {R15}
 --
-class Bead Specification
+class Bead Color
 attributes
-    Name : Bead Name {I}
+    Name : Bead Color Name {I}
+    Material : Material Name {I, R6}
+    Curtain style : Curtain Style Name {I, R6}
+--
+class Bead Material
+attributes
+    Name : Material Name {I}
+    Curtain style : Curtain Style Name {I, R12}
     Symbol : Symbol ID
     Size : Rectangle
 --
-class From Bead Thread
+class Curtain Diagram
+attributes
+    ID : Diagram ID {I}
+    Style : Curtain Style Name {R14}
+    Size : Rect Size
+    Padding : Padding
+    Theme : Theme Name
+--
+class Curtain Style
+attributes
+    Name : Curtain Style Name {I}
+--
+class Thread from Bead
 attributes
     From string : String Number {I, R8}
     To string : String Number {I, R8}
     Fixed knot = 0 : Knot Position
 --
-class From Bare Thread
+class Thread from Bare String
 attributes
     From string : String Number {I, R8, R10}
     To string : String Number {I, R8, R10}
 --
-class Bead to Bead Thread
+class Bead to Beaded String
 attributes
     From string : String Number {I, R9, R10}
     To string : String Number {I, R9, R10}
 --
-class Bead to Bare Thread
+class Bead to Bare String
 attributes
     From string : String Number {I, R9}
     To string : String Number {I, R9}
 --
-class To Bead Thread
+class Thread to Bead Gap
 attributes
     From string : String Number {I}
     To string : String Number {I, R11}
@@ -57,7 +78,7 @@ class Beaded String
 attributes
     Number : String Number {I, R3}
 --
-class Layout, L
+class Layout
 attributes
     Name : Layout Name {I}
     Min bead separation : Distance
@@ -65,29 +86,42 @@ attributes
     Min bead size : Rectangle
     Min thread separation : Distance
 --
+class Material
+attributes
+    Name : Material Name {I}
+    Curtain style : Curtain Style Name {I, R13}
+--
 class String
 attributes
     Number : String Number {I, OR2}
-    Name : String Spec Name {R1}
+    Material : Material Name {R1}
+    Curtain style : Curtain Style Name {R1}
 --
-class String Specification
+class String Material
 attributes
-    Name : String Spec Name {I}
-    Type : Beaded_Bounded_Bare
+    Name : Material Name {I}
+    Curtain style : Curtain Style Name {I, R13}
+    Beaded : Boolean
+    Bounded : Boolean
 --
 class Thread
 attributes
     From string : String Number {I, R7}
     To string : String Number {I, R7}
     Label : Thread Label
-    Material : Material Name
     Height : Distance
+--
+class Thread Material
+attributes
+    Name : Material Name {I}
+    Curtain style : Curtain Style Name {I, R16}
 --
 relationships
     R1
-    specifies, Mc String
-    is specified by, 1 String Specification
-    String.Name -> String Specification.Name
+    horizontal position and extent varies by, Mc String
+    horizontally positions vertically extends, 1 String Material
+    String.Color -> String Material.Name
+    String.Curtain style -> String Material.Curtain style
 --
     OR2
     left / right, String
@@ -100,9 +134,9 @@ relationships
     <subclass>.Position -> String.Position
 --
     R4
-    defines beads for, 1 String Specification
-    has beads defined by, Mc Bead Specification
-    Bead Specification.String spec -> String Specification.Name
+    defines beads for, 1 String Material
+    has beads defined by, Mc Bead Material
+    Bead Material.String material -> String Material.Name
 --
     R5
     is placed on, 1 Beaded String
@@ -110,9 +144,9 @@ relationships
     Bead.String -> Beaded String.Position
 --
     R6
-    specifies, Mc Bead
-    is specified by, 1 Bead Specification
-    Bead.Name -> Bead Specification.Name
+    decorates, 1 Bead Material
+    comes in, Mc Bead Color
+    Bead.Name -> Bead Color.Name
 --
     R7
     threads to, Mc String
@@ -123,28 +157,55 @@ relationships
 --
     R8
     Thread +
-        From Bead Thread
-        From Bare Thread
+        Thread from Bead
+        Thread from Bare String
     <subclass>.(From string, To string) -> Thread.(From string, To string)
 --
     R9
-    From Bead Thread +
-        Bead to Bead Thread
-        Bead to Bare Thread
+    Thread from Bead +
+        Bead to Beaded String
+        Bead to Bare String
     <subclass>.(From string, To string) -> Thread.(From string, To string)
 --
     R10
-    To Bead Thread +
-        Bead to Bead Thread
-        From Bare Thread
+    Thread To Bead Gap +
+        Bead to Beaded String
+        Thread from Bare String
     <subclass>.(From string, To string) -> To Bead Thread.(From string, To string)
 --
     R11
     is slip knotted above, 1 Bead
-    blocks slip knot on, Mc To Bead Thread
+    blocks slip knot on, Mc Thread to Bead Gap
     To Bead Thread.(Sequence, String) -> Bead.(Sequence, String)
 --
     OR11
     above / below, Bead
     Sequence : I
+--
+    R12
+    fabricates, 1 Curtain Style
+    is fabricated with, M Material
+    Material.Curtain style -> Curtain Style.Name
+--
+    R13
+    Material +
+        Bead Material
+        String Material
+        Thread Material
+    <subclass>.(Material, Curtain style) -> Material.(Name, Curtain style)
+--
+    R14
+    defines notation in, 1c Diagram
+    notiation is defined by, 1 Curtain Style
+    Diagram.Type -> Curtain Style.Name
+--
+    R15
+    content is specified by, 1 Bead Color
+    specifies content of, Mc Bead
+    Bead.(Color, Material, Curtain style) -> Bead Color.(Name, Material, Curtain style)
+--
+    R16
+    connects horizontally using, 1 Thread Material
+    is used for horizontal connections by, Mc Thread
+    Thread.(Material, Curtain style) -> Thread Material.(Name, Curtain style)
 --

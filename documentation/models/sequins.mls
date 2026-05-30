@@ -3,37 +3,44 @@ notation Starr
 presentation default
 orientation landscape
 color recycle bin
-sheet A2
+sheet A1
 padding l200 b100
 frame Model Integration Diagram
 frame_presentation default
 nodes
-    String Specification/2 9,4
+    Curtain Diagram/2 12,7
+    Curtain Style/2 12,5
+    Material 10-11,5
+    String Material/2 9,4
     String 7,4
-    Bead Specification/2 9,2
+    Bead Material/2 9,2
+    Bead Color/2 6-7,2
     Bare String 5-6,3
     Beaded String 5-6,4-5
     Bead 2,4-5
-    Layout 9,8
+    Layout 12,3
     Thread 7,7
-    From Bead Thread/2 5-6,6
-    From Bare Thread/2 5-6,8
-    Bead to Bead Thread/2 4,5-6
-    Bead to Bare Thread/2 4,7
-    To Bead Thread/2 2,7
+    Thread Material/2 9,7
+    Thread from Bead/2 5-6,6
+    Thread from Bare String/2 5-6,8
+    Bead to Beaded String/2 4,5-6
+    Bead to Bare String/2 4,7
+    Thread to Bead Gap/2 2,7
 connectors
-    -R1 : +/1 b|String Specification : +/1 t*|String
+    -R1 : +/2 b|String Material : +/2 t*|String
     -OR2.2 : -/1 l+2|String : +/1 t-2|String : L3R+2 L8R-2
     -R3 : b|String { t|Beaded String, t|Bare String }
-    -R4 : +/2 l*|String Specification : +/2 r|Bead Specification
+    -R4 : +/2 l*|String Material : +/2 r|Bead Material
     -R5 : +/1 b|Beaded String : +/1 t*|Bead
-    -R6.2 : -/2 l-1|Bead : -/1 b|Bead Specification
+    +R6 : -/1 b|Bead Material : -/1 t*|Bead Color
     -R7.2 : +/1 r+2|String : -/1 r-2|String, l|Thread : L5R-2
-    -R8 : b|Thread { t|From Bead Thread, t|From Bare Thread }
-    -R9 : b|From Bead Thread { t|Bead to Bead Thread, t|Bead to Bare Thread }
-    -R10 : t|To Bead Thread { b|Bead to Bead Thread, b|From Bare Thread }
-    -R11 : -/2 r|Bead : +/1 l*|To Bead Thread
+    -R8 : b|Thread { t|Thread from Bead, t|Thread from Bare String }
+    -R9 : b|Thread from Bead { t|Bead to Beaded String, t|Bead to Bare String }
+    -R10 : t|Thread to Bead Gap { b|Bead to Beaded String, b|Thread from Bare String }
+    -R11 : -/2 r|Bead : +/1 l*|Thread to Bead Gap
     -OR11.2 : -/1 l+2|Bead : +/1 t-2|Bead : L4R-2 L3R-2
-
-
-
+    +R12 : -/1 b|Curtain Style : -/1 t*|Material
+    -R13 : b|Material { t|Bead Material, t|String Material, t|Thread Material }
+    -R14 : +/2 r|Curtain Style : +/2 l*|Curtain Diagram
+    +R15.2 : -/2 l-1|Bead : -/2 b|Bead Color
+    -R16 : +/2 b|Thread Material : +/2 t*|Thread
