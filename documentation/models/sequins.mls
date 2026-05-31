@@ -8,7 +8,7 @@ padding l400 b150
 frame Model Integration Diagram
 frame_presentation default
 nodes
-    Curtain Diagram/2 13,3
+    Layout 13,3
     Curtain Style/2 11,3
     Material 11,5
     String Material/2 9,4
@@ -18,7 +18,7 @@ nodes
     Beaded String 5-6,4-5
     Bead 2,4-5
     Bead Color 7,2
-    Layout 13,5
+    Curtain Diagram/2 13,5
     Thread 7,7
     Thread Material/2 9,7
     Thread from Bead/2 5-6,6
@@ -40,7 +40,5 @@ connectors
     -R11 : -/2 r|Bead : +/1 l*|Thread to Bead Gap
     -OR11.2 : +/1 l+2|Bead : -/1 t-2|Bead : L4R-2 L3R-2
     +R12 : -/1 r|Curtain Style : -/1 l*|Material
-    -R13 : +/2 t|Curtain Style : +/2 b*|Curtain Diagram
     -R14 : +/2 b|Thread Material : +/2 t*|Thread
-    -R15 : +/1 r|Curtain Diagram : +/1 l*|Layout
     -R16 : +/1 b|Bead Material : +/1 t*|Bead Color

@@ -2,7 +2,7 @@ metadata
     Title : Sequins Diagram Layout
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.5.2
+    Version : 0.5.3
     Creation date : May 9, 2026
     Modification date : May 30, 2026
     Organization : Model Integration, LLC / www.modelint.com
@@ -51,11 +51,7 @@ attributes
 class Curtain Diagram
 attributes
     ID : Diagram ID {I}
-    Layout : Layout Name {R15}
-    Style : Curtain Style Name {R13}
     Size : Rect Size
-    Padding : Padding
-    Theme : Theme Name
 --
 class Curtain Style
 attributes
@@ -66,8 +62,10 @@ attributes
     Name : Layout Name {I}
     Min bead separation : Distance
     Min string span : Distance
-    Min bead size : Rectangle
+    Min bead size : Rect Size
     Min thread separation : Distance
+    Padding : Padding
+    Theme : Theme Name
 --
 class Material
 attributes
@@ -190,20 +188,10 @@ relationships
     is fabricated with, M Material
     Material.Curtain style -> Curtain Style.Name
 --
-    R13
-    defines notation in, 1c Diagram
-    notation is defined by, 1 Curtain Style
-    Diagram.Type -> Curtain Style.Name
---
     R14
     connects horizontally using, 1 Thread Material
     is used for horizontal connections by, Mc Thread
     Thread.(Material, Curtain style) -> Thread Material.(Name, Curtain style)
---
-    R15
-    sets spacing for, Mc Curtain Diagram
-    uses spacing set by, 1 Layout
-    Curtain Diagram.Layout -> Layout.Name
 --
     R16
     decorates, 1 Bead Material
