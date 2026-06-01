@@ -8,37 +8,41 @@ padding l400 b150
 frame Model Integration Diagram
 frame_presentation default
 nodes
-    Layout 13,3
-    Curtain Style/2 11,3
-    Material 11,5
-    String Material/2 9,4
+    Layout 9,8
+    Curtain Style/2 11,7
+    Material 11,4
+    Element 9,4
+    String Material/2 12-13,4
+    Bead Material/2 12-13,3
+    Thread Material/2 12-13,5
     String 7,4
-    Bead Material/2 9,2
-    Bare String 5-6,3
-    Beaded String 5-6,4-5
-    Bead 2,4-5
-    Bead Color 7,2
-    Curtain Diagram/2 13,5
+    Bare String 6,4-5
+    Beaded String 6,3 >right
+    Bead 2,3
+    Bead Color 12-13,1
+    Curtain Diagram/2 9,6
     Thread 7,7
-    Thread Material/2 9,7
     Thread from Bead/2 5-6,6
     Thread from Bare String/2 5-6,8
     Bead to Beaded String/2 4,5-6
     Bead to Bare String/2 4,7
     Thread to Bead Gap/2 2,7
 connectors
-    -R1 : +/2 b|String Material : +/2 t*|String
+    -R1 : +/2 b|Material : +/2 t*|Element
     -OR2.2 : -/1 l+2|String : +/1 t-2|String : L3R+2 L8R-2
     -R3 : b|String { t|Beaded String, t|Bare String }
-    -R4 : b|Material { t|Bead Material, t|String Material, t|Thread Material : L10R-2 }
-    -R5 : +/1 b|Beaded String : +/1 t*|Bead
-    -R6 : +/2 b|Bead Color : -/1 l|Bead
+    -R4 : t|Material { b|Bead Material, b|String Material, b|Thread Material }
+    +R5 : -/1 b|Beaded String : -/1 t*|Bead
+    -R6 : +/2 r*|Bead Color : -/1 l|Bead Material
     -R7.2 : +/1 r+2|String : -/1 r-2|String, l|Thread : L5R-2
     -R8 : b|Thread { t|Thread from Bead, t|Thread from Bare String }
     -R9 : b|Thread from Bead { t|Bead to Beaded String, t|Bead to Bare String }
     -R10 : t|Thread to Bead Gap { b|Bead to Beaded String, b|Thread from Bare String }
     -R11 : -/2 r|Bead : +/1 l*|Thread to Bead Gap
-    -OR11.2 : +/1 l+2|Bead : -/1 t-2|Bead : L4R-2 L3R-2
-    +R12 : -/1 r|Curtain Style : -/1 l*|Material
-    -R14 : +/2 b|Thread Material : +/2 t*|Thread
-    -R16 : +/1 b|Bead Material : +/1 t*|Bead Color
+    -R12 : +/1 l|Curtain Style : +/1 r*|Material
+    -R13 : b|Element { t-2|Bead, t|String, t|Thread }
+    -R14.2 : -/2 b|Bead Color : -/2 l|Bead
+    -R15 : +/1 r|Element : +/1 l*|Curtain Diagram
+    -R16 : +/1 l*|Layout : +/1 r|Curtain Diagram
+    +OR17.3 : +/1 t+2|Bead : -/1 r+2|Bead : L3R-2 L4R-2
+

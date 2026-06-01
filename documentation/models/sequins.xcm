@@ -2,9 +2,9 @@ metadata
     Title : Sequins Diagram Layout
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.5.3
+    Version : 0.6.0
     Creation date : May 9, 2026
-    Modification date : May 30, 2026
+    Modification date : June 1, 2026
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
     Organization logo > mint
@@ -16,17 +16,17 @@ attributes
 --
 class Bead
 attributes
-    Sequence : Sequence Number {I, OR10}
+    Sequence : Sequence Number {I, OR17}
     String : String Number {I}
-    Color : Bead Color Name {R6}
-    Material : Material Name {R6}
-    Curtain style : Curtain Style Name {R6}
+    Color : Bead Color Name {R14}
+    Material : Material Name {R14c}
+    Curtain style : Curtain Style Name {R14c}
 --
 class Bead Color
 attributes
     Name : Bead Color Name {I}
-    Material : Material Name {I, R16}
-    Curtain style : Curtain Style Name {I, R16}
+    Material : Material Name {I, R6}
+    Curtain style : Curtain Style Name {I, R6}
 --
 class Bead Material
 attributes
@@ -52,10 +52,19 @@ class Curtain Diagram
 attributes
     ID : Diagram ID {I}
     Size : Rect Size
+    Layout : Layout Name {R16}
 --
 class Curtain Style
 attributes
     Name : Curtain Style Name {I}
+--
+class Element
+attributes
+    ID : Element ID {I}
+    Material : Material Name {R1}
+    Curtain style : Curtain Style Name {R1}
+    Override color : Color Name
+    Curtain diagram : Diagram ID {R15}
 --
 class Layout
 attributes
@@ -65,7 +74,6 @@ attributes
     Min bead size : Rect Size
     Min thread separation : Distance
     Padding : Padding
-    Theme : Theme Name
 --
 class Material
 attributes
@@ -117,10 +125,10 @@ attributes
 --
 relationships
     R1
-    horizontal position and extent varies by, Mc String
-    horizontally positions vertically extends, 1 String Material
-    String.Material -> String Material.Name
-    String.Curtain style -> String Material.Curtain style
+    defines overall shape of, Mc Element
+    shape is defined by, 1 Material
+    Element.Material -> Material.Name
+    Element.Curtain style -> Material.Curtain style
 --
     OR2
     left / right, String
@@ -179,22 +187,34 @@ relationships
     blocks slip knot on, Mc Thread to Bead Gap
     To Bead Thread.(Sequence, String) -> Bead.(Sequence, String)
 --
-    OR11
-    above / below, Bead
-    Sequence : I
---
     R12
     fabricates, 1 Curtain Style
     is fabricated with, M Material
     Material.Curtain style -> Curtain Style.Name
 --
+    R13
+    Element +
+        String
+        Bead Color
+        Thread
+    <subclass>.Material -> Material.Name
+--
     R14
-    connects horizontally using, 1 Thread Material
-    is used for horizontal connections by, Mc Thread
-    Thread.(Material, Curtain style) -> Thread Material.(Name, Curtain style)
+    defines content in, Mc Bead
+    has content defined by, 1 Bead Color
+    Bead.(Color, Material, Curtain style) -> Bead Color.(Name, Material, Curtain style)
+--
+    R15
+    is drawn on, 1 Curtain Diagram
+    draws, Mc Element
+    Element.Curtain diagram -> Diagram.ID
 --
     R16
-    decorates, 1 Bead Material
-    comes in, Mc Bead Color
-    Bead Color.(Material, Curtain style) -> Bead Material.(Name, Curtain style)
+    sets spacing on, Mc Curtain Diagram
+    has spacing set by, 1 Layout
+    Diagram.Layout -> Layout.Name
+--
+    OR17
+    above / below, Bead
+    Sequence : I
 --
