@@ -2,7 +2,7 @@ metadata
     Title : Sequins Diagram Layout
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.6.0
+    Version : 0.6.1
     Creation date : May 9, 2026
     Modification date : June 1, 2026
     Organization : Model Integration, LLC / www.modelint.com
@@ -33,6 +33,7 @@ attributes
     Name : Material Name {I, R4}
     Curtain style : Curtain Style Name {I, R4}
     Min size : Rect Size
+    Standard size : Rect Size
 --
 class Bead to Bare String
 attributes
@@ -74,6 +75,7 @@ attributes
     Min bead size : Rect Size
     Min thread separation : Distance
     Padding : Padding
+    Thread color match : Boolean
 --
 class Material
 attributes
@@ -125,8 +127,8 @@ attributes
 --
 relationships
     R1
-    defines overall shape of, Mc Element
-    shape is defined by, 1 Material
+    defines overall shape and usage ofof, Mc Element
+    overall shape and usage is defined by, 1 Material
     Element.Material -> Material.Name
     Element.Curtain style -> Material.Curtain style
 --
@@ -153,9 +155,9 @@ relationships
     Bead.String -> Beaded String.Position
 --
     R6
-    purpose is defined by, 1 Bead Color
-    specifies purpose of, Mc Bead
-    Bead.(Color, Material, Curtain style) -> Bead Color.(Name, Material, Curtain style)
+    comes in, Mc Bead Color
+    is a visual variation of, 1 Bead Material
+    Bead Color.(Material, Curtain style) -> Bead Material.(Name, Curtain style)
 --
     R7
     threads to, Mc String

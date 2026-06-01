@@ -33,7 +33,7 @@ connectors
     -R3 : b|String { t|Beaded String, t|Bare String }
     -R4 : t|Material { b|Bead Material, b|String Material, b|Thread Material }
     +R5 : -/1 b|Beaded String : -/1 t*|Bead
-    -R6 : +/2 r*|Bead Color : -/1 l|Bead Material
+    -R6 : +/1 r*|Bead Color : +/1 l|Bead Material
     -R7.2 : +/1 r+2|String : -/1 r-2|String, l|Thread : L5R-2
     -R8 : b|Thread { t|Thread from Bead, t|Thread from Bare String }
     -R9 : b|Thread from Bead { t|Bead to Beaded String, t|Bead to Bare String }
