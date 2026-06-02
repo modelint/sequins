@@ -2,9 +2,9 @@ metadata
     Title : Sequins Diagram Layout
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.6.1
+    Version : 0.6.2
     Creation date : May 9, 2026
-    Modification date : June 1, 2026
+    Modification date : June 2, 2026
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
     Organization logo > mint
@@ -16,8 +16,9 @@ attributes
 --
 class Bead
 attributes
-    Sequence : Sequence Number {I, OR17}
-    String : String Number {I}
+    ID : Element ID {I, R13}
+    Sequence : Sequence Number {I2, OR17}
+    String : Element ID {I2, R5}
     Color : Bead Color Name {R14}
     Material : Material Name {R14c}
     Curtain style : Curtain Style Name {R14c}
@@ -84,7 +85,8 @@ attributes
 --
 class String
 attributes
-    Number : String Number {I, OR2}
+    ID : Element ID {I, R13}
+    Position : String Number {I2, OR2}
     Material : Material Name {R1}
     Curtain style : Curtain Style Name {R1}
 --
@@ -97,8 +99,9 @@ attributes
 --
 class Thread
 attributes
-    From string : String Number {I, R7}
-    To string : String Number {I, R7}
+    ID : Element ID {I}
+    From string : String Number {I2, R7}
+    To string : String Number {I2, R7}
     Material : Material Name {R14}
     Label : Thread Label
     Height : Distance
@@ -152,7 +155,7 @@ relationships
     R5
     is placed on, 1 Beaded String
     places, Mc Bead
-    Bead.String -> Beaded String.Position
+    Bead.String -> Beaded String.ID
 --
     R6
     comes in, Mc Bead Color
@@ -197,9 +200,9 @@ relationships
     R13
     Element +
         String
-        Bead Color
+        Bead
         Thread
-    <subclass>.Material -> Material.Name
+    <subclass>.ID -> Element.ID
 --
     R14
     defines content in, Mc Bead
