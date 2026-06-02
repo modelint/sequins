@@ -8,7 +8,7 @@ padding l400 b150
 frame Model Integration Diagram
 frame_presentation default
 nodes
-    Layout 9,8
+    Canvas 9,8
     Curtain Style/2 11,7
     Material 11,4
     Element 9,4
@@ -43,6 +43,6 @@ connectors
     -R13 : b|Element { t-2|Bead, t|String, t|Thread }
     -R14.2 : -/2 b|Bead Color : -/2 l|Bead
     -R15 : +/1 r|Element : +/1 l*|Curtain Diagram
-    -R16 : +/1 l*|Layout : +/1 r|Curtain Diagram
+    -R16 : +/1 l*|Canvas : +/1 r|Curtain Diagram
     +OR17.3 : +/1 t+2|Bead : -/1 r+2|Bead : L3R-2 L4R-2
 

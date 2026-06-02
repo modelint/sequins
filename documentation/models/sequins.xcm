@@ -1,8 +1,8 @@
 metadata
-    Title : Sequins Diagram Layout
+    Title : Sequins Diagram Canvas
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.6.2
+    Version : 0.6.4
     Creation date : May 9, 2026
     Modification date : June 2, 2026
     Organization : Model Integration, LLC / www.modelint.com
@@ -12,13 +12,15 @@ domain Sequins, SEQ
 subsystem Diagram, D 1-99
 class Bare String
 attributes
-    Number : String Number {I, R3}
+    ID : Element ID {I, R3}
 --
 class Bead
 attributes
     ID : Element ID {I, R13}
+    String ID : Element ID {I2, R5}
     Sequence : Sequence Number {I2, OR17}
-    String : Element ID {I2, R5}
+    Compressed depth : Distance
+    Absolute depth : Distance
     Color : Bead Color Name {R14}
     Material : Material Name {R14c}
     Curtain style : Curtain Style Name {R14c}
@@ -48,13 +50,28 @@ attributes
 --
 class Beaded String
 attributes
-    Number : String Number {I, R3}
+    ID : Element ID {I, R3}
+--
+class Canvas
+attributes
+    Name : Canvas Name {I}
+    String gutter : Distance
+    Min bead separation : Distance
+    Min string span : Distance
+    Min bead size : Rect Size
+    Min thread separation : Distance
+    Padding : Padding
+    Thread color match : Boolean
+    Background color : Color Name
 --
 class Curtain Diagram
 attributes
     ID : Diagram ID {I}
+    Origin : Position
     Size : Rect Size
-    Layout : Layout Name {R16}
+    String top height : Distance
+    Canvas : Canvas Name {R16}
+    Compressed : Boolean
 --
 class Curtain Style
 attributes
@@ -67,16 +84,6 @@ attributes
     Curtain style : Curtain Style Name {R1}
     Override color : Color Name
     Curtain diagram : Diagram ID {R15}
---
-class Layout
-attributes
-    Name : Layout Name {I}
-    Min bead separation : Distance
-    Min string span : Distance
-    Min bead size : Rect Size
-    Min thread separation : Distance
-    Padding : Padding
-    Thread color match : Boolean
 --
 class Material
 attributes
@@ -155,7 +162,7 @@ relationships
     R5
     is placed on, 1 Beaded String
     places, Mc Bead
-    Bead.String -> Beaded String.ID
+    Bead.String ID -> Beaded String.ID
 --
     R6
     comes in, Mc Bead Color
@@ -215,9 +222,9 @@ relationships
     Element.Curtain diagram -> Diagram.ID
 --
     R16
-    sets spacing on, Mc Curtain Diagram
-    has spacing set by, 1 Layout
-    Diagram.Layout -> Layout.Name
+    lays out, Mc Curtain Diagram
+    is layed out on, 1 Canvas
+    Diagram.Canvas -> Canvas.Name
 --
     OR17
     above / below, Bead
