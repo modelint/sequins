@@ -2,9 +2,9 @@ metadata
     Title : Sequins Diagram Canvas
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.6.4
+    Version : 0.6.5
     Creation date : May 9, 2026
-    Modification date : June 2, 2026
+    Modification date : June 3, 2026
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
     Organization logo > mint
@@ -24,6 +24,7 @@ attributes
     Color : Bead Color Name {R14}
     Material : Material Name {R14c}
     Curtain style : Curtain Style Name {R14c}
+    Center : Position
 --
 class Bead Color
 attributes
@@ -55,13 +56,7 @@ attributes
 class Canvas
 attributes
     Name : Canvas Name {I}
-    String gutter : Distance
-    Min bead separation : Distance
-    Min string span : Distance
-    Min bead size : Rect Size
-    Min thread separation : Distance
     Padding : Padding
-    Thread color match : Boolean
     Background color : Color Name
 --
 class Curtain Diagram
@@ -70,8 +65,10 @@ attributes
     Origin : Position
     Size : Rect Size
     String top height : Distance
-    Canvas : Canvas Name {R16}
+    Thread color match : Boolean
     Compressed : Boolean
+    Canvas : Canvas Name {R16}
+    Layout : Layout Name {R18}
 --
 class Curtain Style
 attributes
@@ -85,6 +82,16 @@ attributes
     Override color : Color Name
     Curtain diagram : Diagram ID {R15}
 --
+class Layout
+attributes
+    Name : Layout Name {I}
+    String top gutter : Distance
+    String bottom gutter : Distance
+    Min bead separation : Distance
+    Min string span : Distance
+    Min bead size : Rect Size
+    Min thread separation : Distance
+--
 class Material
 attributes
     Name : Material Name {I}
@@ -94,6 +101,9 @@ class String
 attributes
     ID : Element ID {I, R13}
     Position : String Number {I2, OR2}
+    X : Coordinate
+    Y top : Coordinate
+    Y bottom : Coordinate
     Material : Material Name {R1}
     Curtain style : Curtain Style Name {R1}
 --
@@ -222,11 +232,16 @@ relationships
     Element.Curtain diagram -> Diagram.ID
 --
     R16
-    lays out, Mc Curtain Diagram
-    is layed out on, 1 Canvas
+    frames, Mc Curtain Diagram
+    is drawn on, 1 Canvas
     Diagram.Canvas -> Canvas.Name
 --
     OR17
     above / below, Bead
     Sequence : I
+--
+    R18
+    defines relative spacing in, Mc Curtain Diagram
+    relative spacing is defined by, 1 Layout
+    Curtain Diagram.Layout -> Layout.Name
 --
