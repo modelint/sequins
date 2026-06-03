@@ -2,7 +2,7 @@ metadata
     Title : Sequins Diagram Canvas
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.6.5
+    Version : 0.6.6
     Creation date : May 9, 2026
     Modification date : June 3, 2026
     Organization : Model Integration, LLC / www.modelint.com
@@ -41,13 +41,11 @@ attributes
 --
 class Bead to Bare String
 attributes
-    From string : String Number {I, R9}
-    To string : String Number {I, R9}
+    ID : Element ID {R9}
 --
 class Bead to Beaded String
 attributes
-    From string : String Number {I, R9, R10}
-    To string : String Number {I, R9, R10}
+    ID : Element ID {R9, R10}
 --
 class Beaded String
 attributes
@@ -64,9 +62,8 @@ attributes
     ID : Diagram ID {I}
     Origin : Position
     Size : Rect Size
-    String top height : Distance
-    Thread color match : Boolean
-    Compressed : Boolean
+    Thread color match : Boolean = True
+    Compressed : Boolean = True
     Canvas : Canvas Name {R16}
     Layout : Layout Name {R18}
 --
@@ -117,22 +114,20 @@ attributes
 class Thread
 attributes
     ID : Element ID {I}
-    From string : String Number {I2, R7}
-    To string : String Number {I2, R7}
+    From string : String Number {R7}
+    To string : String Number {R7}
     Material : Material Name {R14}
     Label : Thread Label
     Height : Distance
 --
 class Thread from Bead
 attributes
-    From string : String Number {I, R8}
-    To string : String Number {I, R8}
+    ID : Element ID {R8}
     Fixed knot = 0 : Knot Position
 --
 class Thread from Bare String
 attributes
-    From string : String Number {I, R8, R10}
-    To string : String Number {I, R8, R10}
+    ID : Element ID {R8, R10}
 --
 class Thread Material
 attributes
@@ -141,8 +136,8 @@ attributes
 --
 class Thread to Bead Gap
 attributes
-    From string : String Number {I}
-    To string : String Number {I, R11}
+    ID : Element ID
+    To string : String Number {I, R11c}
     Slip knot blocking bead : Sequence Number {R11}
 --
 relationships
@@ -182,7 +177,7 @@ relationships
     R7
     threads to, Mc String
     is threaded from, Mc String
-    1 Thread
+    M Thread
     Thread.From string -> String.Name
     Thread.To string -> String.Name
 --
@@ -190,19 +185,19 @@ relationships
     Thread +
         Thread from Bead
         Thread from Bare String
-    <subclass>.(From string, To string) -> Thread.(From string, To string)
+    <subclass>.ID -> Thread.ID
 --
     R9
     Thread from Bead +
         Bead to Beaded String
         Bead to Bare String
-    <subclass>.(From string, To string) -> Thread.(From string, To string)
+    <subclass>.ID -> Thread from Bead.ID
 --
     R10
     Thread To Bead Gap +
         Bead to Beaded String
         Thread from Bare String
-    <subclass>.(From string, To string) -> To Bead Thread.(From string, To string)
+    <subclass>.ID -> To Bead Thread.ID
 --
     R11
     is slip knotted above, 1 Bead
