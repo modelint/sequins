@@ -9,7 +9,7 @@ frame Model Integration Diagram
 frame_presentation default
 nodes
     Canvas 9,8
-    Curtain Style/2 11,2
+    Curtain Style/2 11,6
     Material 11,4
     Element 9,4
     String Material/2 12-13,4
@@ -40,11 +40,12 @@ connectors
     -R9 : b|Thread from Bead { t|Bead to Beaded String, t|Bead to Bare String }
     -R10 : t|Thread to Bead Gap { b|Bead to Beaded String, b|Thread from Bare String }
     -R11 : -/2 r|Bead : +/1 l*|Thread to Bead Gap
-    -R12 : +/1 r|Curtain Style : +/1 l*|Material
+    -R12 : +/1 l|Curtain Style : +/1 r*|Material
     -R13 : b|Element { t-2|Bead, t|String, t|Thread }
     -R14.2 : -/2 b|Bead Color : -/2 l|Bead
     -R15 : +/1 r|Element : +/1 l*|Curtain Diagram
     -R16 : +/1 l*|Canvas : +/1 r|Curtain Diagram
     +OR17.3 : +/1 t+2|Bead : -/1 r+2|Bead : L3R-2 L4R-2
-    -R18.2 : +/2 l|Layout : -/2 t|Curtain Diagram
+    -R18.2 : +/2 l|Layout : +/2 t+1|Curtain Diagram
+    -R19 : -/2 b-1|Curtain Style : -/2 t*|Curtain Diagram
 
