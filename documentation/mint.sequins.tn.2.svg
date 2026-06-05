@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xl="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="22.5 11.25 1474.875 1409.625" width="1474.875" height="1409.625">
+  <defs>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="StickArrow_Marker" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-1 -4 10 8" markerWidth="10" markerHeight="8" color="#8efa00">
+      <g>
+        <path d="M 8 0 L 0 0 M 0 -3 L 8 0 L 0 3" fill="none" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="StickArrow_Marker_2" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-1 -4 10 8" markerWidth="10" markerHeight="8" color="white">
+      <g>
+        <path d="M 8 0 L 0 0 M 0 -3 L 8 0 L 0 3" fill="none" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="StickArrow_Marker_3" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-1 -4 10 8" markerWidth="10" markerHeight="8" color="#0096ff">
+      <g>
+        <path d="M 8 0 L 0 0 M 0 -3 L 8 0 L 0 3" fill="none" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="StickArrow_Marker_4" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-1 -4 10 8" markerWidth="10" markerHeight="8" color="#ff85ff">
+      <g>
+        <path d="M 8 0 L 0 0 M 0 -3 L 8 0 L 0 3" fill="none" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="StickArrow_Marker_5" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-1 -4 10 8" markerWidth="10" markerHeight="8" color="#ff85ff">
+      <g>
+        <path d="M 8 0 L 0 0 M 0 -3 L 8 0 L 0 3" fill="none" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="StickArrow_Marker_6" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-1 -4 10 8" markerWidth="10" markerHeight="8" color="#0096ff">
+      <g>
+        <path d="M 8 0 L 0 0 M 0 -3 L 8 0 L 0 3" fill="none" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+  </defs>
+  <g id="Layout" fill="none" stroke="none" stroke-opacity="1" stroke-dasharray="none" fill-opacity="1">
+    <title>Layout</title>
+    <g id="Layout_Canvas">
+      <title>Canvas</title>
+      <g id="Graphic_337">
+        <rect x="22.5" y="11.25" width="1474.875" height="1409.625" fill="#333"/>
+      </g>
+    </g>
+    <g id="Layout_Diagram">
+      <title>Diagram</title>
+      <g id="Graphic_335">
+        <rect x="92.25" y="127.125" width="1334.25" height="1153.125" stroke="#fffd78" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+    </g>
+    <g id="Layout_Lines">
+      <title>Lines</title>
+      <g id="Line_178">
+        <line x1="300.14088" y1="172.93312" x2="300.14088" y2="1268.7147" stroke="#929292" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+      <g id="Line_181">
+        <line x1="110.90477" y1="168.86372" x2="110.90477" y2="1268.7147" stroke="#8efa00" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+      <g id="Graphic_195">
+        <text transform="translate(105.0642 138.91931)" fill="#8efa00">
+          <tspan font-family="Verdana" font-size="11" fill="#8efa00" x="0" y="11" xml:space="preserve">UI</tspan>
+        </text>
+      </g>
+      <g id="Graphic_194">
+        <text transform="translate(264.88233 138.91931)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="0" y="11" xml:space="preserve">ASLEV: S1-3</tspan>
+        </text>
+      </g>
+      <g id="Line_197">
+        <line x1="473.9978" y1="172.95915" x2="473.9978" y2="1268.7147" stroke="#929292" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+      <g id="Graphic_198">
+        <text transform="translate(442.1714 138.91931)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="0" y="11" xml:space="preserve">R53 / Shaft</tspan>
+        </text>
+      </g>
+      <g id="Line_201">
+        <line x1="650.4488" y1="302.1552" x2="650.4488" y2="1162.7358" stroke="#929292" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+      <g id="Graphic_204">
+        <text transform="translate(603.3995 138.91931)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="0" y="11" xml:space="preserve">Transfer: S1-3</tspan>
+        </text>
+      </g>
+      <g id="Group_216">
+        <g id="Line_209">
+          <line x1="645.54325" y1="292.4661" x2="648.4579" y2="294.94973" stroke="#929292" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        </g>
+        <g id="Line_210">
+          <line x1="657.266" y1="291.9564" x2="653.2313" y2="295.08944" stroke="#929292" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        </g>
+        <g id="Line_211">
+          <line x1="648.2934" y1="297.78395" x2="643.3914" y2="298.80688" stroke="#929292" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        </g>
+        <g id="Graphic_212">
+          <path d="M 650.7648 295.59423 L 650.7648 295.59423 C 651.2121 295.59423 651.5747 295.95683 651.5747 296.40413 L 651.5747 296.40413 C 651.5747 296.85142 651.2121 297.21402 650.7648 297.21402 L 650.7648 297.21402 C 650.3175 297.21402 649.9549 296.85142 649.9549 296.40413 L 649.9549 296.40413 C 649.9549 295.95683 650.3175 295.59423 650.7648 295.59423 Z" fill="#c1c1c1"/>
+          <path d="M 650.7648 295.59423 L 650.7648 295.59423 C 651.2121 295.59423 651.5747 295.95683 651.5747 296.40413 L 651.5747 296.40413 C 651.5747 296.85142 651.2121 297.21402 650.7648 297.21402 L 650.7648 297.21402 C 650.3175 297.21402 649.9549 296.85142 649.9549 296.40413 L 649.9549 296.40413 C 649.9549 295.95683 650.3175 295.59423 650.7648 295.59423 Z" stroke="#c1c1c1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0"/>
+        </g>
+        <g id="Line_213">
+          <line x1="656.4505" y1="301.13072" x2="652.7294" y2="298.23587" stroke="#929292" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        </g>
+        <g id="Line_214">
+          <line x1="651.2063" y1="293.66305" x2="651.5575" y2="290.5293" stroke="#929292" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        </g>
+        <g id="Line_215">
+          <line x1="650.5011" y1="300.7616" x2="650.4975" y2="299.11747" stroke="#929292" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        </g>
+      </g>
+      <g id="Line_219">
+        <line x1="836.0908" y1="174.61325" x2="836.0908" y2="1257.2085" stroke="#929292" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+      <g id="Graphic_220">
+        <text transform="translate(808.8433 138.91931)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="0" y="11" xml:space="preserve">Cabin: S1</tspan>
+        </text>
+      </g>
+      <g id="Line_227">
+        <line x1="1020.7335" y1="175.6647" x2="1020.7335" y2="1259.3718" stroke="#929292" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+      <g id="Graphic_228">
+        <text transform="translate(995.7847 138.91931)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="0" y="11" xml:space="preserve">Door: S1</tspan>
+        </text>
+      </g>
+      <g id="Line_249">
+        <line x1="1183.9691" y1="170.7298" x2="1183.9691" y2="1256.4673" stroke="#0096ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+      <g id="Graphic_250">
+        <text transform="translate(1165.622 138.91931)" fill="#0096ff">
+          <tspan font-family="Verdana" font-size="11" fill="#0096ff" x="0" y="11" xml:space="preserve">TRANS</tspan>
+        </text>
+      </g>
+      <g id="Line_281">
+        <line x1="1299.2009" y1="169.82577" x2="1299.2009" y2="1253.5329" stroke="#ff40ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+      <g id="Graphic_282">
+        <text transform="translate(1289.297 138.91931)" fill="#ff85ff">
+          <tspan font-family="Verdana" font-size="11" fill="#ff85ff" x="0" y="11" xml:space="preserve">SIO</tspan>
+        </text>
+      </g>
+      <g id="Group_283">
+        <g id="Line_290">
+          <line x1="645.54325" y1="1169.2147" x2="648.4579" y2="1171.6983" stroke="#929292" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        </g>
+        <g id="Line_289">
+          <line x1="657.266" y1="1168.705" x2="653.2313" y2="1171.838" stroke="#929292" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        </g>
+        <g id="Line_288">
+          <line x1="648.2934" y1="1174.5325" x2="643.3914" y2="1175.5555" stroke="#929292" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        </g>
+        <g id="Graphic_287">
+          <path d="M 650.7648 1172.3428 L 650.7648 1172.3428 C 651.2121 1172.3428 651.5747 1172.7054 651.5747 1173.1527 L 651.5747 1173.1527 C 651.5747 1173.6 651.2121 1173.9626 650.7648 1173.9626 L 650.7648 1173.9626 C 650.3175 1173.9626 649.9549 1173.6 649.9549 1173.1527 L 649.9549 1173.1527 C 649.9549 1172.7054 650.3175 1172.3428 650.7648 1172.3428 Z" fill="#c1c1c1"/>
+          <path d="M 650.7648 1172.3428 L 650.7648 1172.3428 C 651.2121 1172.3428 651.5747 1172.7054 651.5747 1173.1527 L 651.5747 1173.1527 C 651.5747 1173.6 651.2121 1173.9626 650.7648 1173.9626 L 650.7648 1173.9626 C 650.3175 1173.9626 649.9549 1173.6 649.9549 1173.1527 L 649.9549 1173.1527 C 649.9549 1172.7054 650.3175 1172.3428 650.7648 1172.3428 Z" stroke="#c1c1c1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0"/>
+        </g>
+        <g id="Line_286">
+          <line x1="656.4505" y1="1177.8793" x2="652.7294" y2="1174.9845" stroke="#929292" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        </g>
+        <g id="Line_285">
+          <line x1="651.2063" y1="1170.4116" x2="651.5575" y2="1167.2779" stroke="#929292" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        </g>
+        <g id="Line_284">
+          <line x1="650.5011" y1="1177.5102" x2="650.4975" y2="1175.866" stroke="#929292" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        </g>
+      </g>
+      <g id="Line_320">
+        <line x1="1401.926" y1="163.61624" x2="1401.926" y2="1257.2085" stroke="#8efa00" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+      <g id="Graphic_330">
+        <text transform="translate(1396.0854 138.91931)" fill="#8efa00">
+          <tspan font-family="Verdana" font-size="11" fill="#8efa00" x="0" y="11" xml:space="preserve">UI</tspan>
+        </text>
+      </g>
+    </g>
+    <g id="Layout_Interactions">
+      <title>Interactions</title>
+      <g id="Line_193">
+        <line x1="110.90477" y1="211.71595" x2="290.24088" y2="211.71595" marker-end="url(#StickArrow_Marker)" stroke="#8efa00" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_196">
+        <line x1="375.58814" y1="282.58656" x2="464.0978" y2="282.58656" marker-end="url(#StickArrow_Marker_2)" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_205">
+        <line x1="549.44506" y1="309.36446" x2="642.3995" y2="309.3605" marker-end="url(#StickArrow_Marker_2)" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_218">
+        <line x1="724.5808" y1="336.17826" x2="826.1908" y2="336.17826" marker-end="url(#StickArrow_Marker_2)" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_233">
+        <line x1="911.5381" y1="406.3841" x2="1010.8335" y2="406.3841" marker-end="url(#StickArrow_Marker_2)" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_234">
+        <line x1="945.2862" y1="442.13173" x2="845.9908" y2="442.13173" marker-end="url(#StickArrow_Marker_2)" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_238">
+        <text transform="translate(759.308 319.33698)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">New transfer</tspan>
+        </text>
+      </g>
+      <g id="Graphic_239">
+        <text transform="translate(213.2961 197.2725)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Stop request</tspan>
+        </text>
+      </g>
+      <g id="Graphic_240">
+        <text transform="translate(388.5996 267.58656)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Service requested</tspan>
+        </text>
+      </g>
+      <g id="Graphic_241">
+        <text transform="translate(605.4524 295.5293)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Execute</tspan>
+        </text>
+      </g>
+      <g id="Graphic_242">
+        <text transform="translate(676.8627 450.3772)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Ready to go</tspan>
+        </text>
+      </g>
+      <g id="Line_243">
+        <line x1="760.6436" y1="465.3772" x2="661.3482" y2="465.3772" marker-end="url(#StickArrow_Marker_2)" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_244">
+        <text transform="translate(860.5916 428.82753)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Doors secure</tspan>
+        </text>
+      </g>
+      <g id="Line_245">
+        <line x1="725.5808" y1="501.76864" x2="827.1908" y2="501.76864" marker-end="url(#StickArrow_Marker_2)" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_246">
+        <text transform="translate(784.0082 486.76864)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Go</tspan>
+        </text>
+      </g>
+      <g id="Line_248">
+        <line x1="918.2049" y1="529.4765" x2="1174.0691" y2="529.4765" marker-end="url(#StickArrow_Marker_3)" stroke="#0096ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_252">
+        <text transform="translate(1050.8484 514.4765)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Go to floor( dest floor: 3 )</tspan>
+        </text>
+      </g>
+      <g id="Line_254">
+        <line x1="1183.9691" y1="859.363" x2="846.9908" y2="859.363" marker-end="url(#StickArrow_Marker_3)" stroke="#0096ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_255">
+        <text transform="translate(860.5916 865.363)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Arrived at floor</tspan>
+        </text>
+      </g>
+      <g id="Line_257">
+        <line x1="761.6436" y1="899.6192" x2="662.3482" y2="899.6192" marker-end="url(#StickArrow_Marker_2)" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_258">
+        <text transform="translate(666.7392 880.5366)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Cabin at destination</tspan>
+        </text>
+      </g>
+      <g id="Graphic_259">
+        <text transform="translate(971.0239 887.1816)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Unlock</tspan>
+        </text>
+      </g>
+      <g id="Line_260">
+        <line x1="885.9813" y1="899.6192" x2="1010.8335" y2="899.6192" marker-end="url(#StickArrow_Marker_2)" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Line_266">
+        <line x1="574.88144" y1="970.7897" x2="310.04088" y2="970.7897" marker-end="url(#StickArrow_Marker_2)" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_267">
+        <text transform="translate(330.8907 957.0561)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Stop serviced</tspan>
+        </text>
+      </g>
+      <g id="Line_271">
+        <line x1="374.11416" y1="1087.5939" x2="638.9547" y2="1087.5939" marker-end="url(#StickArrow_Marker_2)" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_272">
+        <text transform="translate(556.6911 1073.5939)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Requests cleared</tspan>
+        </text>
+      </g>
+      <g id="Line_275">
+        <line x1="574.88144" y1="1131.282" x2="481.927" y2="1131.282" marker-end="url(#StickArrow_Marker_2)" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_276">
+        <text transform="translate(484.9972 1111.7222)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Transfer completed</tspan>
+        </text>
+      </g>
+      <g id="Line_293">
+        <line x1="1097.1807" y1="186.61845" x2="1392.0261" y2="184.87627" marker-end="url(#StickArrow_Marker)" stroke="#8efa00" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1.0,5.0" stroke-width="1"/>
+      </g>
+      <g id="Line_294">
+        <line x1="1097.6975" y1="935.8895" x2="1393.1454" y2="935.8895" marker-end="url(#StickArrow_Marker)" stroke="#8efa00" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1.0,4.0" stroke-width="1"/>
+      </g>
+      <g id="Line_295">
+        <line x1="1097.6975" y1="923.2852" x2="1288.6981" y2="923.2852" marker-end="url(#StickArrow_Marker_4)" stroke="#ff85ff" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1.0,4.0" stroke-width="1"/>
+      </g>
+      <g id="Graphic_296">
+        <text transform="translate(1201.5088 904.6192)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Door opening</tspan>
+        </text>
+      </g>
+      <g id="Graphic_297">
+        <text transform="translate(1320.3025 941.8895)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Door opening</tspan>
+        </text>
+      </g>
+      <g id="Graphic_298">
+        <text transform="translate(1327.9138 166.46477)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Door closed</tspan>
+        </text>
+      </g>
+      <g id="Line_300">
+        <line x1="253.69126" y1="1018.0913" x2="120.80477" y2="1018.0913" marker-end="url(#StickArrow_Marker)" stroke="#8efa00" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1.0,4.0" stroke-width="1"/>
+      </g>
+      <g id="Graphic_301">
+        <text transform="translate(129.77998 1001.9665)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Clear stop request</tspan>
+        </text>
+      </g>
+      <g id="Line_302">
+        <line x1="587.4668" y1="348.6465" x2="120.80477" y2="348.6465" marker-end="url(#StickArrow_Marker)" stroke="#8efa00" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_303">
+        <text transform="translate(136.4128 358.28117)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Set destination</tspan>
+        </text>
+      </g>
+      <g id="Line_304">
+        <line x1="1298.5981" y1="989.7165" x2="1030.6335" y2="989.7165" marker-end="url(#StickArrow_Marker_5)" stroke="#ff85ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_305">
+        <text transform="translate(1080.8805 995.7165)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Door opened</tspan>
+        </text>
+      </g>
+      <g id="Line_307">
+        <line x1="1099.7742" y1="1046.4072" x2="1395.2221" y2="1046.4072" marker-end="url(#StickArrow_Marker)" stroke="#8efa00" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1.0,4.0" stroke-width="1"/>
+      </g>
+      <g id="Graphic_308">
+        <text transform="translate(1325.7132 1052.4072)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Door opened</tspan>
+        </text>
+      </g>
+      <g id="Line_309">
+        <line x1="1183.9691" y1="600.6873" x2="846.4908" y2="600.6873" marker-end="url(#StickArrow_Marker_6)" stroke="#0096ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_310">
+        <text transform="translate(925.8291 586.6873)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Passing floor( floor: 1 )</tspan>
+        </text>
+      </g>
+      <g id="Line_313">
+        <line x1="1183.4691" y1="687.1958" x2="845.9908" y2="687.1958" marker-end="url(#StickArrow_Marker_6)" stroke="#0096ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_314">
+        <text transform="translate(925.3291 673.1958)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Passing floor( floor: 2 )</tspan>
+        </text>
+      </g>
+      <g id="Line_315">
+        <line x1="767.3104" y1="628.9728" x2="121.80477" y2="628.9728" marker-end="url(#StickArrow_Marker)" stroke="#8efa00" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_316">
+        <text transform="translate(141.61592 613.9728)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Passing floor( floor: 1 )</tspan>
+        </text>
+      </g>
+      <g id="Line_317">
+        <line x1="766.3104" y1="712.87926" x2="120.80477" y2="712.87926" marker-end="url(#StickArrow_Marker)" stroke="#8efa00" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_318">
+        <text transform="translate(140.61592 697.87926)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Passing floor( floor: 2 )</tspan>
+        </text>
+      </g>
+      <g id="Line_322">
+        <line x1="610.81104" y1="985.2531" x2="120.80477" y2="985.2531" marker-end="url(#StickArrow_Marker)" stroke="#8efa00" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_323">
+        <text transform="translate(141.61592 780.4565)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Passing floor( floor: 3 )</tspan>
+        </text>
+      </g>
+      <g id="Line_326">
+        <line x1="1183.9691" y1="770.6928" x2="846.4908" y2="770.6928" marker-end="url(#StickArrow_Marker_6)" stroke="#0096ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_327">
+        <text transform="translate(925.8291 756.6928)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Passing floor( floor: 3 )</tspan>
+        </text>
+      </g>
+      <g id="Line_328">
+        <line x1="767.1811" y1="795.3272" x2="121.67546" y2="795.3272" marker-end="url(#StickArrow_Marker)" stroke="#8efa00" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_329">
+        <text transform="translate(125.52546 965.3813)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Cabin arrived( shaft: S1, direction: up )</tspan>
+        </text>
+      </g>
+    </g>
+    <g id="Layout_States">
+      <title>States</title>
+      <g id="Graphic_192">
+        <rect x="224.6936" y="168.86372" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(229.6936 174.86372)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="22.816406" y="11" xml:space="preserve">NOT REQUESTED</tspan>
+        </text>
+      </g>
+      <g id="Graphic_191">
+        <rect x="224.6936" y="224.8202" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(229.6936 230.8202)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="25.740967" y="11" xml:space="preserve">Registering stop</tspan>
+        </text>
+      </g>
+      <g id="Graphic_190">
+        <rect x="224.6936" y="270.58656" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(229.6936 276.58656)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="18.519531" y="11" xml:space="preserve">Requesting service</tspan>
+        </text>
+      </g>
+      <g id="Graphic_189">
+        <rect x="224.6936" y="314.33698" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(229.6936 320.33698)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="36.448242" y="11" xml:space="preserve">REQUESTED</tspan>
+        </text>
+      </g>
+      <g id="Graphic_199">
+        <rect x="398.55053" y="169.81804" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(403.55053 175.81804)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="30.760254" y="11" xml:space="preserve">NO TRANSFER</tspan>
+        </text>
+      </g>
+      <g id="Graphic_200">
+        <rect x="404.67796" y="294.36008" width="150.89453" height="31" fill="#929292"/>
+        <text transform="translate(409.67796 296.86008)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="28.6709" y="11" xml:space="preserve">Search for new </tspan>
+          <tspan font-family="Verdana" font-size="11" fill="white" x="39.92334" y="24" xml:space="preserve">destination</tspan>
+        </text>
+      </g>
+      <g id="Graphic_203">
+        <rect x="574.88144" y="328.27803" width="150.89453" height="31" fill="#929292"/>
+        <text transform="translate(579.88144 337.27803)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="12.004395" y="11" xml:space="preserve">WAITING FOR CABIN</tspan>
+        </text>
+      </g>
+      <g id="Graphic_217">
+        <rect x="399.05053" y="376.3841" width="150.89453" height="31" fill="#929292"/>
+        <text transform="translate(404.05053 385.3841)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x=".34375" y="11" xml:space="preserve">TRANSFER IN PROGRESS</tspan>
+        </text>
+      </g>
+      <g id="Graphic_221">
+        <rect x="760.6436" y="174.21402" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(765.6436 180.21402)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="21.53003" y="11" xml:space="preserve">PICKUP DROPOFF</tspan>
+        </text>
+      </g>
+      <g id="Graphic_224">
+        <rect x="760.6436" y="353.28117" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(765.6436 359.28117)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="9.517578" y="11" xml:space="preserve">Are we already there?</tspan>
+        </text>
+      </g>
+      <g id="Graphic_225">
+        <rect x="760.6436" y="389.27787" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(765.6436 395.27787)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="18.41211" y="11" xml:space="preserve">SECURING DOORS</tspan>
+        </text>
+      </g>
+      <g id="Graphic_226">
+        <rect x="760.6436" y="453.3772" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(765.6436 459.3772)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="31.772705" y="11" xml:space="preserve">READY TO GO</tspan>
+        </text>
+      </g>
+      <g id="Graphic_229">
+        <rect x="945.2862" y="173.05054" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(950.2862 179.05054)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="47.79468" y="11" xml:space="preserve">CLOSED</tspan>
+        </text>
+      </g>
+      <g id="Graphic_230">
+        <rect x="942.1901" y="429.95003" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(947.1901 435.95003)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="47.74365" y="11" xml:space="preserve">LOCKED</tspan>
+        </text>
+      </g>
+      <g id="Graphic_235">
+        <rect x="575.5015" y="485.57705" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(580.5015 491.57705)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="21.65625" y="11" xml:space="preserve">Dispatching cabin</tspan>
+        </text>
+      </g>
+      <g id="Graphic_247">
+        <rect x="767.3104" y="517.4765" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(772.3104 523.4765)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="12.56836" y="11" xml:space="preserve">Requesting transport</tspan>
+        </text>
+      </g>
+      <g id="Graphic_251">
+        <rect x="761.1436" y="558.1844" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(766.1436 564.1844)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="47.029297" y="11" xml:space="preserve">MOVING</tspan>
+        </text>
+      </g>
+      <g id="Graphic_253">
+        <rect x="574.88144" y="530.7769" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(579.88144 536.7769)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="19.373535" y="11" xml:space="preserve">CABIN IN MOTION</tspan>
+        </text>
+      </g>
+      <g id="Graphic_256">
+        <rect x="752.3525" y="885.0515" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(757.3525 891.0515)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="21.53003" y="11" xml:space="preserve">PICKUP DROPOFF</tspan>
+        </text>
+      </g>
+      <g id="Graphic_261">
+        <rect x="947.4057" y="915.565" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(952.4057 921.565)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="44.515625" y="11" xml:space="preserve">OPENING</tspan>
+        </text>
+      </g>
+      <g id="Graphic_262">
+        <rect x="574.88144" y="915.565" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(579.88144 921.565)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="3.5932617" y="11" xml:space="preserve">Check for cabin reversal</tspan>
+        </text>
+      </g>
+      <g id="Graphic_265">
+        <rect x="574.88144" y="960.5934" width="150.89453" height="39.392685" fill="#929292"/>
+        <text transform="translate(579.88144 967.2897)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="11.515625" y="11" xml:space="preserve">Check for active floor </tspan>
+          <tspan font-family="Verdana" font-size="11" fill="white" x="51.052246" y="24" xml:space="preserve">service</tspan>
+        </text>
+      </g>
+      <g id="Graphic_269">
+        <rect x="223.21963" y="1004.0356" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(228.21963 1010.0356)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="19.66626" y="11" xml:space="preserve">Clear stop request</tspan>
+        </text>
+      </g>
+      <g id="Graphic_270">
+        <rect x="223.21963" y="1074.0984" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(228.21963 1080.0984)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="22.816406" y="11" xml:space="preserve">NOT REQUESTED</tspan>
+        </text>
+      </g>
+      <g id="Graphic_273">
+        <rect x="573.40746" y="1020.0145" width="150.89453" height="39.392685" fill="#929292"/>
+        <text transform="translate(578.40746 1026.7108)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="31.737793" y="11" xml:space="preserve">WAITING FOR </tspan>
+          <tspan font-family="Verdana" font-size="11" fill="white" x="11.021484" y="24" xml:space="preserve">REQUESTS TO CLEAR</tspan>
+        </text>
+      </g>
+      <g id="Graphic_274">
+        <rect x="573.40746" y="1112.0856" width="150.89453" height="39.392685" fill="#929292"/>
+        <text transform="translate(578.40746 1125.282)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="52.70386" y="11" xml:space="preserve">Delete</tspan>
+        </text>
+      </g>
+      <g id="Graphic_277">
+        <rect x="398.55053" y="1221.4489" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(403.55053 1227.4489)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="30.760254" y="11" xml:space="preserve">NO TRANSFER</tspan>
+        </text>
+      </g>
+      <g id="Graphic_278">
+        <rect x="398.55053" y="1151.768" width="150.89453" height="31" fill="#929292"/>
+        <text transform="translate(403.55053 1154.268)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="28.6709" y="11" xml:space="preserve">Search for new </tspan>
+          <tspan font-family="Verdana" font-size="11" fill="white" x="39.92334" y="24" xml:space="preserve">destination</tspan>
+        </text>
+      </g>
+      <g id="Graphic_306">
+        <rect x="948.8797" y="1034.4072" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(953.8797 1040.4072)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="55.20947" y="11" xml:space="preserve">OPEN</tspan>
+        </text>
+      </g>
+      <g id="Graphic_311">
+        <rect x="760.6436" y="613.1901" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(765.6436 619.1901)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="27.376465" y="11" xml:space="preserve">Update location</tspan>
+        </text>
+      </g>
+      <g id="Graphic_312">
+        <rect x="760.6436" y="649.693" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(765.6436 655.693)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="47.029297" y="11" xml:space="preserve">MOVING</tspan>
+        </text>
+      </g>
+      <g id="Graphic_319">
+        <rect x="759.6436" y="697.0966" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(764.6436 703.0966)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="27.376465" y="11" xml:space="preserve">Update location</tspan>
+        </text>
+      </g>
+      <g id="Graphic_321">
+        <rect x="761.1436" y="736.9411" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(766.1436 742.9411)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="47.029297" y="11" xml:space="preserve">MOVING</tspan>
+        </text>
+      </g>
+      <g id="Graphic_324">
+        <rect x="760.6436" y="779.6738" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(765.6436 785.6738)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="27.376465" y="11" xml:space="preserve">Update location</tspan>
+        </text>
+      </g>
+      <g id="Graphic_325">
+        <rect x="762.1436" y="819.5184" width="150.89453" height="25" fill="#929292"/>
+        <text transform="translate(767.1436 825.5184)" fill="white">
+          <tspan font-family="Verdana" font-size="11" fill="white" x="47.029297" y="11" xml:space="preserve">MOVING</tspan>
+        </text>
+      </g>
+    </g>
+  </g>
+</svg>
