@@ -2,9 +2,9 @@ metadata
     Title : Sequins Diagram Canvas
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.6.6
+    Version : 0.6.8
     Creation date : May 9, 2026
-    Modification date : June 3, 2026
+    Modification date : June 5, 2026
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
     Organization logo > mint
@@ -41,11 +41,11 @@ attributes
 --
 class Bead to Bare String
 attributes
-    ID : Element ID {R9}
+    ID : Element ID {I, R9}
 --
 class Bead to Beaded String
 attributes
-    ID : Element ID {R9, R10}
+    ID : Element ID {I, R9, R10}
 --
 class Beaded String
 attributes
@@ -62,6 +62,7 @@ attributes
     ID : Diagram ID {I}
     Origin : Position
     Size : Rect Size
+    Rod height : Distance
     Thread color match : Boolean = True
     Compressed : Boolean = True
     Canvas : Canvas Name {R16}
@@ -114,20 +115,20 @@ attributes
 class Thread
 attributes
     ID : Element ID {I}
-    From string : String Number {R7}
-    To string : String Number {R7}
+    From string : Element ID {R7}
+    To string : Element ID {R7}
     Material : Material Name {R14}
     Label : Thread Label
     Height : Distance
 --
 class Thread from Bead
 attributes
-    ID : Element ID {R8}
-    Fixed knot = 0 : Knot Position
+    ID : Element ID {I, R8}
+    Fixed knot : Knot Position = 0
 --
 class Thread from Bare String
 attributes
-    ID : Element ID {R8, R10}
+    ID : Element ID {I, R8, R10}
 --
 class Thread Material
 attributes
@@ -136,33 +137,32 @@ attributes
 --
 class Thread to Bead Gap
 attributes
-    ID : Element ID
-    To string : String Number {I, R11c}
+    ID : Element ID {I}
+    To string : Element ID {R11c}
     Slip knot blocking bead : Sequence Number {R11}
 --
 relationships
     R1
-    defines overall shape and usage ofof, Mc Element
+    defines overall shape and usage of, Mc Element
     overall shape and usage is defined by, 1 Material
-    Element.Material -> Material.Name
-    Element.Curtain style -> Material.Curtain style
+    Element.(Material, Curtain style) -> Material.(Name, Curtain style)
 --
     OR2
     left / right, String
-    Number : I
+    Position : I2
 --
     R3
     String +
         Beaded String
         Bare String
-    <subclass>.Position -> String.Position
+    <subclass>.ID -> String.ID
 --
     R4
     Material +
         Bead Material
         String Material
         Thread Material
-    <subclass>.(Material, Curtain style) -> Material.(Name, Curtain style)
+    <subclass>.(Name, Curtain style) -> Material.(Name, Curtain style)
 --
     R5
     is placed on, 1 Beaded String
@@ -178,8 +178,8 @@ relationships
     threads to, Mc String
     is threaded from, Mc String
     M Thread
-    Thread.From string -> String.Name
-    Thread.To string -> String.Name
+    Thread.From string -> String.ID
+    Thread.To string -> String.ID
 --
     R8
     Thread +
@@ -194,15 +194,15 @@ relationships
     <subclass>.ID -> Thread from Bead.ID
 --
     R10
-    Thread To Bead Gap +
+    Thread to Bead Gap +
         Bead to Beaded String
         Thread from Bare String
-    <subclass>.ID -> To Bead Thread.ID
+    <subclass>.ID -> Thread to Bead Gap.ID
 --
     R11
     is slip knotted above, 1 Bead
     blocks slip knot on, Mc Thread to Bead Gap
-    To Bead Thread.(Sequence, String) -> Bead.(Sequence, String)
+    Thread to Bead Gap.(Slip knot blocking bead, To string) -> Bead.(Sequence, String ID)
 --
     R12
     fabricates, 1 Curtain Style
@@ -224,16 +224,16 @@ relationships
     R15
     is drawn on, 1 Curtain Diagram
     draws, Mc Element
-    Element.Curtain diagram -> Diagram.ID
+    Element.Curtain diagram -> Curtain Diagram.ID
 --
     R16
     frames, Mc Curtain Diagram
     is drawn on, 1 Canvas
-    Diagram.Canvas -> Canvas.Name
+    Curtain Diagram.Canvas -> Canvas.Name
 --
     OR17
     above / below, Bead
-    Sequence : I
+    Sequence : I2
 --
     R18
     defines relative spacing in, Mc Curtain Diagram
