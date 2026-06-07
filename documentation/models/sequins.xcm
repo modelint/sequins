@@ -122,8 +122,8 @@ attributes
 --
 class String Color
 attributes
-    Theme : String Color Theme Name {R21}
-    String name : String Name
+    Theme : String Color Theme Name {I, R21}
+    String name : String Name {I}
     Color : Color Name
 --
 class String Material
