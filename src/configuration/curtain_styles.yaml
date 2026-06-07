@@ -3,7 +3,7 @@
 Starr sequence diagram:
   materials:
     strings:
-      ee: [beaded: false, bounded: false]
+      external: [beaded: false, bounded: false]
       born and die: [beaded: true, bounded: {top:create delete, bottom: create delete}]
       persistent: [beaded: true, bounded: false]
     beads:

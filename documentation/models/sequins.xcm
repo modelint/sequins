@@ -2,7 +2,7 @@ metadata
     Title : Sequins Diagram Canvas
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.7.0
+    Version : 0.7.1
     Creation date : May 9, 2026
     Modification date : June 6, 2026
     Organization : Model Integration, LLC / www.modelint.com
@@ -73,7 +73,6 @@ attributes
     Origin : Position
     Size : Rect Size
     Rod height : Distance
-    Thread color match : Boolean = True
     Compressed : Boolean = True
     Canvas : Canvas Name {R16}
     Layout : Layout Name {R18}
@@ -110,11 +109,22 @@ class String
 attributes
     ID : Element ID {I, R13}
     Position : String Number {I2, OR2}
+    Name : String Name
     X : Coordinate
     Y top : Coordinate
     Y bottom : Coordinate
     Material : Material Name {R1}
     Curtain style : Curtain Style Name {R1}
+--
+class String Color Theme
+attributes
+    Name : String Color Theme Name {I}
+--
+class String Color
+attributes
+    Theme : String Color Theme Name {R21}
+    String name : String Name
+    Color : Color Name
 --
 class String Material
 attributes
@@ -130,6 +140,11 @@ attributes
     Material : Material Name {R14}
     Label : Thread Label
     Height : Distance
+--
+class Thread Color Match
+attributes
+    Diagram : Diagram ID {I, R21}
+    Theme : String Color Theme {R21}
 --
 class Thread from Bead
 attributes
@@ -260,4 +275,16 @@ relationships
         Bounded String Material
         Unbounded String Material
     <subclass>.Name -> String Material.Name
+--
+    R21
+    overrides string color with, 1c String Color Theme
+    overrides string colors in, Mc Curtain Diagram
+    1 Thread Color Match
+    Thread Color Match.Diagram -> Diagram.ID
+    Thread Color Match.Theme -> String Color Theme.Name
+--
+    R22
+    sets string color by name in, 1 String Color Theme
+    defines, M String Color
+    String Color.Theme -> String Color Theme.Name
 --

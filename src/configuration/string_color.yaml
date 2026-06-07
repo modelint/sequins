@@ -1,0 +1,6 @@
+# string_color.yaml
+
+elevator:  # theme name
+  UI: lime green  # string name : color pairs
+  TRANS: aqua
+  SIO: magenta
