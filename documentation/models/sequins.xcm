@@ -2,9 +2,9 @@ metadata
     Title : Sequins Diagram Canvas
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.6.9
+    Version : 0.7.0
     Creation date : May 9, 2026
-    Modification date : June 5, 2026
+    Modification date : June 6, 2026
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
     Organization logo > mint
@@ -50,6 +50,16 @@ attributes
 class Beaded String
 attributes
     ID : Element ID {I, R3}
+--
+class Bounded String Material
+attributes
+    Name : Material Name {I, R20}
+    Top end : End Name
+    Bottom end : End name
+--
+class Unbounded String Material
+attributes
+    Name : Material Name {I, R20}
 --
 class Canvas
 attributes
@@ -111,7 +121,6 @@ attributes
     Name : Material Name {I, R4}
     Curtain style : Curtain Style Name {I, R4}
     Beaded : Boolean
-    Bounded : Boolean
 --
 class Thread
 attributes
@@ -245,4 +254,10 @@ relationships
     uses semantics defined by, 1 Curtain Style
     defines semantics used in, Mc Diagram
     Curtain Diagram.Curtain style -> Curtain Style.Name
+--
+    R20
+    String Material +
+        Bounded String Material
+        Unbounded String Material
+    <subclass>.Name -> String Material.Name
 --

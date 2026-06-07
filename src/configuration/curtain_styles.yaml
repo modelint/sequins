@@ -1,0 +1,15 @@
+# Curtain Styles
+
+Starr sequence diagram:
+  materials:
+    strings:
+      ee: [beaded: false, bounded: false]
+      born and die: [beaded: true, bounded: {top:create delete, bottom: create delete}]
+      persistent: [beaded: true, bounded: false]
+    beads:
+      state:
+        min size: {width: 20, height: 20}
+        standard size: {width: 50, height: 25}
+    threads:
+      signal: target lifeline
+      implicit event: target lifeline
