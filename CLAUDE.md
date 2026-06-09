@@ -35,6 +35,9 @@ sequence-diagram semantics: vertical `String`s (lifelines) hung from a `Rod`, ad
   unlinked `.md` files are discarded leftovers. If wiki and `.xcm` disagree, `.xcm` wins.
 - **`documentation/mint.sequins.tn.2.svg`** — canonical target output (elevator scenario),
   the visual spec Sequins + Tablet should reproduce (it's essentially the `dark` presentation).
+- **File formats** — `.xcm` grammar + naming conventions in `documentation/notation/xcm-format.md`;
+  the `.mls` layout grammar is documented in the Flatland wiki at
+  `/Users/starr/SDEV/GitHub/flatland-model-diagram-editor.wiki`.
 
 ## Tablet integration contract
 
