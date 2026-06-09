@@ -2,7 +2,7 @@ metadata
     Title : Sequins Diagram Canvas
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.7.2
+    Version : 0.7.3
     Creation date : May 9, 2026
     Modification date : June 9, 2026
     Organization : Model Integration, LLC / www.modelint.com
@@ -74,13 +74,18 @@ attributes
     Size : Rect Size
     Rod height : Distance
     Compressed : Boolean = True
-    Canvas : Canvas Name {R16}
-    Layout : Layout Name {R18}
     Curtain style : Curtain Style Name {R19}
+    Diagram theme : Diagram Theme Type Name {R23}
 --
 class Curtain Style
 attributes
     Name : Curtain Style Name {I}
+--
+class Diagram Theme
+attributes
+    Name : Diagram Theme Type Name {I}
+    Canvas : Canvas Name {R16}
+    Layout : Layout Name {R18}
 --
 class Element
 attributes
@@ -143,7 +148,7 @@ attributes
 --
 class Thread Color Match
 attributes
-    Diagram : Diagram ID {I, R21}
+    Diagram theme : Diagram Theme Type Name {I, R21}
     Theme : String Color Theme Name {R21}
 --
 class Thread from Bead
@@ -252,22 +257,22 @@ relationships
     Element.Curtain diagram -> Curtain Diagram.ID
 --
     R16
-    frames, Mc Curtain Diagram
-    is drawn on, 1 Canvas
-    Curtain Diagram.Canvas -> Canvas.Name
+    frames rendering for, Mc Diagram Theme
+    defines rendering on, 1 Canvas
+    Diagram Theme.Canvas -> Canvas.Name
 --
     OR17
     above / below, Bead
     Sequence : I2
 --
     R18
-    defines relative spacing in, Mc Curtain Diagram
+    defines relative spacing in, Mc Diagram Theme
     relative spacing is defined by, 1 Layout
-    Curtain Diagram.Layout -> Layout.Name
+    Diagram Theme.Layout -> Layout.Name
 --
     R19
     uses semantics defined by, 1 Curtain Style
-    defines semantics used in, Mc Diagram
+    defines semantics used in, Mc Curtain Diagram
     Curtain Diagram.Curtain style -> Curtain Style.Name
 --
     R20
@@ -278,13 +283,18 @@ relationships
 --
     R21
     overrides string color with, 1c String Color Theme
-    overrides string colors in, Mc Curtain Diagram
+    overrides string colors in, Mc Diagram Theme
     1 Thread Color Match
-    Thread Color Match.Diagram -> Curtain Diagram.ID
+    Thread Color Match.Diagram theme -> Diagram Theme.Name
     Thread Color Match.Theme -> String Color Theme.Name
 --
     R22
     sets string color by name in, 1 String Color Theme
     defines, M String Color
     String Color.Theme -> String Color Theme.Name
+--
+    R23
+    is specified by, 1 Diagram Theme
+    specifies, Mc Curtain Diagram
+    Curtain Diagram.Diagram theme -> Diagram Theme.Name
 --
