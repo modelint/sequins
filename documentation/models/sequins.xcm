@@ -2,9 +2,9 @@ metadata
     Title : Sequins Diagram Canvas
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.7.1
+    Version : 0.7.2
     Creation date : May 9, 2026
-    Modification date : June 6, 2026
+    Modification date : June 9, 2026
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
     Organization logo > mint
@@ -122,7 +122,7 @@ attributes
 --
 class String Color
 attributes
-    Theme : String Color Theme Name {I, R21}
+    Theme : String Color Theme Name {I, R22}
     String name : String Name {I}
     Color : Color Name
 --
@@ -144,7 +144,7 @@ attributes
 class Thread Color Match
 attributes
     Diagram : Diagram ID {I, R21}
-    Theme : String Color Theme {R21}
+    Theme : String Color Theme Name {R21}
 --
 class Thread from Bead
 attributes
@@ -280,7 +280,7 @@ relationships
     overrides string color with, 1c String Color Theme
     overrides string colors in, Mc Curtain Diagram
     1 Thread Color Match
-    Thread Color Match.Diagram -> Diagram.ID
+    Thread Color Match.Diagram -> Curtain Diagram.ID
     Thread Color Match.Theme -> String Color Theme.Name
 --
     R22
