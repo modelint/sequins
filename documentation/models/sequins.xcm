@@ -2,9 +2,9 @@ metadata
     Title : Sequins Diagram Canvas
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.7.3
+    Version : 0.7.4
     Creation date : May 9, 2026
-    Modification date : June 9, 2026
+    Modification date : June 10, 2026
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
     Organization logo > mint
@@ -74,7 +74,6 @@ attributes
     Size : Rect Size
     Rod height : Distance
     Compressed : Boolean = True
-    Curtain style : Curtain Style Name {R19}
     Diagram theme : Diagram Theme Type Name {R23}
 --
 class Curtain Style
@@ -86,6 +85,7 @@ attributes
     Name : Diagram Theme Type Name {I}
     Canvas : Canvas Name {R16}
     Layout : Layout Name {R18}
+    Curtain style : Curtain Style Name {R19}
 --
 class Element
 attributes
@@ -272,8 +272,8 @@ relationships
 --
     R19
     uses semantics defined by, 1 Curtain Style
-    defines semantics used in, Mc Curtain Diagram
-    Curtain Diagram.Curtain style -> Curtain Style.Name
+    defines semantics used in, Mc Diagram Theme
+    Diagram Theme.Curtain style -> Curtain Style.Name
 --
     R20
     String Material +

@@ -53,7 +53,7 @@ connectors
     +R16 : -/2 t*|Canvas : -/2 b-2|Diagram Theme
     +OR17.3 : +/1 t+2|Bead : -/1 r+2|Bead : L2R-2 L4R-2
     -R18 : +/2 t*|Layout : +/2 b+2|Diagram Theme
-    -R19 : +/2 b|Curtain Style : +/2 t*|Curtain Diagram
+    -R19 : +/2 r|Curtain Style : +/2 t|Diagram Theme
     -R20 : r|String Material { l|Unbounded String Material, l|Bounded String Material }
     +R21 : +/2 r*|Diagram Theme : -/2 l|String Color Theme, b|Thread Color Match
     -R22 : +/2 t*|String Color : +/2 b|String Color Theme
