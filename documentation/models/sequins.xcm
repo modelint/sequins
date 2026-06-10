@@ -1,8 +1,8 @@
 metadata
-    Title : Sequins Diagram Canvas
+    Title : Sequins Diagram Layout
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.7.4
+    Version : 0.7.5
     Creation date : May 9, 2026
     Modification date : June 10, 2026
     Organization : Model Integration, LLC / www.modelint.com
@@ -294,7 +294,7 @@ relationships
     String Color.Theme -> String Color Theme.Name
 --
     R23
-    is specified by, 1 Diagram Theme
-    specifies, Mc Curtain Diagram
+    settings are specified by, 1 Diagram Theme
+    specifies settings for, Mc Curtain Diagram
     Curtain Diagram.Diagram theme -> Diagram Theme.Name
 --

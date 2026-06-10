@@ -12,6 +12,7 @@ default:  # Use these settings if no matching client or diagram theme found
 
 mdb:  # Client name
   elevator:  # diagram theme
+    curtain style: Starr sequence diagram
     string color theme:
       UI: lime green  # string name : color pairs
       TRANS: aqua
