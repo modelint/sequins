@@ -2,7 +2,7 @@ metadata
     Title : Sequins Diagram Layout
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.7.6
+    Version : 0.7.8
     Creation date : May 9, 2026
     Modification date : June 11, 2026
     Organization : Model Integration, LLC / www.modelint.com
@@ -125,22 +125,28 @@ class String Setting
 attributes
     Name : String Name {I}
     Diagram theme : Diagram Theme Type Name {I}
-    Setting : Color_Position {I}
+    Setting : Color_Appearance {I}
 --
 class String Color
 attributes
     Name : String Name {I, R23}
-    Setting : Color_Position {I, R23}
+    Setting : Color_Appearance {I, R23}
     Diagram theme : Diagram Theme Type Name {I, R23, R21}
     Color : Color Name
 --
-class String Position
+class String Appearance
 attributes
     Name : String Name {I, R23}
-    Setting : Color_Position {I, R23}
+    Setting : Color_Appearance {I, R23}
     Diagram theme : Diagram Theme Type Name {I, R23, R24}
-    Boundary : Side
-    Offset : Integer
+--
+class String Position
+attributes
+    Name : String Name {I, R25}
+    Setting : Color_Appearance {I, R25}
+    Diagram theme : Diagram Theme Type Name {I, R25}
+    Boundary : L_R {I}
+    Offset : Integer {I}
 --
 class String Material
 attributes
@@ -300,11 +306,16 @@ relationships
     R23
     String Setting +
         String Color
-        String Position
+        String Appearance
     <subclass>.(Name, Setting, Diagram theme) -> String Setting.(Name, Setting, Diagram theme)
 --
     R24
-    applies, Mc String Position
+    applies, Mc String Appearance
     is applied by, 1 Diagram Theme
-    String Position.Diagram theme -> Diagram Theme.Name
+    String Appearance.Diagram theme -> Diagram Theme.Name
+--
+    R25
+    occupies, M String Position
+    is occupied by, 1 String Appearance
+    String Position.(Name, Setting, Diagram theme) -> String Appearance.(Name, Setting, Diagram theme)
 --
