@@ -64,6 +64,9 @@ attributes
 ## Naming conventions (strict)
 
 - **Type names** — initial uppercase, title-cased across words (`Element ID`, `Sequence Number`, `Rect Size`).
+- **Enum type names** — when an enumerated type has no more than ~3–4 values, name the type by its
+  value set joined with underscores (`Color_Position` for values `color`/`position`). The
+  underscores are intentional and make the value set self-documenting.
 - **Class names** — initial uppercase, title-cased (`Bounded String Material`, `Thread to Bead Gap`).
 - **Attribute names** — single leading uppercase, remaining words lowercase
   (`Compressed depth`, `Slip knot blocking bead`, `From string`).
