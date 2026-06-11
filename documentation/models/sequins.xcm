@@ -2,9 +2,9 @@ metadata
     Title : Sequins Diagram Layout
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.7.5
+    Version : 0.7.6
     Creation date : May 9, 2026
-    Modification date : June 10, 2026
+    Modification date : June 11, 2026
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
     Organization logo > mint
@@ -74,7 +74,7 @@ attributes
     Size : Rect Size
     Rod height : Distance
     Compressed : Boolean = True
-    Diagram theme : Diagram Theme Type Name {R23}
+    Diagram theme : Diagram Theme Type Name {R22}
 --
 class Curtain Style
 attributes
@@ -121,15 +121,23 @@ attributes
     Material : Material Name {R1}
     Curtain style : Curtain Style Name {R1}
 --
-class String Color Theme
+class String Setting
 attributes
-    Name : String Color Theme Name {I}
+    Name : String Name {I}
+    Diagram theme : Diagram Theme Type Name {I, R21}
 --
 class String Color
 attributes
-    Theme : String Color Theme Name {I, R22}
-    String name : String Name {I}
+    Name : String Name {I, R23}
+    Diagram theme : Diagram Theme Type Name {I, R23}
     Color : Color Name
+--
+class String Position
+attributes
+    Name : String Name {I, R23}
+    Diagram theme : Diagram Theme Type Name {I, R23}
+    Boundary : Side
+    Offset : Integer
 --
 class String Material
 attributes
@@ -145,11 +153,6 @@ attributes
     Material : Material Name {R14}
     Label : Thread Label
     Height : Distance
---
-class Thread Color Match
-attributes
-    Diagram theme : Diagram Theme Type Name {I, R21}
-    Theme : String Color Theme Name {R21}
 --
 class Thread from Bead
 attributes
@@ -282,19 +285,18 @@ relationships
     <subclass>.Name -> String Material.Name
 --
     R21
-    overrides string color with, 1c String Color Theme
-    overrides string colors in, Mc Diagram Theme
-    1 Thread Color Match
-    Thread Color Match.Diagram theme -> Diagram Theme.Name
-    Thread Color Match.Theme -> String Color Theme.Name
+    applies, Mc String Setting
+    is applied by, 1 Diagram Theme
+    String Setting.Diagram theme -> Diagram Theme.Name
 --
     R22
-    sets string color by name in, 1 String Color Theme
-    defines, M String Color
-    String Color.Theme -> String Color Theme.Name
---
-    R23
     settings are specified by, 1 Diagram Theme
     specifies settings for, Mc Curtain Diagram
     Curtain Diagram.Diagram theme -> Diagram Theme.Name
+--
+    R23
+    String Setting +
+        String Color
+        String Position
+    <subclass>.(Name, Diagram theme) -> String Setting.(Name, Diagram theme)
 --
