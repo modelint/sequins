@@ -124,18 +124,21 @@ attributes
 class String Setting
 attributes
     Name : String Name {I}
-    Diagram theme : Diagram Theme Type Name {I, R21}
+    Diagram theme : Diagram Theme Type Name {I}
+    Setting : Color_Position {I}
 --
 class String Color
 attributes
     Name : String Name {I, R23}
-    Diagram theme : Diagram Theme Type Name {I, R23}
+    Setting : Color_Position {I, R23}
+    Diagram theme : Diagram Theme Type Name {I, R23, R21}
     Color : Color Name
 --
 class String Position
 attributes
     Name : String Name {I, R23}
-    Diagram theme : Diagram Theme Type Name {I, R23}
+    Setting : Color_Position {I, R23}
+    Diagram theme : Diagram Theme Type Name {I, R23, R24}
     Boundary : Side
     Offset : Integer
 --
@@ -285,9 +288,9 @@ relationships
     <subclass>.Name -> String Material.Name
 --
     R21
-    applies, Mc String Setting
+    applies, Mc String Color
     is applied by, 1 Diagram Theme
-    String Setting.Diagram theme -> Diagram Theme.Name
+    String Color.Diagram theme -> Diagram Theme.Name
 --
     R22
     settings are specified by, 1 Diagram Theme
@@ -298,5 +301,10 @@ relationships
     String Setting +
         String Color
         String Position
-    <subclass>.(Name, Diagram theme) -> String Setting.(Name, Diagram theme)
+    <subclass>.(Name, Setting, Diagram theme) -> String Setting.(Name, Setting, Diagram theme)
+--
+    R24
+    applies, Mc String Position
+    is applied by, 1 Diagram Theme
+    String Position.Diagram theme -> Diagram Theme.Name
 --

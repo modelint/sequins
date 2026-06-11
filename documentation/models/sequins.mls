@@ -11,9 +11,9 @@ nodes
     Bounded String Material/2 12,7
     Unbounded String Material/2 11,7
     Canvas 6-7,8
-    String Setting/2 8,10-11
-    String Color 8-9,12
-    String Position 7,12
+    String Setting/2 8,12 >top
+    String Color 9,10-11
+    String Position 8,10-11 >bottom
     Curtain Style/2 10,6
     Material 10,4
     Element 8,4
@@ -53,9 +53,10 @@ connectors
     +R16 : -/2 t*|Canvas : -/2 b-2|Diagram Theme
     +OR17.3 : +/1 t+2|Bead : -/1 r+2|Bead : L2R-2 L4R-2
     -R18 : +/2 t*|Layout : +/2 b+2|Diagram Theme
-    -R19 : +/2 r|Curtain Style : +/2 t|Diagram Theme
+    -R19 : +/2 r|Curtain Style : -/2 t|Diagram Theme
     -R20 : r|String Material { l|Unbounded String Material, l|Bounded String Material }
-    +R21 : +/2 r*|Diagram Theme : -/2 l|String Setting
+    -R21 : +/1 t+2|Diagram Theme : +/1 l|String Color
     -R22 : +/1 r*|Curtain Diagram : +/1 l|Diagram Theme
-    -R23 : r|String Setting { l|String Color, l|String Position }
+    -R23 : l|String Setting { r|String Color, r|String Position }
+    -R24 : +/1 r|Diagram Theme : +/1 l*|String Position
 
