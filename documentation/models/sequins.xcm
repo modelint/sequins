@@ -2,7 +2,7 @@ metadata
     Title : Sequins Diagram Layout
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.7.8
+    Version : 0.7.9
     Creation date : May 9, 2026
     Modification date : June 11, 2026
     Organization : Model Integration, LLC / www.modelint.com
@@ -167,10 +167,12 @@ class Thread from Bead
 attributes
     ID : Element ID {I, R8}
     Fixed knot : Knot Position = 0
+    Bead : Element ID {R26}
 --
 class Thread from Bare String
 attributes
     ID : Element ID {I, R8, R10}
+    Absolute depth : Distance
 --
 class Thread Material
 attributes
@@ -318,4 +320,9 @@ relationships
     occupies, M String Position
     is occupied by, 1 String Appearance
     String Position.(Name, Setting, Diagram theme) -> String Appearance.(Name, Setting, Diagram theme)
+--
+    R26
+    is projected from, 1 Bead
+    projects, Mc Thread from Bead
+    Thread from Bead.Bead -> Bead.ID
 --

@@ -46,13 +46,13 @@ connectors
     -R8 : b|Thread { t|Thread from Bead, t|Thread from Bare String }
     -R9 : b|Thread from Bead { t|Bead to Beaded String, t|Bead to Bare String }
     -R10 : t|Thread to Bead Gap { b|Bead to Beaded String, b|Thread from Bare String }
-    -R11 : -/2 r|Bead : +/1 l*|Thread to Bead Gap
+    -R11 : -/1 r-1|Bead : +/1 l*|Thread to Bead Gap
     -R12 : +/1 l|Curtain Style : +/1 r*|Material
     -R13 : b|Element { t-2|Bead, t|String, t|Thread }
     -R14.2 : -/2 b|Bead Color : -/2 l|Bead
     -R15 : +/1 r|Element : +/1 l*|Curtain Diagram
     +R16 : -/2 t*|Canvas : -/2 b-2|Diagram Theme
-    +OR17.3 : +/1 t+2|Bead : -/1 r+2|Bead : L2R-2 L4R-2
+    +OR17.3 : +/1 t+2|Bead : +/1 r+2|Bead : L2R-2 L4R-2
     -R18 : +/2 t*|Layout : +/2 b+2|Diagram Theme
     -R19 : +/2 r|Curtain Style : -/2 t|Diagram Theme
     -R20 : r|String Material { l|Unbounded String Material, l|Bounded String Material }
@@ -61,4 +61,5 @@ connectors
     -R23 : l|String Setting { r|String Color, r|String Appearance }
     -R24 : +/1 r|Diagram Theme : +/1 l*|String Appearance
     -R25 : +/1 b|String Appearance : +/1 t*|String Position
+    -R26.2 : +/1 r|Bead : +/1 l|Thread from Bead : L5R-1
 
