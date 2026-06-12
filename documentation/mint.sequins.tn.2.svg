@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xl="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="22.5 11.25 1474.875 1409.625" width="1474.875" height="1409.625">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xl="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" version="1.1" viewBox="22.5 11.25 1474.875 1409.625" width="1474.875" height="1409.625">
   <defs>
     <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="StickArrow_Marker" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-1 -4 10 8" markerWidth="10" markerHeight="8" color="#8efa00">
       <g>
@@ -287,9 +287,6 @@
           <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Transfer completed</tspan>
         </text>
       </g>
-      <g id="Line_293">
-        <line x1="1097.1807" y1="186.61845" x2="1392.0261" y2="184.87627" marker-end="url(#StickArrow_Marker)" stroke="#8efa00" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1.0,5.0" stroke-width="1"/>
-      </g>
       <g id="Line_294">
         <line x1="1097.6975" y1="935.8895" x2="1393.1454" y2="935.8895" marker-end="url(#StickArrow_Marker)" stroke="#8efa00" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1.0,4.0" stroke-width="1"/>
       </g>
@@ -304,11 +301,6 @@
       <g id="Graphic_297">
         <text transform="translate(1320.3025 941.8895)" fill="#c1c1c1">
           <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Door opening</tspan>
-        </text>
-      </g>
-      <g id="Graphic_298">
-        <text transform="translate(1327.9138 166.46477)" fill="#c1c1c1">
-          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Door closed</tspan>
         </text>
       </g>
       <g id="Line_300">
@@ -397,6 +389,11 @@
       <g id="Graphic_329">
         <text transform="translate(125.52546 965.3813)" fill="#c1c1c1">
           <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Cabin arrived( shaft: S1, direction: up )</tspan>
+        </text>
+      </g>
+      <g id="Graphic_348">
+        <text transform="translate(979.6841 391.3841)" fill="#c1c1c1">
+          <tspan font-family="Verdana" font-size="8" fill="#c1c1c1" x="0" y="8" xml:space="preserve">Lock</tspan>
         </text>
       </g>
     </g>
@@ -614,6 +611,199 @@
         <rect x="762.1436" y="819.5184" width="150.89453" height="25" fill="#929292"/>
         <text transform="translate(767.1436 825.5184)" fill="white">
           <tspan font-family="Verdana" font-size="11" fill="white" x="47.029297" y="11" xml:space="preserve">MOVING</tspan>
+        </text>
+      </g>
+    </g>
+    <g id="Layout_Timing">
+      <title>Timing</title>
+      <g id="Graphic_338">
+        <text transform="translate(178.5337 173.86372)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">0.000</tspan>
+        </text>
+      </g>
+      <g id="Graphic_339">
+        <text transform="translate(136.4128 194.7725)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">1.000</tspan>
+        </text>
+      </g>
+      <g id="Graphic_340">
+        <text transform="translate(178.5337 232.31372)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">1.001</tspan>
+        </text>
+      </g>
+      <g id="Graphic_341">
+        <text transform="translate(178.5337 275.49856)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">1.002</tspan>
+        </text>
+      </g>
+      <g id="Graphic_342">
+        <text transform="translate(180.9312 314.57253)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">1.003</tspan>
+        </text>
+      </g>
+      <g id="Graphic_343">
+        <text transform="translate(399.74392 322.48532)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">1.003</tspan>
+        </text>
+      </g>
+      <g id="Graphic_344">
+        <text transform="translate(593.62294 355.78117)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">1.004</tspan>
+        </text>
+      </g>
+      <g id="Graphic_345">
+        <text transform="translate(344.5442 387.3841)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">1.005</tspan>
+        </text>
+      </g>
+      <g id="Graphic_346">
+        <text transform="translate(721.4951 369.27787)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">1.005</tspan>
+        </text>
+      </g>
+      <g id="Graphic_347">
+        <text transform="translate(721.4951 393.77773)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">1.006</tspan>
+        </text>
+      </g>
+      <g id="Graphic_349">
+        <text transform="translate(971.7153 454.42173)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">1.007</tspan>
+        </text>
+      </g>
+      <g id="Graphic_350">
+        <text transform="translate(916.5381 473.15203)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">1.008</tspan>
+        </text>
+      </g>
+      <g id="Graphic_351">
+        <text transform="translate(529.8341 491.0205)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">1.009</tspan>
+        </text>
+      </g>
+      <g id="Graphic_352">
+        <text transform="translate(527.6614 534.4765)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">1.010</tspan>
+        </text>
+      </g>
+      <g id="Graphic_353">
+        <text transform="translate(917.5381 534.4765)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">1.010</tspan>
+        </text>
+      </g>
+      <g id="Graphic_354">
+        <text transform="translate(917.5381 564.0819)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">1.011</tspan>
+        </text>
+      </g>
+      <g id="Graphic_355">
+        <text transform="translate(1034.0128 584.1873)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">5.000</tspan>
+        </text>
+      </g>
+      <g id="Graphic_356">
+        <text transform="translate(923.2049 618.63885)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">5.001</tspan>
+        </text>
+      </g>
+      <g id="Graphic_357">
+        <text transform="translate(925.3291 649.6565)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">5.002</tspan>
+        </text>
+      </g>
+      <g id="Graphic_358">
+        <text transform="translate(1025.7335 692.1958)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">8.000</tspan>
+        </text>
+      </g>
+      <g id="Graphic_359">
+        <text transform="translate(920.399 702.0966)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">8.001</tspan>
+        </text>
+      </g>
+      <g id="Graphic_360">
+        <text transform="translate(923.2049 734.3505)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">8.002</tspan>
+        </text>
+      </g>
+      <g id="Graphic_361">
+        <text transform="translate(1028.5394 778.952)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">11.000</tspan>
+        </text>
+      </g>
+      <g id="Graphic_362">
+        <text transform="translate(923.2049 788.8528)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">11.001</tspan>
+        </text>
+      </g>
+      <g id="Graphic_363">
+        <text transform="translate(926.0108 821.1067)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">11.002</tspan>
+        </text>
+      </g>
+      <g id="Graphic_364">
+        <text transform="translate(935.416 859.1897)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">15.000</tspan>
+        </text>
+      </g>
+      <g id="Graphic_365">
+        <text transform="translate(850.1926 914.6547)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">15.001</tspan>
+        </text>
+      </g>
+      <g id="Graphic_366">
+        <text transform="translate(920.1279 944.8754)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">15.002</tspan>
+        </text>
+      </g>
+      <g id="Graphic_367">
+        <text transform="translate(1040.7494 965.5934)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">18.000</tspan>
+        </text>
+      </g>
+      <g id="Graphic_368">
+        <text transform="translate(1040.7494 1058.798)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">18.001</tspan>
+        </text>
+      </g>
+      <g id="Graphic_369">
+        <text transform="translate(737.915 927.5715)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">15.003</tspan>
+        </text>
+      </g>
+      <g id="Graphic_370">
+        <text transform="translate(740.0877 972.7897)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">15.004</tspan>
+        </text>
+      </g>
+      <g id="Graphic_371">
+        <text transform="translate(384.7997 1011.0913)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">15.005</tspan>
+        </text>
+      </g>
+      <g id="Graphic_372">
+        <text transform="translate(737.915 1030.8467)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">15.005</tspan>
+        </text>
+      </g>
+      <g id="Graphic_373">
+        <text transform="translate(225.1187 1109.2222)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">15.006</tspan>
+        </text>
+      </g>
+      <g id="Graphic_374">
+        <text transform="translate(740.0877 1121.061)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">15.007</tspan>
+        </text>
+      </g>
+      <g id="Graphic_375">
+        <text transform="translate(334.4267 1159.768)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">15.008</tspan>
+        </text>
+      </g>
+      <g id="Graphic_376">
+        <text transform="translate(334.4267 1226.4489)" fill="#ff85ff">
+          <tspan font-family="Lucida Sans" font-size="12" fill="#ff85ff" x="0" y="12" xml:space="preserve">15.015</tspan>
         </text>
       </g>
     </g>
