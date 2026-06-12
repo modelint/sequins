@@ -31,6 +31,7 @@ Here's a similar command pair:
 Now a signal is emitted:
 
     Add signal( name=‘Stop request’, from=‘UI’, to=‘ASLEV: S1-3’)
+
 Since the corresponding string is
 
 Add state( name=‘Registering stop’, actor=‘ASLEV:S1-3’)

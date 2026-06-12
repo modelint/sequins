@@ -1,42 +1,48 @@
 ## Layout Engine API
 
-The Sequins Diagram Layout domain does not include any semantics specific to a sequence diagramming.
+Here we will walk through the layout engine commands necessary to start the elevator example:
 
-So we need a thin layer in our application to mediate between the two. Imagine the top layer as the _sequence diagram interface_ which feeds our _layout engine_.
-
-The sequence diagram interface will translate sequence diagramming terminology to corresponding layout commands.
-
-Input to the sequence diagramming layer for our elevator example might look like this:
-
-    Start sequence diagram( client=‘mdb’, theme=‘elevator’ )
+    Create_curtain_diagram( client='mdb', theme='elevator' )
 
 This initial command give us two keys we use to locate a Diagram Theme in the `diagram_themes.yaml` file.
 If found, we use it. If not, we set the default theme. Next we compute the Curtain Diagram.Origin, Size and Rod Height with Compressed set to the default (True)
 
-    Add actor( type=internal, actor=‘ASLEV: S1’, state=‘NOT REQUESTED’, time=0)
+    Create_string( name=‘ASLEV: S1-3’, bead=‘NOT REQUESTED’ )
 
-We translate this next command into a layout command:
+Here we create our first String instance. Since a top bead is specified, we know that the absolute depth of that bead must be zero. We also know that this must be a Beaded String. This command creates an unbounded string by default. The string name is not found in the Diagram Theme, so we aren't applying any String Settings.  We set the position of that String to 1 computing all coordinate values.
 
-    Create beaded string( name=‘ASLEV: S1’, top bead=‘NOT REQUESTED’, absolute depth=0 )
+We aren't going to attempt to draw anything until we get a render diagram command, so we are free to move beads and strings around as necessary as the create commands arrive.
 
-Note that a beaded string is created with an initial bead since, in the sequence diagramming semantics, an internal actor always starts off with a state. This is a modeling rule not modeled in the Sequins domain. The layout engine lets us specify an optional top bead.
+And whenever a new bead is specified we check for an existing Bead Color, if not found, create a new one. So in this case, we'll create a new instance of Bead Color named 'NOT REQUESTED'.
 
-We will need a linear function to translate time to depth values as well as a way of representing the time value. For now assume that time is expressed in seconds such as 0.0 s or 23.4 s.  All sequence diagrams will provide a time value with each new bead.
+    Create_string( name='UI', beaded=False )
 
-Here's a similar command pair:
+We look for the name in the Curtain Diagram's theme, find it and create two instances of Bare String because two positions are specified in the mdb's elevator theme and the beaded parameter is false. Both are unbounded by default.
 
-    Add actor( type=internal, actor=‘R53 / Shaft’, state=‘NO TRANSFER’ )
-    Create beaded string( name=‘R53 / Shaft’, top bead=‘ASLEV: S1’ )
+Note that the position of the initial Beaded String moves from 1 to 2.
 
-Now a signal is emitted:
+    Add_thread( material=‘signal',  label='Stop request', from=‘UI’, to=‘ASLEV: S1-3’, depth=1.0 )
 
-    Add signal( name=‘Stop request’, from=‘UI’, to=‘ASLEV: S1-3’)
+The from string is a Bare String, so we need to create a Thread from Bare String instance and connected it below the 
+lowest Bead in the target Beaded String, which happens to be 'NOT REQUESTED'. Since a String Color is specified for the UI string in the Diagram Theme, the Thread will match its color.
 
-Since the corresponding string is
+    Add_bead( string='ASLEV: S1-3’, bead_color='Registering stop', depth=1.001 )
 
-Add state( name=‘Registering stop’, actor=‘ASLEV:S1-3’)
-Add state( name=‘Requesting service’, actor=‘ASLEV:S1-3’)
-Add signal( name=‘Service requested’, from=‘ASLEV: S1-3’, to=‘R53 / Shaft’)
-Add state( name=’Search for new destination’, actor=‘R53 / Shaft’)
-Add state( name=‘REQUESTED’, actor=‘ASLEV: S1-3’)
+Note the very small depth increment. Since it is so small it will have no effect on vertical spacing either in absolute or compressed mode since the combined Layout attributes will yield the actual spacing.
+
+    Create_string( name=‘R53 / Shaft’, bead=‘NO TRANSFER' )
+
+Nothing new here, process like the previous similar command. This gives us another Beaded String at position 3. And since no depth is specified, assume it is 0, i.e. top of the String.
+
+    Add_thread( material=‘signal', label='Service requested', from=‘ASLEV: S1-3’, to=‘R53 / Shaft’ )
+
+Since the source is a Beaded String, the thread is projected from the face of the lowest Bead on that String which will be Bead with Sequence 3.
+
+Here the from string is
+
+    Add_bead( string='ASLEV: S1-3’, bead_color='REQUESTED', depth=1.003 )
+    Add_bead( string=‘R53 / Shaft’, bead_color='Search for new destination', depth=1.003 )
+    
+
+
 Add create signal( name=‘Execute’, from=‘R53 / Shaft’, to=‘Transfer: S1-3’)
