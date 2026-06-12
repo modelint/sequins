@@ -1,11 +1,11 @@
-# diagram.yaml
+# diagram_themes.yaml
 
 # Here we provide the styling and layout information predefined for the client
 # predefined diagram settings. We refer to the collective settings as diagram themes
 
 default:  # Use these settings if no matching client or diagram theme found
-  canvas: white
-  curtan style: Starr sequence diagram
+  canvas: light
+  curtain style: Starr sequence diagram
   layout: standard
 
 # Custom diagram themes defined for each client
@@ -24,5 +24,4 @@ mdb:  # Client name
         color: magenta
         positions: R-2
     canvas: dark
-    curtan style: Starr sequence diagram
     layout: standard

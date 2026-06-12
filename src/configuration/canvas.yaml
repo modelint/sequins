@@ -1,0 +1,18 @@
+# canvas.yaml
+
+# Here we specify the full area of the rendered output
+# Padding positions the diagram inside the canvas
+
+light:
+  color: white
+  top: 150  # Padding around the interior diagram
+  bottom: 100
+  left: 25
+  right: 25
+
+dark:
+  color: tungsten
+  top: 150
+  bottom: 100
+  left: 25
+  right: 25

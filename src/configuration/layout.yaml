@@ -1,0 +1,13 @@
+# layout.yaml
+
+# Here we specify the spacing within a Curtain Diagram
+
+standard:
+  string top gutter: 20
+  string bottom gutter: 20
+  min bead separation: 20
+  min string span: 75
+  min bead size:
+    height: 10
+    width: 60
+  min thread separation: 8
