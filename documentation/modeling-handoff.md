@@ -16,8 +16,12 @@ green like UI; the thread *to* TRANS (`Go to floor`) is blue like TRANS; the thr
 - Wiki **String Color** page — "any Threads emanating from the String" → threads connected at
   *either* end (in or out).
 - Wiki **R23** page — "the color shared by the String and its emanating Threads" → same broadening.
-- (Also queued on the code side: the API note in `documentation/architecture/layout_engine_api.md`
-  near the first `Add_thread` only mentions a *from*-UI thread; will be generalized on the doc pass.)
+- (The code-side API note in `documentation/architecture/layout_engine_api.md` was already
+  generalized in the tightening pass.)
 
-**Open question for Leon (not exercised by this example):** when a single Thread connects *two*
-String-Colored strings, which color wins? Needs a tie-break rule before this is fully specified.
+**Tie-break (resolved, Leon):** when a single Thread connects *two* String-Colored strings, the
+override reverts to the **emanate-only** policy — the **source (`from`) string's** color wins.
+This can't arise in the elevator example (only *bare* strings are overridden today, and there is
+no bare→bare threading); it becomes possible once a *beaded* string is overridden and threads to
+another colored string. So document the rule as: a Thread takes the color of a String-Colored
+string at *either* end; if *both* ends are colored, the source string's color is used.

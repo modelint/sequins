@@ -24,7 +24,7 @@ Note that the position of the initial Beaded String moves from 1 to 2.
     Add_thread( material='signal', label='Stop request', from_string='UI', to_string='ASLEV: S1-3', depth=1.0 )
 
 The from string is a Bare String, so we need to create a Thread from Bare String instance and connect it below the
-lowest Bead in the target Beaded String, which happens to be 'NOT REQUESTED' (the final gap placement is resolved by depth at End_diagram, not fixed at arrival time). A String Color is specified for the UI string in the Diagram Theme, so the Thread is recolored to match it. A Thread takes the color of a String-Colored string it connects to at *either* end — incoming as well as outgoing.
+lowest Bead in the target Beaded String, which happens to be 'NOT REQUESTED' (the final gap placement is resolved by depth at End_diagram, not fixed at arrival time). A String Color is specified for the UI string in the Diagram Theme, so the Thread is recolored to match it. A Thread takes the color of a String-Colored string it connects to at *either* end — incoming as well as outgoing. If a Thread connects two String-Colored strings, the source (from) string's color wins (the emanate-only fallback).
 
     Add_bead( material='state', string='ASLEV: S1-3', bead_color='Registering stop', depth=1.001 )
     Add_bead( material='state', string='ASLEV: S1-3', bead_color='Requesting service', depth=1.002 )
