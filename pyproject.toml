@@ -25,6 +25,9 @@ dev = ["bump2version", "pytest"]
 [project.urls]
 repository    = "https://github.com/modelint/sequins"
 
+[tool.pytest.ini_options]
+pythonpath = ["src", "tests"]
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
