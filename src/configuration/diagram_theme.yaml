@@ -1,27 +1,23 @@
 # diagram_themes.yaml
 
-# Here we provide the styling and layout information predefined for the client
-# predefined diagram settings. We refer to the collective settings as diagram themes
+# Here we provide the predefined styling and layout information organized as diagram themes.
 
-default:  # Use these settings if no matching client or diagram theme found
+default:  # Use these settings if no matching diagram theme found
   canvas: light
   curtain style: Starr sequence diagram
   layout: standard
 
-# Custom diagram themes defined for each client
-
-mdb:  # Client name
-  elevator:  # diagram theme
-    curtain style: Starr sequence diagram
-    string layout:
-      UI:
-        color: lime green
-        positions: L, R
-      TRANS:
-        color: aqua
-        positions: R-1
-      SIO:
-        color: magenta
-        positions: R-2
-    canvas: dark
-    layout: standard
+elevator:  # diagram theme
+  curtain style: Starr sequence diagram
+  string layout:
+    UI:
+      color: lime green
+      positions: L, R
+    TRANS:
+      color: aqua
+      positions: R-2
+    SIO:
+      color: magenta
+      positions: R-1
+  canvas: dark
+  layout: standard

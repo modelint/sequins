@@ -3,9 +3,9 @@
 Starr sequence diagram:
   materials:
     strings:
-      external: [beaded: false, bounded: false]
-      born and die: [beaded: true, bounded: {top:create delete, bottom: create delete}]
-      persistent: [beaded: true, bounded: false]
+      external: {beaded: false, bounded: false}
+      born and die: {beaded: true, bounded: {top: create delete, bottom: create delete}}
+      persistent: {beaded: true, bounded: false}
     beads:
       state:
         min size: {width: 20, height: 20}
