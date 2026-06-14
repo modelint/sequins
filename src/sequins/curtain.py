@@ -122,10 +122,11 @@ class Thread(Element):
     from_string: String | None = None  # bound now if unique, else at layout
     to_string: String | None = None
 
-    # --- filled by the layout pass ---
+    # source_bead is recorded at population (issue time): the lowest bead on a beaded
+    # origin when the thread was added (R26). The rest are filled by the layout pass.
+    source_bead: Bead | None = None
     color: ColorName | None = None  # matches a String-Colored endpoint, if any
-    height: Distance | None = None
-    source_bead: Bead | None = None  # the projecting bead when from_string is beaded (R26)
+    height: Distance | None = None  # the thread's y-level on the curtain
     fixed_knot: int = 0  # offset for fanning multiple threads off one bead face
 
     @property

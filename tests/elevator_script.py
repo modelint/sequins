@@ -3,6 +3,9 @@
 
 This is the reference input for the layout engine: a reusable fixture for population tests
 now and the layout pass later. Keep it in step with the spec doc.
+
+``populate`` runs the pure population phase (Add_* + end_string); the caller triggers
+resolution with ``end_diagram`` so the two phases can be tested apart.
 """
 from __future__ import annotations
 
@@ -99,5 +102,4 @@ def populate(e: LayoutEngine) -> LayoutEngine:
     e.add_bead(material="state", string="ASLEV: S1-3", bead_color="Search for new destination", depth=15.008)
     e.add_bead(material="state", string="ASLEV: S1-3", bead_color="NO TRANSFER", depth=15.015)
 
-    e.end_diagram()
     return e

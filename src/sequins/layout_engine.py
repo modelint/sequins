@@ -12,6 +12,7 @@ from pathlib import Path
 
 from sequins.config import load_themes
 from sequins.curtain import Bead, CurtainDiagram, String, Thread
+from sequins.layout import Layout
 from sequins.theme import BeadMaterial, DiagramTheme
 
 
@@ -72,6 +73,15 @@ class LayoutEngine:
         layout pass to pick by distance."""
         d = self._require_diagram()
         thread_material = d.theme.curtain_style.thread_material(material)
+        from_str = self._bind(d, from_string)
+        to_str = self._bind(d, to_string)
+        # R26: a beaded origin projects from the lowest bead present *now* (issue time) --
+        # creation-order knowledge that can't be recovered from depths at end_diagram.
+        source_bead = (
+            from_str.beads[-1]
+            if from_str is not None and from_str.beaded and from_str.beads
+            else None
+        )
         d.threads.append(
             Thread(
                 from_name=from_string,
@@ -79,8 +89,9 @@ class LayoutEngine:
                 material=thread_material,
                 label=label,
                 depth=depth,
-                from_string=self._bind(d, from_string),
-                to_string=self._bind(d, to_string),
+                from_string=from_str,
+                to_string=to_str,
+                source_bead=source_bead,
             )
         )
 
@@ -89,10 +100,10 @@ class LayoutEngine:
         self._unique_string(self._require_diagram(), string).lower_bounded = True
 
     def end_diagram(self) -> CurtainDiagram:
-        """Signal that all input has arrived; returns the populated diagram.
+        """Signal that all input has arrived; resolve geometry and return the diagram.
 
-        Resolution (layout pass, step #3) and rendering (TabletSVG, step #4) hang here."""
-        return self._require_diagram()
+        Runs the layout pass (incrementally built); rendering via TabletSVG hangs here next."""
+        return Layout(self._require_diagram()).resolve()
 
     # ------------------------------------------------------------------ helpers
     def _require_diagram(self) -> CurtainDiagram:
