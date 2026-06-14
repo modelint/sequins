@@ -11,7 +11,7 @@ increments) from real elapsed time (the integer jumps), which needs its own desi
 from __future__ import annotations
 
 from sequins.curtain import CurtainDiagram, String, Thread
-from sequins.geometry import Distance
+from sequins.geometry import Distance, Position, RectSize
 
 
 class Layout:
@@ -27,6 +27,8 @@ class Layout:
         self._ordered: list[String] = []
         #: uniform inter-String span (v1)
         self._span: Distance = 0.0
+        #: widest standard bead, for insets/frame
+        self._widest_bead: Distance = 0.0
 
     def resolve(self) -> CurtainDiagram:
         """Run every implemented sub-pass, in dependency order."""
@@ -34,7 +36,9 @@ class Layout:
         self._assign_positions()
         self._assign_x()
         self._bind_endpoints()
-        # TODO: bead sizing (#5), knots & gaps (#6), color match (#7), canvas frame (#8)
+        self._size_beads()
+        self._frame_and_place()
+        # TODO: knots & gaps (#6), thread color match (#7)
         return self.diagram
 
     # ---------------------------------------------------------------- depth axis (#4)
@@ -97,6 +101,7 @@ class Layout:
         bead_materials = self.diagram.theme.curtain_style.bead_materials.values()
         widest_bead = max(m.standard_size.width for m in bead_materials)
         self._span = max(layout.min_string_span, widest_bead + layout.min_thread_separation)
+        self._widest_bead = widest_bead
 
         first_x = self.diagram.theme.canvas.padding.left + widest_bead / 2
         for index, string in enumerate(self._ordered):
@@ -120,6 +125,74 @@ class Layout:
         if other is None or other.x is None:
             return candidates[0]
         return min(candidates, key=lambda c: abs(c.x - other.x))
+
+    # ------------------------------------------------------------ bead sizing (#5)
+    def _size_beads(self) -> None:
+        """Size every bead to its material's standard size (v1).
+
+        The minimums won't fit state labels; standard size does. Growing a bead to a long
+        label needs text measurement and is deferred."""
+        for string in self.diagram.strings:
+            for bead in string.beads:
+                bead.size = bead.material.standard_size
+
+    # ------------------------------------------------- centers, frame, y-flip (#8)
+    def _frame_and_place(self) -> None:
+        """Size the canvas and convert depth distances to Tablet (x, y-up) coordinates.
+
+        This is the single point where the model's downward depth becomes Tablet's y-up
+        space. The rod sits a top gutter above the depth axis; depth grows downward, so a
+        deeper event maps to a smaller y. The interior bottom lands exactly on the bottom
+        padding, so the frame closes consistently."""
+        layout = self.diagram.theme.layout
+        padding = self.diagram.theme.canvas.padding
+        beads = [b for s in self.diagram.strings for b in s.beads]
+
+        # Deepest occupied distance down the axis (beads and threads alike).
+        max_depth = max(
+            [b.compressed_depth for b in beads] + [t.height for t in self.diagram.threads],
+            default=0.0,
+        )
+        half_bead = self._widest_bead / 2
+        rightmost = max(self.diagram.strings, key=lambda s: s.x)
+
+        width = rightmost.x + half_bead + padding.right
+        height = (
+            padding.bottom
+            + layout.string_top_gutter
+            + max_depth
+            + layout.string_bottom_gutter
+            + padding.top
+        )
+        self.diagram.size = RectSize(width=width, height=height)
+        self.diagram.origin = Position(x=0.0, y=0.0)  # canvas lower-left
+
+        rod_y = height - padding.top
+        self.diagram.rod_height = rod_y
+        axis_top_y = rod_y - layout.string_top_gutter
+
+        def y_at(distance: Distance) -> float:
+            return axis_top_y - distance  # depth grows downward -> y decreases
+
+        for bead in beads:
+            bead.center = Position(x=bead.string.x, y=y_at(bead.compressed_depth))
+
+        interior_bottom_y = padding.bottom
+        for string in self.diagram.strings:
+            if string.bounded:
+                # A born-and-die String floats between its shallowest and deepest events.
+                events = [b.compressed_depth for b in string.beads]
+                events += [
+                    t.height
+                    for t in self.diagram.threads
+                    if t.from_string is string or t.to_string is string
+                ]
+                string.y_top = y_at(min(events))
+                string.y_bottom = y_at(max(events))
+            else:
+                # A persistent String hangs the full curtain, rod to interior bottom.
+                string.y_top = rod_y
+                string.y_bottom = interior_bottom_y
 
     def _depth_events(self) -> set[float]:
         bead_depths = {b.depth for s in self.diagram.strings for b in s.beads}
