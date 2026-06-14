@@ -126,7 +126,9 @@ class Thread(Element):
     # origin when the thread was added (R26). The rest are filled by the layout pass.
     source_bead: Bead | None = None
     color: ColorName | None = None  # matches a String-Colored endpoint, if any
-    height: Distance | None = None  # the thread's y-level on the curtain
+    height: Distance | None = None  # the thread's depth distance down the curtain
+    from_point: Position | None = None  # placed Tablet endpoints (y-up)
+    to_point: Position | None = None
     fixed_knot: int = 0  # offset for fanning multiple threads off one bead face
 
     @property

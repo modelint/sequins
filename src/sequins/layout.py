@@ -177,6 +177,13 @@ class Layout:
         for bead in beads:
             bead.center = Position(x=bead.string.x, y=y_at(bead.compressed_depth))
 
+        # v1: threads run horizontally at their depth level; #6 will offset for bead faces,
+        # slip-knot gaps, and fanning.
+        for thread in self.diagram.threads:
+            thread_y = y_at(thread.height)
+            thread.from_point = Position(x=thread.from_string.x, y=thread_y)
+            thread.to_point = Position(x=thread.to_string.x, y=thread_y)
+
         interior_bottom_y = padding.bottom
         for string in self.diagram.strings:
             if string.bounded:
