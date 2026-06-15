@@ -26,3 +26,14 @@ def test_render_elevator_svg(tmp_path):
     assert svg.count("<rect") == 37
     # 9 lifeline names + 36 state names + 28 message labels.
     assert svg.count("<text") == 73
+
+
+def test_string_colors_reach_the_svg(tmp_path):
+    # Thread color match (#7): the elevator theme's String Colors resolve onto the lines.
+    e = LayoutEngine()
+    populate(e)
+    out = render(e.end_diagram(), tmp_path / "elevator.svg")
+    svg = out.read_text()
+    assert "rgb(142,250,0)" in svg  # lime  (UI)
+    assert "rgb(66,148,247)" in svg  # aqua  (TRANS)
+    assert "rgb(255,64,255)" in svg  # magenta (SIO)

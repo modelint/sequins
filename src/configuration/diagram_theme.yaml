@@ -11,7 +11,7 @@ elevator:  # diagram theme
   curtain style: Starr sequence diagram
   string layout:
     UI:
-      color: lime green
+      color: lime
       positions: L, R
     TRANS:
       color: aqua

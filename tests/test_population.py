@@ -22,7 +22,7 @@ def test_string_count_and_ui_fan_out():
     ui = d.strings_named("UI")
     assert len(ui) == 2
     assert {p.pinned.boundary for p in ui} == {"L", "R"}
-    assert all(s.color == "lime green" for s in ui)
+    assert all(s.color == "lime" for s in ui)
     assert all(not s.beaded and not s.bounded for s in ui)
 
 

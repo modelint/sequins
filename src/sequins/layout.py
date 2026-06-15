@@ -36,9 +36,10 @@ class Layout:
         self._assign_positions()
         self._assign_x()
         self._bind_endpoints()
+        self._match_thread_colors()
         self._size_beads()
         self._frame_and_place()
-        # TODO: knots & gaps (#6), thread color match (#7)
+        # TODO: knots & gaps (#6)
         return self.diagram
 
     # ---------------------------------------------------------------- depth axis (#4)
@@ -125,6 +126,26 @@ class Layout:
         if other is None or other.x is None:
             return candidates[0]
         return min(candidates, key=lambda c: abs(c.x - other.x))
+
+    # ------------------------------------------------------ thread color match (#7)
+    def _match_thread_colors(self) -> None:
+        """Color each Thread to match a String-Colored endpoint.
+
+        Endpoints are bound by now (#3). A Thread inherits the color of an endpoint that
+        carries a String Color; a same-named bare endpoint (no color) contributes none.
+        Precedence: an explicit ``Override color`` on the Thread wins; otherwise the source
+        (``from``) String's color, then the target (``to``) String's. Absent all three the
+        color stays ``None`` and the Thread renders in the presentation default.
+
+        The model doesn't yet formalize this match (Thread carries only Material); the rule
+        follows the reference diagram, where Threads take their emanating String's color
+        with the source winning ties."""
+        for thread in self.diagram.threads:
+            thread.color = (
+                thread.override_color
+                or (thread.from_string.color if thread.from_string else None)
+                or (thread.to_string.color if thread.to_string else None)
+            )
 
     # ------------------------------------------------------------ bead sizing (#5)
     def _size_beads(self) -> None:

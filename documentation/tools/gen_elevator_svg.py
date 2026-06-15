@@ -4,7 +4,7 @@ Runs the full pipeline -- population (the canonical elevator script) -> layout p
 TabletSVG render. Requires the user's ``mi_tablet`` Tablet configuration.
 
 Usage:
-    python documentation/tools/gen_elevator_svg.py [output.svg]   (default: documentation/elevator_v1.svg)
+    python documentation/tools/gen_elevator_svg.py [output.svg]   (default: working/elevator.svg)
 """
 import sys
 from pathlib import Path
@@ -19,7 +19,8 @@ from sequins.render import render  # noqa: E402
 
 
 def main() -> None:
-    out = sys.argv[1] if len(sys.argv) > 1 else str(_root / "documentation" / "elevator_v1.svg")
+    out = sys.argv[1] if len(sys.argv) > 1 else str(_root / "working" / "elevator.svg")
+    Path(out).parent.mkdir(parents=True, exist_ok=True)  # working/ is gitignored; may not exist
     engine = LayoutEngine()
     populate(engine)
     render(engine.end_diagram(), out)
