@@ -25,6 +25,7 @@ _BIRTH_THREAD_DROP = 4.0  # the birth thread touches this far below the line's b
 #: Message-label placement, shared with ``render`` so reserved space matches what's drawn.
 LABEL_TARGET_GAP = 30.0     # gap between the destination String and the label's near edge
 LABEL_LINE_CLEARANCE = 4.0  # a label rides this far above its thread line
+LABEL_BEAD_GAP = 20.0       # minimum gap between a label's far edge and its source bead
 
 
 class Layout:
@@ -145,9 +146,10 @@ class Layout:
         Spacing is the same between every adjacent String (the horizontal lever is global, so
         the diagram stays evenly ruled). The span clears adjacent beads and is grown so that
         *every* message label -- anchored ``LABEL_TARGET_GAP`` off its destination and running
-        back toward the source -- clears the source Bead it springs from. A Thread spanning
-        ``g`` gaps has ``g`` spans of room, so its requirement is ``(gap + label +
-        half source bead) / g``; the binding case is a long label across a single gap. (This
+        back toward the source -- clears the source Bead it springs from by at least
+        ``LABEL_BEAD_GAP``. A Thread spanning ``g`` gaps has ``g`` spans of room, so its
+        requirement is ``(target gap + label + half source bead + bead gap) / g``; the binding
+        case is a long label across a single gap. (This
         is the fallback lever: vertical opening (#4) handles labels squeezed between stacked
         beads; widening Strings handles labels too wide to clear a neighbouring bead.) The
         first String is inset half a bead so beads don't bleed into the canvas padding.
@@ -163,7 +165,8 @@ class Layout:
                 continue
             label_width = self._measure.line_width("message", thread.label)
             source_half = thread.source_bead.size.width / 2 if thread.source_bead else 0.0
-            span = max(span, (LABEL_TARGET_GAP + label_width + source_half) / gaps_crossed)
+            needed = LABEL_TARGET_GAP + label_width + source_half + LABEL_BEAD_GAP
+            span = max(span, needed / gaps_crossed)
         self._span = span
 
         x = self.diagram.theme.canvas.padding.left + self._bead_width / 2

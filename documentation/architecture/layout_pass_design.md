@@ -62,13 +62,14 @@ ruled); first string inset half a bead.
 
 - **Rule:** the span clears adjacent beads and is wide enough that *every* message label —
   anchored `LABEL_TARGET_GAP` (30px) off its destination and running back toward the source —
-  clears the source bead it springs from. This is the **horizontal lever**: the fallback when
-  vertical opening (#4) can't help, because a too-wide label clips a bead at its own row.
+  clears the source bead it springs from by at least `LABEL_BEAD_GAP` (20px). This is the
+  **horizontal lever**: the fallback when vertical opening (#4) can't help, because a too-wide
+  label clips a bead at its own row.
 - **Built:** `span = max(min string span, bead width + min thread separation, max over threads
-  of (30 + label width + ½ source bead) / gaps crossed)`. A thread crossing `g` gaps has `g`
-  spans of room, so multi-gap threads rarely bind; the driver is a long label across a single
-  gap. Threads are bound (#3) first; labels measured via the *Text seam*. Elevator → 189px
-  uniform (was driven by `Cabin at destination`). Going uniform replaced an earlier per-gap
+  of (30 + label width + ½ source bead + 20) / gaps crossed)`. A thread crossing `g` gaps has
+  `g` spans of room, so multi-gap threads rarely bind; the driver is a long label across a
+  single gap. Threads are bound (#3) first; labels measured via the *Text seam*. Elevator →
+  209px uniform (driven by `Cabin at destination`). Going uniform replaced an earlier per-gap
   span; congestion weighting stays deferred.
 
 ### 3. Bind deferred endpoints (UI)  ·  *built (`_bind_endpoints`)*

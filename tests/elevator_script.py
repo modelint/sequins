@@ -86,7 +86,7 @@ def populate(e: LayoutEngine) -> LayoutEngine:
     e.add_bead(material="state", string="Transfer: S1-3", bead_color="Check for cabin reversal", depth=15.003)
     e.add_bead(material="state", string="Transfer: S1-3", bead_color="Check for active floor service", depth=15.004)
     e.add_thread(material="signal", label="Stop serviced", from_string="Transfer: S1-3", to_string="ASLEV: S1-3")
-    e.add_thread(material="signal", label="Cabin arrived( shaft:S1, direction: up )", from_string="Transfer: S1-3", to_string="ASLEV: S1-3")
+    e.add_thread(material="signal", label="Cabin arrived( shaft:S1, direction: up )", from_string="Transfer: S1-3", to_string="UI")
     e.add_bead(material="state", string="Transfer: S1-3", bead_color="WAITING FOR REQUESTS TO CLEAR", depth=15.005)
 
     e.add_bead(material="state", string="ASLEV: S1-3", bead_color="Clear stop request", depth=15.005)
