@@ -50,3 +50,17 @@ def test_knots_and_arrowheads_drawn(tmp_path):
     assert svg.count("<polyline") == 40
     # Transfer is born and dies (End_string'd) -> 2 create/delete bursts -> 2 center dots.
     assert svg.count("<circle") == 2
+
+
+def test_arrowhead_leaves_a_gap_to_the_target_string():
+    # The arrow tip (and thread line end) stop short of the lifeline by _ARROW_TARGET_GAP.
+    from sequins.render import _ARROW_TARGET_GAP, _arrow_tip
+
+    e = LayoutEngine()
+    populate(e)
+    d = e.end_diagram()
+    for t in d.threads:
+        tip = _arrow_tip(t)
+        assert abs(t.to_string.x - tip.x) == _ARROW_TARGET_GAP
+        # The tip sits between source and target (pulled back toward the source), not past it.
+        assert abs(tip.x - t.from_point.x) < abs(t.to_string.x - t.from_point.x)

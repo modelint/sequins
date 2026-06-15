@@ -18,14 +18,19 @@ def _threads(d, label):
 
 
 def test_fanning_spreads_threads_sharing_a_bead_face():
-    # OPENING projects two 'Door opening' threads on the same side; they must not overlap.
+    # OPENING projects two 'Door opening' threads on the same side; they must not overlap,
+    # and the lower one's label must clear the upper thread line.
+    from sequins.layout import LABEL_LINE_CLEARANCE
+    from sequins.text import TextMeasure
+
     d = build()
     fan = _threads(d, "Door opening")
     assert len(fan) == 2
-    sep = d.theme.layout.min_thread_separation
+    label_h = TextMeasure.for_theme(d.theme).block_size("message", ["Door opening"]).height
+    expected = max(d.theme.layout.min_thread_separation, 2 * LABEL_LINE_CLEARANCE + label_h)
     ys = sorted(t.from_point.y for t in fan)
-    # Evenly split around the bead center, one min-separation apart.
-    assert ys[1] - ys[0] == sep
+    # Spaced so a label (clearance + text + clearance) fits between the two lines.
+    assert ys[1] - ys[0] == expected
     center = fan[0].source_bead.center.y
     assert (ys[0] + ys[1]) / 2 == center
     # Symmetric integer notches; each thread stays horizontal.

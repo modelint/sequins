@@ -345,11 +345,16 @@ class Layout:
 
         Per R26 / Fixed knot, Threads projecting from one Bead attach along that Bead's
         side; the default knot (0) is the face center. Threads sharing a side are fanned to
-        symmetric integer notches centered on the face (n=2 -> -1,+1; n=3 -> -2,0,+2), each
-        notch worth half a ``min thread separation`` so adjacent Threads clear that minimum.
-        Each Thread shifts as a whole (both endpoints) to stay horizontal; a lone Thread
-        keeps the center (knot 0, no offset)."""
-        half_sep = self.diagram.theme.layout.min_thread_separation / 2
+        symmetric integer notches centered on the face (n=2 -> -1,+1; n=3 -> -2,0,+2). Each
+        Thread shifts as a whole (both endpoints) to stay horizontal; a lone Thread keeps the
+        center (knot 0, no offset).
+
+        Adjacent notches are spaced so a Thread's message label clears the line above it: a
+        label rides ``LABEL_LINE_CLEARANCE`` above its own line, and we leave the *same*
+        clearance above the text before the next line up, so the step is
+        ``clearance + label height + clearance`` (never below ``min thread separation``).
+        Without this, a long upper Thread line would cross the lower Thread's label."""
+        layout = self.diagram.theme.layout
         groups: dict[tuple[int, str], list[Thread]] = defaultdict(list)
         for thread in self.diagram.threads:
             if thread.source_bead is not None:
@@ -360,10 +365,14 @@ class Layout:
             n = len(threads)
             if n == 1:
                 continue
+            tallest_label = max(
+                self._measure.block_size("message", [t.label]).height for t in threads
+            )
+            step = max(layout.min_thread_separation, 2 * LABEL_LINE_CLEARANCE + tallest_label)
             for i, thread in enumerate(threads):
                 notch = 2 * i - (n - 1)  # symmetric integers: n=2 -> -1,+1; n=3 -> -2,0,+2
                 thread.fixed_knot = notch
-                dy = notch * half_sep
+                dy = notch * (step / 2)
                 thread.from_point = Position(x=thread.from_point.x, y=thread.from_point.y + dy)
                 thread.to_point = Position(x=thread.to_point.x, y=thread.to_point.y + dy)
 

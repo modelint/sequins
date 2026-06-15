@@ -34,6 +34,18 @@ _THREAD_LINE_ASSET = {"signal": "signal", "implicit event": "implicit ext event"
 #: glyph has its tip at the bottom -- its natural orientation points *down*, so it reads
 #: 180deg off the usual 0=up/90=right convention: 270 points it right, 90 points it left.
 _ARROW_ANGLE = {True: 270, False: 90}
+#: Gap left between an arrowhead tip (and its thread line end) and the target String.
+_ARROW_TARGET_GAP = 2.0
+
+
+def _arrow_tip(thread) -> Position:
+    """The thread's terminus pulled a hair back from the target String.
+
+    ``to_point`` lands on the lifeline (kept true for label/knot logic); the drawn line and
+    arrowhead stop ``_ARROW_TARGET_GAP`` short of it so the tip doesn't overlap the String."""
+    going_right = thread.to_point.x >= thread.from_point.x
+    dx = -_ARROW_TARGET_GAP if going_right else _ARROW_TARGET_GAP
+    return Position(x=thread.to_point.x + dx, y=thread.to_point.y)
 
 
 def render(diagram: CurtainDiagram, output_file: str | Path) -> Path:
@@ -113,7 +125,7 @@ def _draw_threads(layer, diagram: CurtainDiagram) -> None:
             layer,
             asset=_THREAD_LINE_ASSET[thread.material.name],
             from_here=Position(x=thread.from_point.x, y=thread.from_point.y),
-            to_there=Position(x=thread.to_point.x, y=thread.to_point.y),
+            to_there=_arrow_tip(thread),
             color_override=thread.color,
         )
         # The label hugs the destination String: its edge nearest the target sits
@@ -139,15 +151,16 @@ def _draw_threads(layer, diagram: CurtainDiagram) -> None:
 def _draw_arrowheads(layer, diagram: CurtainDiagram) -> None:
     """Tip an arrowhead (`target lifeline`) into each thread's target String.
 
-    The arrow points in the direction of travel (from -> to) and matches the thread color.
-    v1 lands it on the target String's x at the thread y; slip-knot target gaps (R11) and
-    fanning (`fixed_knot`) -- which nudge that landing off a bead row -- are deferred."""
+    The arrow points in the direction of travel (from -> to), matches the thread color, and
+    stops ``_ARROW_TARGET_GAP`` short of the lifeline (see ``_arrow_tip``). Slip-knot target
+    gaps (R11) and fanning (`fixed_knot`) -- which nudge the landing off a bead row -- are
+    deferred."""
     for thread in diagram.threads:
         going_right = thread.to_point.x >= thread.from_point.x
         Symbol(
             layer,
             name="target lifeline",
-            pin=Position(x=thread.to_point.x, y=thread.to_point.y),
+            pin=_arrow_tip(thread),
             angle=_ARROW_ANGLE[going_right],
             color_override=thread.color,
         )

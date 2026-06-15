@@ -119,9 +119,12 @@ downward with a **per-gap** spacing (runs after #5 so real bead heights are know
   records `thread.source_bead`. **Built** (facade addition made).
 - **Fanning (R26 Fixed knot) — built (`_fan_source_knots`):** Threads sharing a Bead *face*
   (same source bead + same side) are spread to symmetric integer notches centered on the face
-  (n=2 → −1,+1; n=3 → −2,0,+2), each notch worth half a `min thread separation`, so adjacent
-  threads clear that minimum. Each thread shifts as a whole (both endpoints) to stay horizontal;
-  a lone thread keeps knot 0. Exercised by the two `Door opening` threads off `OPENING`.
+  (n=2 → −1,+1; n=3 → −2,0,+2). Each thread shifts as a whole (both endpoints) to stay
+  horizontal; a lone thread keeps knot 0. Adjacent notches are spaced
+  `LABEL_LINE_CLEARANCE + label height + LABEL_LINE_CLEARANCE` (≥ `min thread separation`) so a
+  thread's message label clears the line above it — otherwise a long upper thread line would
+  cross the lower thread's label (the `Check for active floor service` → `Stop serviced` /
+  `Cabin arrived` case). Also exercised by the two `Door opening` threads off `OPENING`.
 - **Target gap (slip knot) — built (`_slip_knot_gaps`):** each thread terminating on a beaded
   String records the Bead it sits *above* (R11 *slip knot blocking bead*) = the nearest Bead
   below its landing. The compressed depth axis already keeps every thread one row above its
@@ -138,9 +141,11 @@ downward with a **per-gap** spacing (runs after #5 so real bead heights are know
   separation`; the boundary line continues down to meet it. (Birth needs no such drop: a
   String is born at its birth *thread*, already shallower than its first Bead.)
 - **Arrowheads (built):** `render._draw_arrowheads` tips a `target lifeline` symbol into each
-  thread's target, oriented by travel direction (rightward 90° / leftward 270°) and colored to
-  match the thread. Drawn from the placed (fanned) `from_point`/`to_point`, so it lives in
-  render, not the layout pass.
+  thread's target, oriented by travel direction (rightward 270° / leftward 90° — the glyph is
+  tip-down) and colored to match the thread. The tip (and the thread line end) stop
+  `_ARROW_TARGET_GAP` (2px) short of the lifeline via `render._arrow_tip`, so they don't
+  overlap it; `to_point` stays the true terminus for label/knot logic. Drawn from the placed
+  (fanned) `from_point`/`to_point`, so it lives in render, not the layout pass.
 
 ### 7. Thread color match (String Color)  ·  *built (`_match_thread_colors`)*
 `thread.color` = the color of a String-Colored endpoint it touches at **either** end; if both
