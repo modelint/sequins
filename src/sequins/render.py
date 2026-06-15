@@ -151,22 +151,23 @@ def _draw_end_knots(layer, diagram: CurtainDiagram) -> None:
 
     The birth knot caps the top of every bounded String; the death knot caps the bottom
     only once ``End_string`` has marked the String dead. Each end's symbol is named by the
-    material (``top_end``/``bottom_end``)."""
+    material (``top_end``/``bottom_end``) and pinned at the knot y the layout pass placed
+    (offset from the line end so the burst doesn't overlap the line)."""
     for string in diagram.strings:
         if not string.bounded:
             continue
         knot_color = string.override_color or string.color
-        if string.material.top_end:
+        if string.material.top_end and string.top_knot_y is not None:
             Symbol(
                 layer,
                 name=string.material.top_end,
-                pin=Position(x=string.x, y=string.y_top),
+                pin=Position(x=string.x, y=string.top_knot_y),
                 color_override=knot_color,
             )
-        if string.lower_bounded and string.material.bottom_end:
+        if string.lower_bounded and string.material.bottom_end and string.bottom_knot_y is not None:
             Symbol(
                 layer,
                 name=string.material.bottom_end,
-                pin=Position(x=string.x, y=string.y_bottom),
+                pin=Position(x=string.x, y=string.bottom_knot_y),
                 color_override=knot_color,
             )

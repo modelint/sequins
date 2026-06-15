@@ -1,10 +1,12 @@
-"""Text measurement seam -- the single place Sequins asks TabletSVG how big text is.
+"""Measurement seam -- the single place Sequins asks TabletSVG how big notation is.
 
-The layout pass needs real string widths to size beads to their labels (#5) and to widen
-inter-String spans so beads and message labels don't collide (#2).  TabletSVG already owns
-the font metrics (Pillow-backed via ``TextElement.text_block_size``, with a 0.6x char-width
-fallback when a typeface isn't configured); this wraps that behind a small interface keyed
-on Sequins' notation (asset) names so the rest of the engine never touches Tablet internals.
+The layout pass needs real string widths to size beads to their labels (#5), to widen
+inter-String spans so beads and message labels don't collide (#2), and the vertical extent
+of knot symbols to place them clear of beads (#6/#8).  TabletSVG already owns the font
+metrics (Pillow-backed via ``TextElement.text_block_size``, with a 0.6x char-width fallback
+when a typeface isn't configured) and the symbol geometry; this wraps both behind a small
+interface keyed on Sequins' notation names so the rest of the engine never touches Tablet
+internals.
 
 A ``TextMeasure`` is built once per layout pass from the active Diagram Theme: the Tablet
 *drawing type* is the Curtain Style name, and the *presentation* mirrors the Canvas
@@ -13,6 +15,7 @@ Tablet, so measured sizes match what is actually drawn.
 """
 from __future__ import annotations
 
+from tabletsvg.graphics.symbol import Symbol
 from tabletsvg.graphics.text_element import TextElement
 from tabletsvg.presentation import Presentation
 from tabletsvg.styledb import StyleDB
@@ -27,6 +30,24 @@ _PRESENTATION = {"light": "default", "dark": "dark"}
 def presentation_name(canvas: Canvas) -> str:
     """The Tablet presentation a Canvas renders under."""
     return _PRESENTATION.get(canvas.name, "default")
+
+
+def symbol_top_extent(drawing_type: str, name: str) -> Distance:
+    """How far a symbol's geometry reaches *above* its (bottom-center) pin, in tablet units.
+
+    A symbol pins by its bottom center and its component vertices are offsets from that pin
+    (y up); this returns the largest such y so the layout pass can leave room for a knot
+    (e.g. keep the ``create delete`` burst's top clear of the deepest bead)."""
+    Symbol.load_symbol_defs()  # idempotent; also done when a Tablet is built
+    components = Symbol.symbol_defs[drawing_type][name]
+    tops: list[float] = []
+    for cdef in components.values():
+        kind, shape = next(iter(cdef.items()))
+        if kind in ("polyline", "polygon"):
+            tops += [vertex[1] for vertex in shape]
+        elif kind == "circle":
+            tops.append(shape["center"][1] + shape["radius"])
+    return max(tops, default=0.0)
 
 
 class TextMeasure:

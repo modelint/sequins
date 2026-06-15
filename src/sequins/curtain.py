@@ -85,6 +85,10 @@ class String(Element):
     x: Coordinate | None = None
     y_top: Coordinate | None = None
     y_bottom: Coordinate | None = None
+    # Knot symbol pins (bounded Strings); offset from the line ends by a fixed gap so the
+    # burst doesn't overlap the line. None when that end carries no knot.
+    top_knot_y: Coordinate | None = None
+    bottom_knot_y: Coordinate | None = None
     lower_bounded: bool = False  # set when End_string caps the bottom of a bounded String
 
     @property

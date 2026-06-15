@@ -119,7 +119,12 @@ inherit their source bead's depth, already in the set). Sort unique ascending �
   thread's row on a target bead, this is where we'd clamp it up into the gap.*
 - **Bounded ends (built):** `render._draw_end_knots` places the material's `top_end`/
   `bottom_end` knot symbols (`create delete`) — birth at every bounded String's `y_top`,
-  death at `y_bottom` only once `End_string` has marked it dead (`lower_bounded`).
+  death at `y_bottom` only once `End_string` has marked it dead (`lower_bounded`). The burst
+  pins by its bottom center and reaches upward, so `_frame_and_place._death_knot_y` drops a
+  dead String's `y_bottom` below its deepest Bead — far enough that the *top* of the burst
+  (its measured height, via `text.symbol_top_extent`) clears the Bead by `min bead
+  separation`; the boundary line continues down to meet it. (Birth needs no such drop: a
+  String is born at its birth *thread*, already shallower than its first Bead.)
 - **Arrowheads (built):** `render._draw_arrowheads` tips a `target lifeline` symbol into each
   thread's target, oriented by travel direction (rightward 90° / leftward 270°) and colored to
   match the thread. Drawn from the placed (fanned) `from_point`/`to_point`, so it lives in

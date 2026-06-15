@@ -16,7 +16,11 @@ from collections import defaultdict
 
 from sequins.curtain import Bead, CurtainDiagram, String, Thread
 from sequins.geometry import Distance, Position, RectSize
-from sequins.text import TextMeasure
+from sequins.text import TextMeasure, symbol_top_extent
+
+#: Fixed (non-configurable) gaps for bounded-String knots, in points.
+_KNOT_GAP = 2.0           # between a bounded String's line end and its knot burst
+_BIRTH_THREAD_DROP = 4.0  # the birth thread touches this far below the line's beginning
 
 
 class Layout:
@@ -246,19 +250,53 @@ class Layout:
         interior_bottom_y = padding.bottom
         for string in self.diagram.strings:
             if string.bounded:
-                # A born-and-die String floats between its shallowest and deepest events.
-                events = [b.compressed_depth for b in string.beads]
-                events += [
-                    t.height
-                    for t in self.diagram.threads
-                    if t.from_string is string or t.to_string is string
-                ]
-                string.y_top = y_at(min(events))
-                string.y_bottom = y_at(max(events))
+                self._place_bounded_ends(string)
             else:
                 # A persistent String hangs the full curtain, rod to interior bottom.
                 string.y_top = rod_y
                 string.y_bottom = interior_bottom_y
+
+    def _place_bounded_ends(self, string: String) -> None:
+        """Place a born-and-die String's line ends and its birth/death knot pins.
+
+        Beads and thread endpoints are placed by now, so this works in y-up space.
+
+        **Top (birth).** If the String is born by an incoming Thread (the shallowest event),
+        the line begins ``_BIRTH_THREAD_DROP`` above where that Thread touches -- so the
+        Thread lands just inside the live line -- and the birth burst's bottom sits
+        ``_KNOT_GAP`` above the line's beginning. Otherwise the line begins at the shallowest
+        event.
+
+        **Bottom (death).** While alive, the line stops at the deepest event. Once
+        ``End_string`` caps it, the death burst hangs below the deepest Bead with its *top* a
+        compressed bead gap (``min bead separation``) clear of that Bead; the line then
+        terminates ``_KNOT_GAP`` above the burst top (it no longer runs through the burst)."""
+        threads = self.diagram.threads
+        bead_ys = [b.center.y for b in string.beads]
+        incoming_ys = [t.to_point.y for t in threads if t.to_string is string]
+        touch_ys = bead_ys + incoming_ys + [t.from_point.y for t in threads if t.from_string is string]
+
+        # --- top / birth ---
+        shallowest_bead_y = max(bead_ys, default=float("-inf"))
+        birth_y = max(incoming_ys, default=None)
+        if birth_y is not None and birth_y >= shallowest_bead_y:
+            string.y_top = birth_y + _BIRTH_THREAD_DROP  # line begins above the birth thread
+        else:
+            string.y_top = max(touch_ys)
+        if string.material.top_end:
+            string.top_knot_y = string.y_top + _KNOT_GAP  # burst bottom sits above the line
+
+        # --- bottom / death ---
+        layout = self.diagram.theme.layout
+        if string.lower_bounded and string.material.bottom_end and string.beads:
+            deepest = min(string.beads, key=lambda b: b.center.y)
+            bead_bottom = deepest.center.y - deepest.size.height / 2
+            burst_top = symbol_top_extent(self.diagram.theme.curtain_style.name, string.material.bottom_end)
+            symbol_top_y = bead_bottom - layout.min_bead_separation  # a bead gap clear of the bead
+            string.bottom_knot_y = symbol_top_y - burst_top
+            string.y_bottom = symbol_top_y + _KNOT_GAP  # line terminates above the burst
+        else:
+            string.y_bottom = min(touch_ys)
 
     # ---------------------------------------------------- fanning / fixed knot (#6, R26)
     def _fan_source_knots(self) -> None:

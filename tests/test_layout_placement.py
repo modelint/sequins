@@ -77,3 +77,28 @@ def test_bounded_string_floats_between_birth_and_death():
     assert transfer.y_bottom > d.theme.canvas.padding.bottom
     # Born at its first incoming thread ('Execute'@1.003), not at the rod.
     assert transfer.y_top > transfer.y_bottom
+
+
+def test_bounded_string_knot_gaps():
+    # The birth/death bursts sit clear of the line (and the death burst clear of the bead),
+    # with the fixed 2pt line gap and the birth thread landing 4pt inside the line.
+    from sequins.text import symbol_top_extent
+
+    d = build()
+    t = d.strings_named("Transfer: S1-3")[0]
+    assert t.lower_bounded
+    ext = symbol_top_extent(d.theme.curtain_style.name, t.material.top_end)
+
+    # Top: birth burst bottom (its pin) is 2pt above where the line begins.
+    assert t.top_knot_y == t.y_top + 2
+    # Birth thread touches 4pt below the line's beginning.
+    birth = max((th for th in d.threads if th.to_string is t), key=lambda th: th.to_point.y)
+    assert birth.to_point.y == t.y_top - 4
+
+    # Bottom: line terminates, 2pt of air, then the death burst top.
+    burst_top_y = t.bottom_knot_y + ext
+    assert burst_top_y == t.y_bottom - 2
+    # And that burst top is a compressed bead gap clear of the deepest bead.
+    deepest = min(t.beads, key=lambda b: b.center.y)
+    bead_bottom = deepest.center.y - deepest.size.height / 2
+    assert burst_top_y == bead_bottom - d.theme.layout.min_bead_separation
