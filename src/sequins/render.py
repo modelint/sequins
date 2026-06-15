@@ -2,8 +2,8 @@
 
 Draws lifelines, state beads (rectangle + name), thread lines + message labels, with
 String Color / thread color match on the lines (#7), plus target arrowheads and
-bounded-string birth/death knots (#6). Still deferred within #6: slip-knot target gaps
-(R11) and fanning (`fixed_knot`), which nudge a thread's landing off a bead row.
+bounded-string birth/death knots (#6). Thread endpoints already carry the fanning offset
+and slip-knot placement resolved by the layout pass, so this just follows the points.
 
 Sequins works entirely in Tablet's y-up, lower-left-origin coordinates (the layout pass
 already owns the one depth->y flip), so positions pass straight through; Tablet handles the

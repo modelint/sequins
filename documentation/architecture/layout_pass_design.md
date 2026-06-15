@@ -2,9 +2,9 @@
 
 Status: **largely implemented.** This started as the plan we talked through before coding the
 resolution step; it's now kept current as a record of what `layout.py` (the `Layout` class)
-and `render.py` actually do. Built: the full vertical/horizontal pipeline (#1–#5, #7, #8) plus
-#6 *in part* (arrowheads + bounded-String knots). Still open are the items called out below —
-text-tight spacing, slip-knot gaps + fanning, absolute depth mode, and bead-label centering.
+and `render.py` actually do. Built: the full pipeline (#1–#8, including #6 — fanning,
+slip-knot blocking-bead recording, arrowheads, bounded-String knots). Still open: text-tight
+spacing, absolute depth mode, and bead-label centering (all called out below).
 
 ## Where it sits
 
@@ -89,25 +89,30 @@ inherit their source bead's depth, already in the set). Sort unique ascending �
   standard does. The long states (`WAITING FOR REQUESTS TO CLEAR`) prove real metrics are
   eventually required (text seam). **Open:** text-tight growth + bead-label centering.
 
-### 6. Knots & gaps  ·  *partly built*
+### 6. Knots & gaps  ·  *built*
 - **Source (R26):** a beaded-origin thread projects from the **lowest bead on its from-string
   at issue time** = `from_string.beads[-1]` when the command arrived. *Population-time
   knowledge* (creation order, not recoverable from depths at the end) — so `add_thread`
   records `thread.source_bead`. **Built** (facade addition made).
+- **Fanning (R26 Fixed knot) — built (`_fan_source_knots`):** Threads sharing a Bead *face*
+  (same source bead + same side) are spread to symmetric integer notches centered on the face
+  (n=2 → −1,+1; n=3 → −2,0,+2), each notch worth half a `min thread separation`, so adjacent
+  threads clear that minimum. Each thread shifts as a whole (both endpoints) to stay horizontal;
+  a lone thread keeps knot 0. Exercised by the two `Door opening` threads off `OPENING`.
+- **Target gap (slip knot) — built (`_slip_knot_gaps`):** each thread terminating on a beaded
+  String records the Bead it sits *above* (R11 *slip knot blocking bead*) = the nearest Bead
+  below its landing. The compressed depth axis already keeps every thread one row above its
+  target's response bead (no depth ever coincides with a target bead in the elevator), so no y
+  moves — this pins down the blocking Bead the model (Thread to Bead Gap) calls for. `None`
+  means it lands above the topmost Bead (a bounded String's top). *If a future case put a
+  thread's row on a target bead, this is where we'd clamp it up into the gap.*
 - **Bounded ends (built):** `render._draw_end_knots` places the material's `top_end`/
   `bottom_end` knot symbols (`create delete`) — birth at every bounded String's `y_top`,
   death at `y_bottom` only once `End_string` has marked it dead (`lower_bounded`).
 - **Arrowheads (built):** `render._draw_arrowheads` tips a `target lifeline` symbol into each
   thread's target, oriented by travel direction (rightward 90° / leftward 270°) and colored to
-  match the thread. Drawn from the placed `from_point`/`to_point`, so it lives in render, not
-  the layout pass.
-- **Target gap (slip knot) — DEFERRED:** the thread should meet a beaded to-string in the *gap*
-  bounded above by the deepest bead with `depth ≤ thread depth` (the "slip knot blocking bead",
-  R11); if the natural y lands on a bead row, slip into the adjacent gap. v1 lands the thread
-  on the target's x at the thread row, accepting possible bead-row overlap.
-- **Fanning — DEFERRED:** threads sharing one bead face should spread via `fixed_knot` (+1/−1/…).
-- Both deferred items are layout-pass work (they move where a thread lands) and need the gap
-  model; the arrowhead/knot rendering above will then follow the adjusted points for free.
+  match the thread. Drawn from the placed (fanned) `from_point`/`to_point`, so it lives in
+  render, not the layout pass.
 
 ### 7. Thread color match (String Color)  ·  *built (`_match_thread_colors`)*
 `thread.color` = the color of a String-Colored endpoint it touches at **either** end; if both

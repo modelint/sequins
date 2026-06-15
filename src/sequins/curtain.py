@@ -129,7 +129,8 @@ class Thread(Element):
     height: Distance | None = None  # the thread's depth distance down the curtain
     from_point: Position | None = None  # placed Tablet endpoints (y-up)
     to_point: Position | None = None
-    fixed_knot: int = 0  # offset for fanning multiple threads off one bead face
+    fixed_knot: int = 0  # offset for fanning multiple threads off one bead face (R26)
+    blocking_bead: "Bead | None" = None  # R11: the bead this thread is slip-knotted above
 
     @property
     def from_bead(self) -> bool:

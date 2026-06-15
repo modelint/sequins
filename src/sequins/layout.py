@@ -10,7 +10,9 @@ increments) from real elapsed time (the integer jumps), which needs its own desi
 """
 from __future__ import annotations
 
-from sequins.curtain import CurtainDiagram, String, Thread
+from collections import defaultdict
+
+from sequins.curtain import Bead, CurtainDiagram, String, Thread
 from sequins.geometry import Distance, Position, RectSize
 
 
@@ -39,7 +41,8 @@ class Layout:
         self._match_thread_colors()
         self._size_beads()
         self._frame_and_place()
-        # TODO: knots & gaps (#6)
+        self._fan_source_knots()
+        self._slip_knot_gaps()
         return self.diagram
 
     # ---------------------------------------------------------------- depth axis (#4)
@@ -221,6 +224,51 @@ class Layout:
                 # A persistent String hangs the full curtain, rod to interior bottom.
                 string.y_top = rod_y
                 string.y_bottom = interior_bottom_y
+
+    # ---------------------------------------------------- fanning / fixed knot (#6, R26)
+    def _fan_source_knots(self) -> None:
+        """Spread Threads that emanate from the same Bead face so they don't overlap.
+
+        Per R26 / Fixed knot, Threads projecting from one Bead attach along that Bead's
+        side; the default knot (0) is the face center. Threads sharing a side are fanned to
+        symmetric integer notches centered on the face (n=2 -> -1,+1; n=3 -> -2,0,+2), each
+        notch worth half a ``min thread separation`` so adjacent Threads clear that minimum.
+        Each Thread shifts as a whole (both endpoints) to stay horizontal; a lone Thread
+        keeps the center (knot 0, no offset)."""
+        half_sep = self.diagram.theme.layout.min_thread_separation / 2
+        groups: dict[tuple[int, str], list[Thread]] = defaultdict(list)
+        for thread in self.diagram.threads:
+            if thread.source_bead is not None:
+                side = "R" if thread.to_string.x >= thread.from_string.x else "L"
+                groups[(id(thread.source_bead), side)].append(thread)
+
+        for threads in groups.values():
+            n = len(threads)
+            if n == 1:
+                continue
+            for i, thread in enumerate(threads):
+                notch = 2 * i - (n - 1)  # symmetric integers: n=2 -> -1,+1; n=3 -> -2,0,+2
+                thread.fixed_knot = notch
+                dy = notch * half_sep
+                thread.from_point = Position(x=thread.from_point.x, y=thread.from_point.y + dy)
+                thread.to_point = Position(x=thread.to_point.x, y=thread.to_point.y + dy)
+
+    # ------------------------------------------------------- slip knot gaps (#6, R11)
+    def _slip_knot_gaps(self) -> None:
+        """Record the Bead each Thread is slip-knotted *above* on a beaded target (R11).
+
+        A Thread terminating on a beaded String connects in the gap above a designated Bead
+        -- the nearest Bead below its landing (the deepest Bead whose center sits below the
+        thread). It stays below the next-higher Bead. The compressed depth axis already keeps
+        every thread one row above its target's response bead, so no y moves here in v1; this
+        pins down the blocking Bead the model (Thread to Bead Gap) calls for. ``None`` means
+        the thread lands above the topmost Bead (near a bounded String's top)."""
+        for thread in self.diagram.threads:
+            if not thread.to_string.beaded:
+                continue
+            y = thread.to_point.y
+            below = [b for b in thread.to_string.beads if b.center.y < y]
+            thread.blocking_bead = max(below, key=lambda b: b.center.y, default=None)
 
     def _depth_events(self) -> set[float]:
         bead_depths = {b.depth for s in self.diagram.strings for b in s.beads}
