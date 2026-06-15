@@ -69,6 +69,8 @@ def _layouts(d: dict) -> dict[str, Layout]:
             min_string_span=v["min string span"],
             min_bead_size=RectSize(**v["min bead size"]),
             min_thread_separation=v["min thread separation"],
+            bead_text_pad_h=v["bead text padding"]["horizontal"],
+            bead_text_pad_v=v["bead text padding"]["vertical"],
         )
         for name, v in d.items()
     }

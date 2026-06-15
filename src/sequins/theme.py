@@ -106,6 +106,9 @@ class Layout:
     min_string_span: Distance
     min_bead_size: RectSize
     min_thread_separation: Distance
+    #: Padding between a bead's wrapped label and the bead edge (horizontal / vertical).
+    bead_text_pad_h: Distance
+    bead_text_pad_v: Distance
 
 
 # ---------------------------------------------------------------------- string settings

@@ -39,6 +39,15 @@ def test_x_strictly_increases_with_position():
     assert by_pos[0].x > 0  # inset from the canvas edge
 
 
+def test_spans_are_content_driven():
+    # #2: gaps clear the uniform bead floor, and a long crossing message label widens some.
+    d = build()
+    by_pos = sorted(d.strings, key=lambda s: s.position)
+    gaps = [round(b.x - a.x, 3) for a, b in zip(by_pos, by_pos[1:])]
+    assert min(gaps) >= d.theme.layout.min_string_span
+    assert len(set(gaps)) > 1  # not uniform -- label widths push some gaps wider
+
+
 def test_deferred_ui_endpoints_bound_to_nearest():
     d = build()
     ui_left = min(d.strings_named("UI"), key=lambda s: s.x)

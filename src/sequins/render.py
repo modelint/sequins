@@ -87,11 +87,18 @@ def _draw_beads(layer, diagram: CurtainDiagram) -> None:
                 y=bead.center.y - bead.size.height / 2,
             )
             RectangleSE.add(layer, asset="state", lower_left=lower_left, size=size)
+            # Center the wrapped label (the layout pass split it to fit) in the bead: pin
+            # the block's lower-left so its measured box is centered on the bead center.
+            lines = bead.lines or [bead.color_name]
+            block = TextElement.text_block_size(layer.Presentation, "state name", lines)
             TextElement.pin_block(
                 layer,
                 asset="state name",
-                text=[bead.color_name],
-                pin=Position(x=bead.center.x, y=bead.center.y),
+                text=lines,
+                pin=Position(
+                    x=bead.center.x - block.width / 2,
+                    y=bead.center.y - block.height / 2,
+                ),
                 corner=TextBlockCorner.LL,
                 align=HorizAlign.CENTER,
             )

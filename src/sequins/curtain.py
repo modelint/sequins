@@ -57,6 +57,7 @@ class Bead(Element):
     absolute_depth: Distance | None = None
     center: Position | None = None
     size: RectSize | None = None
+    lines: list[str] | None = None  # the label wrapped to fit the bead (#5)
 
     @property
     def sequence(self) -> int:

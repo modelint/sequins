@@ -11,3 +11,8 @@ standard:
     height: 10
     width: 60
   min thread separation: 8
+  # Padding between a bead's wrapped label and the bead edge (the wrap boundary is the
+  # bead material's standard-size width; longer labels wrap onto more lines).
+  bead text padding:
+    horizontal: 5
+    vertical: 7

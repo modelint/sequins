@@ -1,12 +1,14 @@
 """The layout pass -- resolves a populated Curtain Diagram into geometry.
 
 Built incrementally (see ``documentation/architecture/layout_pass_design.md``), vertical
-axis first.  A ``Layout`` instance owns the scratch tables (the depth-row map, later the
-span table) that several sub-passes read, and mutates the diagram in place.
+axis first.  A ``Layout`` instance owns the scratch tables (the depth-row map, the uniform
+bead width) that several sub-passes read, and a ``TextMeasure`` for real label metrics, and
+mutates the diagram in place.
 
-Implemented so far: the **depth axis** (sub-pass #4) in *compressed* mode.  Absolute mode
-is deferred -- its spacing must distinguish near-instant compute-time steps (the ``.001``
-increments) from real elapsed time (the integer jumps), which needs its own design.
+The full pipeline (#1-#8) is implemented in *compressed* depth mode, including label-driven
+bead sizing/wrapping (#5) and content-driven spans (#2). Absolute depth mode is deferred --
+its spacing must distinguish near-instant compute-time steps (the ``.001`` increments) from
+real elapsed time (the integer jumps), which needs its own design.
 """
 from __future__ import annotations
 
@@ -14,6 +16,7 @@ from collections import defaultdict
 
 from sequins.curtain import Bead, CurtainDiagram, String, Thread
 from sequins.geometry import Distance, Position, RectSize
+from sequins.text import TextMeasure
 
 
 class Layout:
@@ -21,28 +24,28 @@ class Layout:
 
     def __init__(self, diagram: CurtainDiagram):
         self.diagram = diagram
+        #: text metrics in the diagram's presentation (sizes beads, widens spans)
+        self._measure = TextMeasure.for_theme(diagram.theme)
         #: raw chronological depth -> distance downward from the top of the axis (compressed)
         self._compressed: dict[float, Distance] = {}
         #: uniform row pitch in compressed mode
         self._pitch: Distance = 0.0
         #: Strings in left-to-right (OR2 position) order
         self._ordered: list[String] = []
-        #: uniform inter-String span (v1)
-        self._span: Distance = 0.0
-        #: widest standard bead, for insets/frame
-        self._widest_bead: Distance = 0.0
+        #: uniform bead width (label-driven), for spans/insets/frame
+        self._bead_width: Distance = 0.0
 
     def resolve(self) -> CurtainDiagram:
         """Run every implemented sub-pass, in dependency order."""
-        self._build_depth_axis()
-        self._assign_positions()
-        self._assign_x()
-        self._bind_endpoints()
-        self._match_thread_colors()
-        self._size_beads()
-        self._frame_and_place()
-        self._fan_source_knots()
-        self._slip_knot_gaps()
+        self._build_depth_axis()    # #4
+        self._size_beads()          # #5 -- sets the uniform bead width #2/#8 rely on
+        self._assign_positions()    # #1
+        self._bind_endpoints()      # #3 -- before #2 so span crossing is known
+        self._assign_x()            # #2 -- per-gap, label-driven
+        self._match_thread_colors()  # #7
+        self._frame_and_place()     # #8
+        self._fan_source_knots()    # #6
+        self._slip_knot_gaps()      # #6
         return self.diagram
 
     # ---------------------------------------------------------------- depth axis (#4)
@@ -96,28 +99,44 @@ class Layout:
 
     # ------------------------------------------------------------ string x (#2)
     def _assign_x(self) -> None:
-        """Place Strings at uniform x spans (v1).
+        """Place Strings at per-gap x spans driven by content.
 
-        The span clears a standard bead between neighbours; text-tight, thread-label-driven
-        spacing is deferred. The first String is inset by half a bead so beads don't bleed
-        into the canvas padding."""
+        Each gap is widened to clear the (uniform) beads on its bounding Strings and to fit
+        the longest message label of any Thread crossing it, never below ``min string span``.
+        Threads are bound by now (#3), so each gap knows exactly which labels cross it. The
+        first String is inset by half a bead so beads don't bleed into the canvas padding."""
         layout = self.diagram.theme.layout
-        bead_materials = self.diagram.theme.curtain_style.bead_materials.values()
-        widest_bead = max(m.standard_size.width for m in bead_materials)
-        self._span = max(layout.min_string_span, widest_bead + layout.min_thread_separation)
-        self._widest_bead = widest_bead
+        margin = layout.min_thread_separation
+        bead_floor = self._bead_width + margin  # adjacent beads (centered) clear each other
+        pos_of = {id(s): i for i, s in enumerate(self._ordered)}
 
-        first_x = self.diagram.theme.canvas.padding.left + widest_bead / 2
-        for index, string in enumerate(self._ordered):
-            string.x = first_x + index * self._span
+        # Longest message label crossing each gap k (between ordered[k] and ordered[k+1]).
+        gaps = max(len(self._ordered) - 1, 0)
+        longest_label = [0.0] * gaps
+        for thread in self.diagram.threads:
+            lo, hi = sorted((pos_of[id(thread.from_string)], pos_of[id(thread.to_string)]))
+            if lo == hi:
+                continue
+            width = self._measure.line_width("message", thread.label)
+            for k in range(lo, hi):
+                longest_label[k] = max(longest_label[k], width)
+
+        x = self.diagram.theme.canvas.padding.left + self._bead_width / 2
+        self._ordered[0].x = x
+        for k in range(gaps):
+            span = max(layout.min_string_span, bead_floor, longest_label[k] + 2 * margin)
+            x += span
+            self._ordered[k + 1].x = x
 
     # ------------------------------------------------------------ bind endpoints (#3)
     def _bind_endpoints(self) -> None:
         """Bind multi-position endpoints (e.g. UI) left unbound during population.
 
-        Pick the same-named instance whose x is nearest the other endpoint's x. On a tie
-        (uniform v1 spacing can produce exact ties) the first by position wins -- a real
-        spacing model will break such ties naturally."""
+        Pick the same-named instance whose OR2 position is nearest the other endpoint's
+        position. Position stands in for x here (x isn't assigned until #2, which needs the
+        bound endpoints to know which labels cross each gap) -- and since x increases
+        monotonically with position, nearest-by-position is the same choice as nearest-by-x.
+        On a tie the first by position wins."""
         for thread in self.diagram.threads:
             if thread.from_string is None:
                 thread.from_string = self._nearest(thread.from_name, thread.to_string)
@@ -126,9 +145,9 @@ class Layout:
 
     def _nearest(self, name: str, other: String | None) -> String:
         candidates = self.diagram.strings_named(name)
-        if other is None or other.x is None:
+        if other is None or other.position is None:
             return candidates[0]
-        return min(candidates, key=lambda c: abs(c.x - other.x))
+        return min(candidates, key=lambda c: abs(c.position - other.position))
 
     # ------------------------------------------------------ thread color match (#7)
     def _match_thread_colors(self) -> None:
@@ -152,13 +171,29 @@ class Layout:
 
     # ------------------------------------------------------------ bead sizing (#5)
     def _size_beads(self) -> None:
-        """Size every bead to its material's standard size (v1).
+        """Wrap each bead's label and size every bead to fit it.
 
-        The minimums won't fit state labels; standard size does. Growing a bead to a long
-        label needs text measurement and is deferred."""
-        for string in self.diagram.strings:
-            for bead in string.beads:
-                bead.size = bead.material.standard_size
+        The label wraps onto as many lines as it takes for each line to fit the material's
+        standard-size *width* (the wrap boundary); a bead then grows taller for the extra
+        lines. Width is **uniform** across the diagram -- the widest wrapped line plus
+        horizontal padding -- so bead edges line up like the reference. Sets the uniform
+        width ``_assign_x`` and ``_frame_and_place`` read."""
+        layout = self.diagram.theme.layout
+        pad_h, pad_v = layout.bead_text_pad_h, layout.bead_text_pad_v
+        beads = [b for s in self.diagram.strings for b in s.beads]
+
+        blocks: dict[int, RectSize] = {}
+        widest_line = 0.0
+        for bead in beads:
+            bead.lines = self._measure.wrap("state name", bead.color_name, bead.material.standard_size.width)
+            blocks[id(bead)] = self._measure.block_size("state name", bead.lines)
+            widest_line = max(widest_line, blocks[id(bead)].width)
+
+        self._bead_width = max(layout.min_bead_size.width, widest_line + 2 * pad_h)
+        for bead in beads:
+            block = blocks[id(bead)]
+            height = max(bead.material.standard_size.height, block.height + 2 * pad_v)
+            bead.size = RectSize(width=self._bead_width, height=height)
 
     # ------------------------------------------------- centers, frame, y-flip (#8)
     def _frame_and_place(self) -> None:
@@ -177,7 +212,7 @@ class Layout:
             [b.compressed_depth for b in beads] + [t.height for t in self.diagram.threads],
             default=0.0,
         )
-        half_bead = self._widest_bead / 2
+        half_bead = self._bead_width / 2
         rightmost = max(self.diagram.strings, key=lambda s: s.x)
 
         width = rightmost.x + half_bead + padding.right

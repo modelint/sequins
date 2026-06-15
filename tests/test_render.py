@@ -24,8 +24,9 @@ def test_render_elevator_svg(tmp_path):
     assert svg.count("<line") == 37
     # 36 beads + the background rectangle.
     assert svg.count("<rect") == 37
-    # 9 lifeline names + 36 state names + 28 message labels.
-    assert svg.count("<text") == 73
+    # 9 lifeline names + 28 message labels + state-name lines: 36 beads, 4 of which carry
+    # a label too wide for the bead and wrap onto a second line (#5) -> 40 state-name lines.
+    assert svg.count("<text") == 77
 
 
 def test_string_colors_reach_the_svg(tmp_path):

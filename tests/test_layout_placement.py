@@ -13,11 +13,25 @@ def build():
     return e.diagram
 
 
-def test_beads_sized_to_standard():
+def test_beads_wrap_and_share_uniform_width():
     d = build()
-    for s in d.strings:
-        for b in s.beads:
-            assert b.size == b.material.standard_size  # 50 x 25 for 'state'
+    beads = [b for s in d.strings for b in s.beads]
+    std = beads[0].material.standard_size
+
+    # Width is uniform across the diagram (widest wrapped line + padding), never below standard.
+    widths = {b.size.width for b in beads}
+    assert len(widths) == 1
+    assert widths.pop() >= std.width
+
+    # A short single-word label stays one line at the standard height.
+    opening = next(b for b in beads if b.color_name == "OPENING")
+    assert opening.lines == ["OPENING"]
+    assert opening.size.height == std.height
+
+    # A label too wide for the bead wraps onto multiple lines and grows taller.
+    waiting = next(b for b in beads if b.color_name == "WAITING FOR REQUESTS TO CLEAR")
+    assert len(waiting.lines) > 1
+    assert waiting.size.height > std.height
 
 
 def test_canvas_frame():

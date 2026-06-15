@@ -2,9 +2,10 @@
 
 Status: **largely implemented.** This started as the plan we talked through before coding the
 resolution step; it's now kept current as a record of what `layout.py` (the `Layout` class)
-and `render.py` actually do. Built: the full pipeline (#1–#8, including #6 — fanning,
-slip-knot blocking-bead recording, arrowheads, bounded-String knots). Still open: text-tight
-spacing, absolute depth mode, and bead-label centering (all called out below).
+and `render.py` actually do. Built: the full pipeline (#1–#8), including #6 (fanning,
+slip-knot blocking-bead recording, arrowheads, bounded-String knots), label-driven bead
+sizing/wrapping + bead-label centering (#5), and content-driven spans (#2) — both through the
+text-measurement seam. Still open: absolute depth mode and span congestion weighting (below).
 
 ## Where it sits
 
@@ -55,15 +56,18 @@ Concatenate → assign `position` 1..N. Verified against the reference:
 `UI(L) · ASLEV · R53 · Transfer · Cabin · Door · TRANS(R-2) · SIO(R-1) · UI(R-0)` — exactly
 the rendered order. So the right-edge offsets read "rank inward from the right."
 
-### 2. String x-coordinates  ·  *built v1 (`_assign_x`)*
+### 2. String x-coordinates  ·  *built, content-driven (`_assign_x`)*
 Walk positions left→right, accumulating an inter-string span per gap.
 
-- **Rule (full):** each gap fits its content — the widest bead that sits on the bounding
-  strings plus the longest thread label crossing the gap — never below `min string span`.
-- **v1 (built):** uniform span = `max(min string span, widest bead + min thread separation)`,
-  first string inset half a bead. A correct topology, not text-tight. The reference gaps run
-  103–189px; matching them needs text measurement (see *Text seam*), deferred per the
-  "basics first, defer weighting" call.
+- **Rule:** each gap fits its content — the (uniform) beads on the bounding strings plus the
+  longest thread label crossing the gap — never below `min string span`.
+- **Built:** per-gap span = `max(min string span, bead width + min thread separation,
+  longest crossing message label + 2·min thread separation)`, first string inset half a
+  bead. Threads are bound (#3) before this runs, so each gap knows exactly which labels
+  cross it; the longest is measured via the *Text seam*. Beads are uniform width (see #5), so
+  the bead term is the same for every gap and the variation comes from labels — elevator gaps
+  land at 164–175px (reference 103–189). Congestion weighting (counting how many labels share
+  a gap) is still deferred.
 
 ### 3. Bind deferred endpoints (UI)  ·  *built (`_bind_endpoints`)*
 For each thread endpoint still `None`, choose the same-named instance whose `x` is nearest
@@ -82,12 +86,19 @@ inherit their source bead's depth, already in the set). Sort unique ascending �
 - The actual y is assigned in #8; this pass fills `Bead.compressed_depth` and
   `Thread.height` (the thread's depth distance down the axis).
 
-### 5. Bead sizing  ·  *built v1 (`_size_beads`)*
-- **Rule:** width/height between `min bead size` and the material's `standard size`, grown to
-  fit the state label.
-- **v1 (built):** every bead = `standard size` (50×25). The minimums won't fit labels;
-  standard does. The long states (`WAITING FOR REQUESTS TO CLEAR`) prove real metrics are
-  eventually required (text seam). **Open:** text-tight growth + bead-label centering.
+### 5. Bead sizing  ·  *built, label-driven (`_size_beads`)*
+- **Rule:** a bead fits its state label, wrapping the label and growing as needed.
+- **Built:** the label word-wraps so each line fits the material's `standard size` *width*
+  (the wrap boundary); a bead grows taller for the extra lines (`min bead separation` keeps
+  rows clear regardless). Width is **uniform** across the diagram — the widest wrapped line
+  plus `bead text padding` (horizontal), floored at `min bead size` width — so bead edges
+  line up like the reference. Height per bead = wrapped block + vertical padding, floored at
+  `standard size` height. Reproduces the reference closely: uniform width 156 (ref 150.89),
+  single-line height 25, wrapped (2-line) height 39.3 (ref 39.39). Labels are measured and
+  rendered through the *Text seam*; `render._draw_beads` centers the wrapped block on the
+  bead center (the `_centered_pin` recipe). Single unbreakable words wider than the boundary
+  are left to overflow (none in the elevator). **Open:** per-material `bead text padding` is
+  one shared value; tune in `layout.yaml`.
 
 ### 6. Knots & gaps  ·  *built*
 - **Source (R26):** a beaded-origin thread projects from the **lowest bead on its from-string
@@ -135,11 +146,14 @@ shallowest and deepest events).
 **Coordinate flip.** Computed depth grows downward from the rod, converted to Tablet's y-up
 **once**, in #8's `y_at(distance)`. One conversion point, clearly owned, per the Tablet contract.
 
-**Text measurement seam.** Steps 2 and 5 want string widths. Proposed single
-`measure_text(text, asset) -> width` interface: v1 = rough char-width estimate; v2 = Tablet's
-real font metrics. **Still open** — not yet built (v1 uses fixed standard sizes/spans). Pairs
-with bead-label centering (the `_centered_pin` recipe in
-`TabletSVG/issues/seq_diagram_test_issues.md`).
+**Text measurement seam.** Steps 2 and 5 want string widths. **Built** as
+`sequins/text.py::TextMeasure` — a thin wrapper over TabletSVG's `TextElement.text_block_size`
+(Pillow font metrics, with a 0.6× char-width fallback when a typeface isn't configured),
+keyed on Sequins' asset names. Built once per layout pass from the active theme (drawing type
+= Curtain Style name; presentation mirrors the Canvas), so measured sizes match what `render`
+draws. Provides `block_size`, `line_width`, and `wrap` (greedy word wrap). `render._draw_beads`
+uses it (via the layer's presentation) to center the wrapped block on the bead center (the
+`_centered_pin` recipe in `TabletSVG/issues/seq_diagram_test_issues.md`).
 
 **Symbol names — confirmed.** `target lifeline` and `create delete` check out against
 `~/.config/mi_tablet/symbols.yaml` (group "Starr sequence diagram");

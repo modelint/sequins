@@ -9,7 +9,7 @@ Starr sequence diagram:
     beads:
       state:
         min size: {width: 20, height: 20}
-        standard size: {width: 50, height: 25}
+        standard size: {width: 150, height: 25}
     threads:
       signal: target lifeline
       implicit event: target lifeline
