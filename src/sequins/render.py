@@ -67,12 +67,14 @@ def _draw_strings(layer, diagram: CurtainDiagram) -> None:
             to_there=Position(x=string.x, y=string.y_top),
             color_override=string.override_color or string.color,
         )
-        # Name each lifeline at the rod, above the curtain.
+        # Name each lifeline at the rod, above the curtain, centered over the String.
+        name = [string.name]
+        block = TextElement.text_block_size(layer.Presentation, "lifeline name", name)
         TextElement.pin_block(
             layer,
             asset="lifeline name",
-            text=[string.name],
-            pin=Position(x=string.x, y=diagram.rod_height + 8),
+            text=name,
+            pin=Position(x=string.x - block.width / 2, y=diagram.rod_height + 8),
             corner=TextBlockCorner.LL,
             align=HorizAlign.CENTER,
         )
