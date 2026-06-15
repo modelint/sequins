@@ -37,3 +37,15 @@ def test_string_colors_reach_the_svg(tmp_path):
     assert "rgb(142,250,0)" in svg  # lime  (UI)
     assert "rgb(66,148,247)" in svg  # aqua  (TRANS)
     assert "rgb(255,64,255)" in svg  # magenta (SIO)
+
+
+def test_knots_and_arrowheads_drawn(tmp_path):
+    # #6: a target arrowhead per thread, plus birth+death knots on the one bounded String.
+    e = LayoutEngine()
+    populate(e)
+    out = render(e.end_diagram(), tmp_path / "elevator.svg")
+    svg = out.read_text()
+    # 28 arrowhead polylines + 2 knots x 6 spokes = 40 polylines.
+    assert svg.count("<polyline") == 40
+    # Transfer is born and dies (End_string'd) -> 2 create/delete bursts -> 2 center dots.
+    assert svg.count("<circle") == 2

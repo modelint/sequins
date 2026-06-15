@@ -1,9 +1,9 @@
 """Render a resolved Curtain Diagram to SVG via TabletSVG.
 
-Minimal v1: lifelines, state beads (rectangle + name), and thread lines + message labels,
-with String Color / thread color match applied to the lines (#7). Adornments handled by
-later sub-passes -- arrowheads (`target lifeline`) and bounded-string end knots
-(`create delete`) -- are not drawn yet.
+Draws lifelines, state beads (rectangle + name), thread lines + message labels, with
+String Color / thread color match on the lines (#7), plus target arrowheads and
+bounded-string birth/death knots (#6). Still deferred within #6: slip-knot target gaps
+(R11) and fanning (`fixed_knot`), which nudge a thread's landing off a bead row.
 
 Sequins works entirely in Tablet's y-up, lower-left-origin coordinates (the layout pass
 already owns the one depth->y flip), so positions pass straight through; Tablet handles the
@@ -17,6 +17,7 @@ from pathlib import Path
 from tabletsvg.geometry_types import HorizAlign, Position, Rect_Size
 from tabletsvg.graphics.line_segment import LineSegment
 from tabletsvg.graphics.rectangle_se import RectangleSE
+from tabletsvg.graphics.symbol import Symbol
 from tabletsvg.graphics.text_element import TextBlockCorner, TextElement
 from tabletsvg.tablet import Tablet
 
@@ -28,6 +29,8 @@ DRAWING_TYPE = "Starr sequence diagram"
 _PRESENTATION = {"light": "default", "dark": "dark"}
 #: Sequins Thread material name -> Tablet line asset
 _THREAD_LINE_ASSET = {"signal": "signal", "implicit event": "implicit ext event"}
+#: Symbol angle (0=up, 90=right, 180=down, 270=left) for an arrowhead by travel direction
+_ARROW_ANGLE = {True: 90, False: 270}  # keyed on "to the right"
 
 
 def render(diagram: CurtainDiagram, output_file: str | Path) -> Path:
@@ -46,6 +49,8 @@ def render(diagram: CurtainDiagram, output_file: str | Path) -> Path:
     _draw_strings(layer, diagram)
     _draw_beads(layer, diagram)
     _draw_threads(layer, diagram)
+    _draw_arrowheads(layer, diagram)
+    _draw_end_knots(layer, diagram)
 
     tablet.render()
     return Path(output_file)
@@ -111,3 +116,46 @@ def _draw_threads(layer, diagram: CurtainDiagram) -> None:
             corner=TextBlockCorner.LL,
             align=HorizAlign.CENTER,
         )
+
+
+def _draw_arrowheads(layer, diagram: CurtainDiagram) -> None:
+    """Tip an arrowhead (`target lifeline`) into each thread's target String.
+
+    The arrow points in the direction of travel (from -> to) and matches the thread color.
+    v1 lands it on the target String's x at the thread y; slip-knot target gaps (R11) and
+    fanning (`fixed_knot`) -- which nudge that landing off a bead row -- are deferred."""
+    for thread in diagram.threads:
+        going_right = thread.to_point.x >= thread.from_point.x
+        Symbol(
+            layer,
+            name="target lifeline",
+            pin=Position(x=thread.to_point.x, y=thread.to_point.y),
+            angle=_ARROW_ANGLE[going_right],
+            color_override=thread.color,
+        )
+
+
+def _draw_end_knots(layer, diagram: CurtainDiagram) -> None:
+    """Knot the ends of bounded Strings (the create/delete burst).
+
+    The birth knot caps the top of every bounded String; the death knot caps the bottom
+    only once ``End_string`` has marked the String dead. Each end's symbol is named by the
+    material (``top_end``/``bottom_end``)."""
+    for string in diagram.strings:
+        if not string.bounded:
+            continue
+        knot_color = string.override_color or string.color
+        if string.material.top_end:
+            Symbol(
+                layer,
+                name=string.material.top_end,
+                pin=Position(x=string.x, y=string.y_top),
+                color_override=knot_color,
+            )
+        if string.lower_bounded and string.material.bottom_end:
+            Symbol(
+                layer,
+                name=string.material.bottom_end,
+                pin=Position(x=string.x, y=string.y_bottom),
+                color_override=knot_color,
+            )
