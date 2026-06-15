@@ -29,8 +29,10 @@ DRAWING_TYPE = "Starr sequence diagram"
 _PRESENTATION = {"light": "default", "dark": "dark"}
 #: Sequins Thread material name -> Tablet line asset
 _THREAD_LINE_ASSET = {"signal": "signal", "implicit event": "implicit ext event"}
-#: Symbol angle (0=up, 90=right, 180=down, 270=left) for an arrowhead by travel direction
-_ARROW_ANGLE = {True: 90, False: 270}  # keyed on "to the right"
+#: Arrowhead angle by travel direction (keyed on "to the right"). The `target lifeline`
+#: glyph has its tip at the bottom -- its natural orientation points *down*, so it reads
+#: 180deg off the usual 0=up/90=right convention: 270 points it right, 90 points it left.
+_ARROW_ANGLE = {True: 270, False: 90}
 
 
 def render(diagram: CurtainDiagram, output_file: str | Path) -> Path:
