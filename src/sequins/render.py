@@ -22,6 +22,7 @@ from tabletsvg.graphics.text_element import TextBlockCorner, TextElement
 from tabletsvg.tablet import Tablet
 
 from sequins.curtain import CurtainDiagram
+from sequins.layout import LABEL_LINE_CLEARANCE, LABEL_TARGET_GAP
 
 DRAWING_TYPE = "Starr sequence diagram"
 
@@ -115,17 +116,23 @@ def _draw_threads(layer, diagram: CurtainDiagram) -> None:
             to_there=Position(x=thread.to_point.x, y=thread.to_point.y),
             color_override=thread.color,
         )
-        midpoint = Position(
-            x=(thread.from_point.x + thread.to_point.x) / 2,
-            y=thread.from_point.y + 4,
-        )
+        # The label hugs the destination String: its edge nearest the target sits
+        # LABEL_TARGET_GAP from the String, on the side the thread arrives from, and the
+        # block rides just above the line.
+        label = [thread.label]
+        block = TextElement.text_block_size(layer.Presentation, "message", label)
+        going_right = thread.to_point.x >= thread.from_point.x
+        if going_right:  # target on the right; label to its left, right edge near the target
+            ll_x = thread.to_point.x - LABEL_TARGET_GAP - block.width
+        else:            # target on the left; label to its right, left edge near the target
+            ll_x = thread.to_point.x + LABEL_TARGET_GAP
         TextElement.pin_block(
             layer,
             asset="message",
-            text=[thread.label],
-            pin=midpoint,
+            text=label,
+            pin=Position(x=ll_x, y=thread.from_point.y + LABEL_LINE_CLEARANCE),
             corner=TextBlockCorner.LL,
-            align=HorizAlign.CENTER,
+            align=HorizAlign.LEFT,
         )
 
 

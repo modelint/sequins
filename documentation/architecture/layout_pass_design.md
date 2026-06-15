@@ -56,18 +56,20 @@ Concatenate → assign `position` 1..N. Verified against the reference:
 `UI(L) · ASLEV · R53 · Transfer · Cabin · Door · TRANS(R-2) · SIO(R-1) · UI(R-0)` — exactly
 the rendered order. So the right-edge offsets read "rank inward from the right."
 
-### 2. String x-coordinates  ·  *built, content-driven (`_assign_x`)*
-Walk positions left→right, accumulating an inter-string span per gap.
+### 2. String x-coordinates  ·  *built, uniform & label-driven (`_assign_x`)*
+One **global, uniform** span between every adjacent string (so the diagram stays evenly
+ruled); first string inset half a bead.
 
-- **Rule:** each gap fits its content — the (uniform) beads on the bounding strings plus the
-  longest thread label crossing the gap — never below `min string span`.
-- **Built:** per-gap span = `max(min string span, bead width + min thread separation,
-  longest crossing message label + 2·min thread separation)`, first string inset half a
-  bead. Threads are bound (#3) before this runs, so each gap knows exactly which labels
-  cross it; the longest is measured via the *Text seam*. Beads are uniform width (see #5), so
-  the bead term is the same for every gap and the variation comes from labels — elevator gaps
-  land at 164–175px (reference 103–189). Congestion weighting (counting how many labels share
-  a gap) is still deferred.
+- **Rule:** the span clears adjacent beads and is wide enough that *every* message label —
+  anchored `LABEL_TARGET_GAP` (30px) off its destination and running back toward the source —
+  clears the source bead it springs from. This is the **horizontal lever**: the fallback when
+  vertical opening (#4) can't help, because a too-wide label clips a bead at its own row.
+- **Built:** `span = max(min string span, bead width + min thread separation, max over threads
+  of (30 + label width + ½ source bead) / gaps crossed)`. A thread crossing `g` gaps has `g`
+  spans of room, so multi-gap threads rarely bind; the driver is a long label across a single
+  gap. Threads are bound (#3) first; labels measured via the *Text seam*. Elevator → 189px
+  uniform (was driven by `Cabin at destination`). Going uniform replaced an earlier per-gap
+  span; congestion weighting stays deferred.
 
 ### 3. Bind deferred endpoints (UI)  ·  *built (`_bind_endpoints`)*
 For each thread endpoint still `None`, choose the same-named instance whose `x` is nearest
@@ -77,12 +79,21 @@ weighting deferred. Exact ties → first by position, a v1 artifact of uniform s
 
 ### 4. Global depth axis → y  ·  *built, compressed only (`_build_depth_axis`)*
 Collect the depth of every Bead and every **bare-origin** thread (beaded-origin threads
-inherit their source bead's depth, already in the set). Sort unique ascending → assign rows.
+inherit their source bead's depth, already in the set). Sort unique ascending → stack rows
+downward with a **per-gap** spacing (runs after #5 so real bead heights are known).
 
-- **Compressed (built):** uniform row pitch = `standard bead height + min bead separation`
-  (any two adjacent rows clear a bead; thin threads fit trivially). Per-string non-overlap
-  then comes for free — consecutive beads on one string are separated by many global rows.
-- **Absolute:** pitch ∝ Δdepth, floored at the compressed pitch. **Deferred** (see Two axes).
+- **Compressed (built):** the gap between two adjacent rows is
+  `½ taller bead above + separation + ½ taller bead below`, where
+  `separation = max(min bead separation, label height need)`:
+  - **Beads clear each other** using *actual* heights — two stacked 2-line (wrapped) beads
+    keep their `min bead separation`, where a single uniform pitch sized for standard beads
+    would let them collide. Standard rows reduce to the old `standard height + min bead
+    separation` (45px); tall rows open to 52/59px in the elevator.
+  - **Labels fit (the vertical lever, first choice):** a thread's message label rides in the
+    gap *above* its row; the gap opens further if the label needs more height than the bead
+    separation already gives. Short labels fit the standard gap, so this only bites for
+    tall/wrapped labels (none yet — thread-label wrapping is deferred).
+- **Absolute:** gap ∝ Δdepth, floored at the compressed gap. **Deferred** (see Two axes).
 - The actual y is assigned in #8; this pass fills `Bead.compressed_depth` and
   `Thread.height` (the thread's depth distance down the axis).
 
@@ -156,9 +167,19 @@ shallowest and deepest events).
 (Pillow font metrics, with a 0.6× char-width fallback when a typeface isn't configured),
 keyed on Sequins' asset names. Built once per layout pass from the active theme (drawing type
 = Curtain Style name; presentation mirrors the Canvas), so measured sizes match what `render`
-draws. Provides `block_size`, `line_width`, and `wrap` (greedy word wrap). `render._draw_beads`
-uses it (via the layer's presentation) to center the wrapped block on the bead center (the
-`_centered_pin` recipe in `TabletSVG/issues/seq_diagram_test_issues.md`).
+draws. Provides `block_size`, `line_width`, `wrap` (greedy word wrap), and
+`symbol_top_extent`. `render._draw_beads` uses it to center the wrapped block on the bead
+center (the `_centered_pin` recipe in `TabletSVG/issues/seq_diagram_test_issues.md`); #2/#4
+use it to reserve span/row space for labels.
+
+**Message-label placement.** Drawn in `render._draw_threads`, not the layout pass. Each label
+**hugs its destination String**: its near edge sits `LABEL_TARGET_GAP` (30px) off the target,
+on the side the thread arrives from, riding `LABEL_LINE_CLEARANCE` (4px) above the line.
+(Constants live in `layout.py` and are shared with `render` so the space #2/#4 reserve matches
+what's drawn.) Two levers keep labels clear of beads — **vertical** gap opening (#4, first
+choice) for labels squeezed between stacked beads, and **uniform horizontal** widening (#2,
+fallback) for labels too wide to clear a neighbouring bead. Wrapping long thread labels is
+deferred (they're short in practice).
 
 **Symbol names — confirmed.** `target lifeline` and `create delete` check out against
 `~/.config/mi_tablet/symbols.yaml` (group "Starr sequence diagram");

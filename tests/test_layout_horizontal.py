@@ -39,13 +39,36 @@ def test_x_strictly_increases_with_position():
     assert by_pos[0].x > 0  # inset from the canvas edge
 
 
-def test_spans_are_content_driven():
-    # #2: gaps clear the uniform bead floor, and a long crossing message label widens some.
+def test_spans_are_uniform_and_label_driven():
+    # #2: one global span everywhere (the horizontal lever is uniform), wide enough to clear
+    # beads and grown so labels clear their source bead.
     d = build()
     by_pos = sorted(d.strings, key=lambda s: s.position)
-    gaps = [round(b.x - a.x, 3) for a, b in zip(by_pos, by_pos[1:])]
-    assert min(gaps) >= d.theme.layout.min_string_span
-    assert len(set(gaps)) > 1  # not uniform -- label widths push some gaps wider
+    gaps = {round(b.x - a.x, 6) for a, b in zip(by_pos, by_pos[1:])}
+    assert len(gaps) == 1  # uniform
+    span = gaps.pop()
+    bead_width = max(b.size.width for s in d.strings for b in s.beads)
+    assert span >= max(d.theme.layout.min_string_span, bead_width)
+
+
+def test_labels_clear_their_source_beads():
+    # The uniform span is sized so every destination-anchored label clears the source bead
+    # it springs from (the horizontal lever's job).
+    from sequins.layout import LABEL_TARGET_GAP
+    from sequins.text import TextMeasure
+
+    d = build()
+    m = TextMeasure.for_theme(d.theme)
+    for t in d.threads:
+        if t.source_bead is None:
+            continue
+        w = m.line_width("message", t.label)
+        if t.to_point.x >= t.from_point.x:  # going right: source bead on the left
+            label_far = t.to_point.x - LABEL_TARGET_GAP - w
+            assert label_far >= t.source_bead.center.x + t.source_bead.size.width / 2 - 1e-6
+        else:  # going left: source bead on the right
+            label_far = t.to_point.x + LABEL_TARGET_GAP + w
+            assert label_far <= t.source_bead.center.x - t.source_bead.size.width / 2 + 1e-6
 
 
 def test_deferred_ui_endpoints_bound_to_nearest():

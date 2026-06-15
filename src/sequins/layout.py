@@ -22,6 +22,10 @@ from sequins.text import TextMeasure, symbol_top_extent
 _KNOT_GAP = 2.0           # between a bounded String's line end and its knot burst
 _BIRTH_THREAD_DROP = 4.0  # the birth thread touches this far below the line's beginning
 
+#: Message-label placement, shared with ``render`` so reserved space matches what's drawn.
+LABEL_TARGET_GAP = 30.0     # gap between the destination String and the label's near edge
+LABEL_LINE_CLEARANCE = 4.0  # a label rides this far above its thread line
+
 
 class Layout:
     """Resolves one Curtain Diagram's geometry."""
@@ -32,20 +36,20 @@ class Layout:
         self._measure = TextMeasure.for_theme(diagram.theme)
         #: raw chronological depth -> distance downward from the top of the axis (compressed)
         self._compressed: dict[float, Distance] = {}
-        #: uniform row pitch in compressed mode
-        self._pitch: Distance = 0.0
         #: Strings in left-to-right (OR2 position) order
         self._ordered: list[String] = []
         #: uniform bead width (label-driven), for spans/insets/frame
         self._bead_width: Distance = 0.0
+        #: uniform inter-String span (label-driven), set in #2
+        self._span: Distance = 0.0
 
     def resolve(self) -> CurtainDiagram:
         """Run every implemented sub-pass, in dependency order."""
+        self._size_beads()          # #5 first -- bead sizes feed the axis (#4) and spans (#2)
         self._build_depth_axis()    # #4
-        self._size_beads()          # #5 -- sets the uniform bead width #2/#8 rely on
         self._assign_positions()    # #1
         self._bind_endpoints()      # #3 -- before #2 so span crossing is known
-        self._assign_x()            # #2 -- per-gap, label-driven
+        self._assign_x()            # #2 -- uniform, label-driven
         self._match_thread_colors()  # #7
         self._frame_and_place()     # #8
         self._fan_source_knots()    # #6
@@ -57,17 +61,50 @@ class Layout:
         """Map the global chronological depth axis to compressed row distances.
 
         Every Bead and every bare-origin Thread contributes a depth (beaded-origin Threads
-        ride their source bead's depth, already present).  Distinct depths become evenly
-        spaced rows; equal depths on different Strings share a row, so they align."""
+        ride their source bead's depth, already present); equal depths on different Strings
+        share a row, so they align. Rows are stacked downward with a per-gap spacing rather
+        than a single pitch:
+
+        - **Beads clear each other.** The gap between two adjacent rows is at least
+          ``half the taller bead above + min bead separation + half the taller bead below``,
+          so consecutive Beads on any one String keep their separation even when a row carries
+          a tall (wrapped, multi-line) Bead -- a uniform pitch sized for standard Beads would
+          let two stacked 2-line Beads collide.
+        - **Labels fit (compressed mode's first lever).** A Thread's message label rides in
+          the gap *above* its row; the gap opens further if that label needs more height than
+          the bead separation already provides. (Short labels fit the standard gap, so this
+          only bites for tall/wrapped labels.)
+
+        Bead sizes are set by now (#5), so real heights are available."""
         layout = self.diagram.theme.layout
-        bead_materials = self.diagram.theme.curtain_style.bead_materials.values()
-        tallest_bead = max(m.standard_size.height for m in bead_materials)
-        # A row pitch that clears a standard bead guarantees per-String non-overlap, since
-        # consecutive beads on any one String are separated by >= one global row.
-        self._pitch = tallest_bead + layout.min_bead_separation
+        standard_height = max(
+            m.standard_size.height for m in self.diagram.theme.curtain_style.bead_materials.values()
+        )
+        # Tallest Bead present at each depth (a thread-only depth falls back to standard).
+        height_at: dict[float, Distance] = {}
+        for string in self.diagram.strings:
+            for bead in string.beads:
+                height_at[bead.depth] = max(height_at.get(bead.depth, 0.0), bead.size.height)
+        # Vertical room the deepest-at-a-row Thread labels need above their line.
+        label_need_at: dict[float, Distance] = defaultdict(float)
+        for thread in self.diagram.threads:
+            need = LABEL_LINE_CLEARANCE + self._measure.block_size("message", [thread.label]).height
+            label_need_at[self._thread_depth(thread)] = max(
+                label_need_at[self._thread_depth(thread)], need
+            )
 
         depths = sorted(self._depth_events())
-        self._compressed = {depth: rank * self._pitch for rank, depth in enumerate(depths)}
+        self._compressed = {}
+        cursor: Distance = 0.0
+        prev: float | None = None
+        for depth in depths:
+            if prev is not None:
+                h_above = height_at.get(prev, standard_height)
+                h_below = height_at.get(depth, standard_height)
+                separation = max(layout.min_bead_separation, label_need_at.get(depth, 0.0))
+                cursor += h_above / 2 + separation + h_below / 2
+            self._compressed[depth] = cursor
+            prev = depth
 
         for string in self.diagram.strings:
             for bead in string.beads:
@@ -103,34 +140,35 @@ class Layout:
 
     # ------------------------------------------------------------ string x (#2)
     def _assign_x(self) -> None:
-        """Place Strings at per-gap x spans driven by content.
+        """Place Strings at a single uniform span, widened so labels clear their source Bead.
 
-        Each gap is widened to clear the (uniform) beads on its bounding Strings and to fit
-        the longest message label of any Thread crossing it, never below ``min string span``.
-        Threads are bound by now (#3), so each gap knows exactly which labels cross it. The
-        first String is inset by half a bead so beads don't bleed into the canvas padding."""
+        Spacing is the same between every adjacent String (the horizontal lever is global, so
+        the diagram stays evenly ruled). The span clears adjacent beads and is grown so that
+        *every* message label -- anchored ``LABEL_TARGET_GAP`` off its destination and running
+        back toward the source -- clears the source Bead it springs from. A Thread spanning
+        ``g`` gaps has ``g`` spans of room, so its requirement is ``(gap + label +
+        half source bead) / g``; the binding case is a long label across a single gap. (This
+        is the fallback lever: vertical opening (#4) handles labels squeezed between stacked
+        beads; widening Strings handles labels too wide to clear a neighbouring bead.) The
+        first String is inset half a bead so beads don't bleed into the canvas padding.
+
+        Threads are bound by now (#3), so each carries its resolved endpoints."""
         layout = self.diagram.theme.layout
-        margin = layout.min_thread_separation
-        bead_floor = self._bead_width + margin  # adjacent beads (centered) clear each other
         pos_of = {id(s): i for i, s in enumerate(self._ordered)}
 
-        # Longest message label crossing each gap k (between ordered[k] and ordered[k+1]).
-        gaps = max(len(self._ordered) - 1, 0)
-        longest_label = [0.0] * gaps
+        span = max(layout.min_string_span, self._bead_width + layout.min_thread_separation)
         for thread in self.diagram.threads:
-            lo, hi = sorted((pos_of[id(thread.from_string)], pos_of[id(thread.to_string)]))
-            if lo == hi:
+            gaps_crossed = abs(pos_of[id(thread.from_string)] - pos_of[id(thread.to_string)])
+            if gaps_crossed == 0:
                 continue
-            width = self._measure.line_width("message", thread.label)
-            for k in range(lo, hi):
-                longest_label[k] = max(longest_label[k], width)
+            label_width = self._measure.line_width("message", thread.label)
+            source_half = thread.source_bead.size.width / 2 if thread.source_bead else 0.0
+            span = max(span, (LABEL_TARGET_GAP + label_width + source_half) / gaps_crossed)
+        self._span = span
 
         x = self.diagram.theme.canvas.padding.left + self._bead_width / 2
-        self._ordered[0].x = x
-        for k in range(gaps):
-            span = max(layout.min_string_span, bead_floor, longest_label[k] + 2 * margin)
-            x += span
-            self._ordered[k + 1].x = x
+        for index, string in enumerate(self._ordered):
+            string.x = x + index * span
 
     # ------------------------------------------------------------ bind endpoints (#3)
     def _bind_endpoints(self) -> None:
