@@ -2,9 +2,9 @@ metadata
     Title : Sequins Diagram Layout
     Author : Leon Starr
     Document ID : mint.bead.td.1
-    Version : 0.7.9
+    Version : 0.7.10
     Creation date : May 9, 2026
-    Modification date : June 12, 2026
+    Modification date : June 16, 2026
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
     Organization logo > mint
@@ -104,6 +104,8 @@ attributes
     Min string span : Distance
     Min bead size : Rect Size
     Min thread separation : Distance
+    Target string label gap : Distance
+    Min bead edge gap : Distance
 --
 class Material
 attributes
