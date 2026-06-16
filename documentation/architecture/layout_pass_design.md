@@ -61,12 +61,12 @@ One **global, uniform** span between every adjacent string (so the diagram stays
 ruled); first string inset half a bead.
 
 - **Rule:** the span clears adjacent beads and is wide enough that *every* message label —
-  anchored `LABEL_TARGET_GAP` (30px) off its destination and running back toward the source —
-  clears the source bead it springs from by at least `LABEL_BEAD_GAP` (20px). This is the
-  **horizontal lever**: the fallback when vertical opening (#4) can't help, because a too-wide
-  label clips a bead at its own row.
+  anchored `Target string label gap` (30px) off its destination and running back toward the
+  source — clears the source bead it springs from by at least `Min bead edge gap` (20px). Both
+  are configurable `Layout` attributes. This is the **horizontal lever**: the fallback when
+  vertical opening (#4) can't help, because a too-wide label clips a bead at its own row.
 - **Built:** `span = max(min string span, bead width + min thread separation, max over threads
-  of (30 + label width + ½ source bead + 20) / gaps crossed)`. A thread crossing `g` gaps has
+  of (target gap + label width + ½ source bead + bead gap) / gaps crossed)`. A thread crossing `g` gaps has
   `g` spans of room, so multi-gap threads rarely bind; the driver is a long label across a
   single gap. Threads are bound (#3) first; labels measured via the *Text seam*. Elevator →
   209px uniform (driven by `Cabin at destination`). Going uniform replaced an earlier per-gap
@@ -179,10 +179,12 @@ center (the `_centered_pin` recipe in `TabletSVG/issues/seq_diagram_test_issues.
 use it to reserve span/row space for labels.
 
 **Message-label placement.** Drawn in `render._draw_threads`, not the layout pass. Each label
-**hugs its destination String**: its near edge sits `LABEL_TARGET_GAP` (30px) off the target,
-on the side the thread arrives from, riding `LABEL_LINE_CLEARANCE` (4px) above the line.
-(Constants live in `layout.py` and are shared with `render` so the space #2/#4 reserve matches
-what's drawn.) Two levers keep labels clear of beads — **vertical** gap opening (#4, first
+**hugs its destination String**: its near edge sits the configurable `Target string label gap`
+(30px) off the target, on the side the thread arrives from, riding `LABEL_LINE_CLEARANCE` (4px)
+above the line. (`Target string label gap` and `Min bead edge gap` are `Layout` model
+attributes read from config; the vertical `LABEL_LINE_CLEARANCE` stays a constant in `layout.py`,
+shared with `render` so the space #2/#4 reserve matches what's drawn.) Two levers keep labels
+clear of beads — **vertical** gap opening (#4, first
 choice) for labels squeezed between stacked beads, and **uniform horizontal** widening (#2,
 fallback) for labels too wide to clear a neighbouring bead. Wrapping long thread labels is
 deferred (they're short in practice).

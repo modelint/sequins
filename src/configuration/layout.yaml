@@ -11,6 +11,10 @@ standard:
     height: 10
     width: 60
   min thread separation: 8
+  # Space between a target String and the near edge of a thread's message label.
+  target string label gap: 30
+  # Minimum gap between a bead edge and any thread label text (widens String spacing).
+  min bead edge gap: 20
   # Padding between a bead's wrapped label and the bead edge (the wrap boundary is the
   # bead material's standard-size width; longer labels wrap onto more lines).
   bead text padding:

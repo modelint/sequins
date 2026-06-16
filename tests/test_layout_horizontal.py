@@ -53,24 +53,25 @@ def test_spans_are_uniform_and_label_driven():
 
 def test_labels_clear_their_source_beads():
     # The uniform span is sized so every destination-anchored label clears the source bead
-    # it springs from by at least LABEL_BEAD_GAP (the horizontal lever's job).
-    from sequins.layout import LABEL_BEAD_GAP, LABEL_TARGET_GAP
+    # it springs from by at least the configurable Min bead edge gap (the horizontal lever).
     from sequins.text import TextMeasure
 
     d = build()
+    target_gap = d.theme.layout.target_string_label_gap
+    bead_gap = d.theme.layout.min_bead_edge_gap
     m = TextMeasure.for_theme(d.theme)
     for t in d.threads:
         if t.source_bead is None:
             continue
         w = m.line_width("message", t.label)
         if t.to_point.x >= t.from_point.x:  # going right: source bead on the left
-            label_far = t.to_point.x - LABEL_TARGET_GAP - w
+            label_far = t.to_point.x - target_gap - w
             src_edge = t.source_bead.center.x + t.source_bead.size.width / 2
-            assert label_far - src_edge >= LABEL_BEAD_GAP - 1e-6
+            assert label_far - src_edge >= bead_gap - 1e-6
         else:  # going left: source bead on the right
-            label_far = t.to_point.x + LABEL_TARGET_GAP + w
+            label_far = t.to_point.x + target_gap + w
             src_edge = t.source_bead.center.x - t.source_bead.size.width / 2
-            assert src_edge - label_far >= LABEL_BEAD_GAP - 1e-6
+            assert src_edge - label_far >= bead_gap - 1e-6
 
 
 def test_deferred_ui_endpoints_bound_to_nearest():

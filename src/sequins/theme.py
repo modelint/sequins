@@ -106,6 +106,10 @@ class Layout:
     min_string_span: Distance
     min_bead_size: RectSize
     min_thread_separation: Distance
+    #: Space between a target String and the near edge of a thread's message label.
+    target_string_label_gap: Distance
+    #: Minimum gap between a bead edge and any thread label text.
+    min_bead_edge_gap: Distance
     #: Padding between a bead's wrapped label and the bead edge (horizontal / vertical).
     bead_text_pad_h: Distance
     bead_text_pad_v: Distance
