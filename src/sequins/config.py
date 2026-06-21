@@ -26,8 +26,9 @@ from sequins.theme import (
     ThreadMaterial,
 )
 
-#: The in-repo seed/fallback library (sibling of the package: ``src/configuration``).
-DEFAULT_CONFIG_DIR = Path(__file__).resolve().parent.parent / "configuration"
+#: The shipped seed/fallback library, bundled inside the package as package data
+#: (``sequins/configuration``) so it resolves the same in a source tree and an installed wheel.
+DEFAULT_CONFIG_DIR = Path(__file__).resolve().parent / "configuration"
 
 #: Config files we load, in dependency order; None == load as a raw dict, shaped below.
 _FILES = {"canvas": None, "layout": None, "curtain_style": None, "diagram_theme": None}

@@ -32,7 +32,7 @@ pythonpath = ["src", "tests"]
 where = ["src"]
 
 [tool.setuptools.package-data]
-seq = [
+sequins = [
     "*.conf",
     "configuration/*.yaml",
 ]
