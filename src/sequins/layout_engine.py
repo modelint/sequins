@@ -8,6 +8,7 @@ per the lazy-resolution contract, no geometry is computed and nothing is drawn u
 """
 from __future__ import annotations
 
+import copy
 from pathlib import Path
 
 from sequins.config import load_themes
@@ -102,10 +103,61 @@ class LayoutEngine:
     def end_diagram(self) -> CurtainDiagram:
         """Signal that all input has arrived; resolve geometry and return the diagram.
 
-        Runs the layout pass (incrementally built); rendering via TabletSVG hangs here next."""
+        Resolves the canonical population *in place* and returns it -- the terminal call.
+        For an intermediate frame during population use :meth:`render`, which never touches
+        the canonical diagram."""
         return Layout(self._require_diagram()).resolve()
 
+    def render(self, output_file: str | Path) -> Path:
+        """Draw the *current* population to ``output_file`` and return the path.
+
+        This is the interactive-snapshot entry point: it can be called any number of times
+        while commands are still arriving. The canonical population stays a pure,
+        append-only log -- a throwaway *copy* is projected to its drawable subset, resolved,
+        and rendered, so the in-place-mutating layout pass never re-runs on live objects.
+        Must be called before :meth:`end_diagram` (which resolves the canonical in place)."""
+        from sequins.render import render as render_diagram  # lazy: keeps TabletSVG out of
+        #                                                       population/layout-only tests
+
+        snapshot = self._drawable_snapshot(self._require_diagram())
+        Layout(snapshot).resolve()
+        return render_diagram(snapshot, output_file)
+
     # ------------------------------------------------------------------ helpers
+    @staticmethod
+    def _drawable_snapshot(d: CurtainDiagram) -> CurtainDiagram:
+        """A fresh, resolvable copy of ``d`` holding only its currently-drawable elements.
+
+        The mutable String/Bead/Thread graph is deep-copied; the immutable reference data
+        (theme, materials, string positions) is *shared* via a pre-seeded memo so it isn't
+        duplicated and is never mutated. Unborn born-and-die Strings -- and every thread
+        incident to them -- are dropped (the birth gate, see ``mdb_interaction.md``)."""
+        memo: dict[int, object] = {id(d.theme): d.theme}
+        for s in d.strings:
+            memo[id(s.material)] = s.material
+            if s.pinned is not None:
+                memo[id(s.pinned)] = s.pinned
+            for b in s.beads:
+                memo[id(b.material)] = b.material
+        for t in d.threads:
+            memo[id(t.material)] = t.material
+        snap = copy.deepcopy(d, memo)
+
+        # Born-and-die == beaded & bounded. It is born once it has an incoming thread (sets
+        # its birth depth) and at least one bead (gives it extent); until then, hide it.
+        unborn = {
+            id(s)
+            for s in snap.strings
+            if s.beaded and s.bounded
+            and not (s.beads and any(t.to_string is s for t in snap.threads))
+        }
+        if unborn:
+            snap.threads = [
+                t for t in snap.threads
+                if id(t.from_string) not in unborn and id(t.to_string) not in unborn
+            ]
+            snap.strings = [s for s in snap.strings if id(s) not in unborn]
+        return snap
     def _require_diagram(self) -> CurtainDiagram:
         if self.diagram is None:
             raise RuntimeError("start_diagram must be called before any other command")
